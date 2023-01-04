@@ -9,8 +9,8 @@ var session=require('express-session');
 
 require('./service/sendInvitation').emailInvitation;
 require('./service/sendProductInvitations').emailProductInvitation;
-//require('./service/nodeCron').job.start();
-//require('./service/nodeCronMerchant').job.start();
+require('./service/nodeCron').job.start();
+require('./service/nodeCronMerchant').job.start();
 require('./service/nodeCronMerchantOrg').job.start();
 
 require('./service/update_account_user').job.start();
