@@ -33,22 +33,14 @@ const { initializeApp } = require('firebase-admin/app');
 const admin = require("firebase-admin");
 
 // INITIATLISATION FIREBASE ADMIN
-
 var serviceAccount = require("../mvp-veritatrust-authen-firebase-adminsdk.json");
-
-
 // Taxonomies 
 const matcher = require('./service/matcher');
 const taxonomyMatcher = require('google-taxonomy-matcher');
-
 //let taxonomy  =  new taxonomyMatcher('en-GB', 100)
-
 const mtch = new matcher();
-
 var value = mtch.match("Draper Expert HSS Drill Bits 1mm Pack of 10 Power Tool Accessories > Drilling Accessories > HSS Drill Bits");
 
-//console.log(value);
-  
 
 // Using Suggestions terms to search categories
 
