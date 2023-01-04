@@ -1,0 +1,9 @@
+{
+    "deployAddr": "0x01edB0870E6Db990c189d467Fe373634D9e6b43E",
+    "tokenAddr": "0x9B3E2D0fCc55456d838BD9F3572254b8d3740e9e",
+    "factoryAddr": "0x2CAA7028d8827254C3a1764E8DD57064E451B0e0",
+    "repOracleAddr": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "recOracleAddr": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "deployAddrPrivate":"3064c79a10ba44acc8bf5407b7b967bcb0e5c30e94b0e2b6d8f80d11dcc69b35",
+    "INFURA_GOERLI_URL":"https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+}

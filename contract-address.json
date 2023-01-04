@@ -1,0 +1,7 @@
+{
+    "deployAddr": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "tokenAddr": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "factoryAddr": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "repOracleAddr": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+    "recOracleAddr": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0"
+}

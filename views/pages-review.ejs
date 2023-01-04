@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./fonts/font/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" type="text/css" href="./css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="./css/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    
+    <script src ="js/checkboxFilterRating.js">  </script>
+    <title>Veritatrust</title>
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-white bg-white navbar-dark navbar-expand-lg shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="./">
+                <img src="./assets/img/logo-veritatrust-c.png" alt="VeritaTrust" width="170">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex w-lg-50 search my-3 my-lg-0" role="search">
+                    <input class="form-control" placeholder="Search product or service">
+                </form>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active align-self-center" aria-current="page" href="./">Explore</a>
+                        <ul class="submenu dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Domaine name</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  align-self-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                    </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-self-center" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-self-center" href="#">Create</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link align-self-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#account" aria-controls="account"><i class="flaticon flaticon-user"></i></a></li>
+                </ul>
+
+            </div>
+
+
+
+        </div>
+    </nav>
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="account" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p>Try scrolling the rest of the page to see this option in action.</p>
+        </div>
+    </div>
+
+
+    <section class="profil-header">
+        <div class="container">
+            <div class="row mt-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="./"><i class="flaticon-home"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Category</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Home page</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="row d-flex align-items-center mb-3 aos animated" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                <div class="col-lg-8 pt-2 pb-5 d-grid info-mark">
+                    <div class="logo">
+                        <img src="https://store.fatasoft-consulting.com/wp-content/uploads/2022/07/cropped-icon-1.png" alt="Shoei">
+                    </div>
+                    <div class="brand">
+                        <h1>Store fatasoft</h1>
+                        <small class="text-muted">Reviews <strong><%=merchantReviews.length%></strong> • Mean</small>
+                        <div class="form__header__note">
+                            <div class="form__star mb-3 d-flex justify-content-start">
+                                <div class="star star__1 active"></div>
+                                <div class="star star__2 active"></div>
+                                <div class="star star__3 active"></div>
+                                <div class="star star__4 active"></div>
+                                <div class="star star__5"></div>
+                                <p class="note lead my-auto ms-3 text-success"><%=merchantReviews[0].RatingMoy%></p>
+                            </div>
+                            <p class="certified small bg-success text-white d-inline py-2 px-3 rounded-3 shadow"><i class="flaticon-check me-1"></i> verified company</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="link-brand">
+                        <a href="https://<%=webmerchant%>" class="link">
+                            <p class="lead p-3 pe-5 rounded-4"><i class="flaticon-global-network me-1"></i> <%=webmerchant%>
+                                <span>Visit the website</span><i class="flaticon-fleche-angulaire-pointant-vers-la-droite"></i></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-success profil-main">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="bg-white p-3 mb-2 mb-md-5 rounded-5 shadow add-review-express d-flex justify-content-between aos animated aos-init aos-animate" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="profil d-flex">
+                            <img class="me-3 d-none d-lg-block" src="./assets/img/star-0.png" width="50" height="50">
+                            <p><a href="#">Write a review</a></p>
+                        </div>
+                        <div class="form__star">
+                            <img src="./assets/img/star-3.svg" alt="reviews">
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 mb-3 rounded-5 shadow reviews-filter aos animated" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="d-flex justify-content-between">
+                            <h2 class="d-flex">Reviews • <span class="ms-2"><%=merchantReviews.length%></span></h2>
+                            <select class="form-select d-flex w-50" aria-label="Default select example">
+                                <option selected>All countries</option>
+                                <option value="1">English</option>
+                                <option value="2">French</option>
+                                <option value="3">Deutsch</option>
+                              </select>
+                        </div>
+                        <hr>
+                        <div class="filters">
+                            <label for="excellent" class="lead d-grid">
+                                <input class="form-check-input" type="checkbox" id="excellent"  onclick='update_excellentchbox()'>
+                               
+                                <small>Excellent</small>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-label="Tres positif" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                <small>55%</small>
+                            </label>
+                    
+                           
+                            <label for="Bien" class="lead d-grid">
+                                <input class="form-check-input" type="checkbox" id="Bien"  onclick='update_goodchbox()'>
+                                <small>Good</small>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-label="Tres positif" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                <small>40%</small>
+                            </label>
+                            <label for="moyen" class="lead d-grid">
+                                <input class="form-check-input" type="checkbox" id="moyen"  onchange='update_averagechbox()'>
+
+                                <small>Average</small>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-label="Tres positif" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                <small>33%</small>
+                            </label>
+                            <label for="bas" class="lead d-grid">
+
+                                <input class="form-check-input" type="checkbox" id="bas" onclick='update_badchbox()'>
+                                <small>Bad</small>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-label="Tres positif" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                <small>10%</small>
+                            </label>
+                            <label for="mauvais" class="lead d-grid">
+                                <input class="form-check-input" type="checkbox" id="mauvais" onchange="checkRatings()" onclick='update_vbadchbox()'>
+                                <small>Very bad</small>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-label="Tres positif" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                <small>2%</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="reviews-list">
+                        
+                        
+                    <div class="bg-white p-3 mb-2 rounded-5 shadow aos animated aos-init aos-animate" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                            <div class="profil d-flex pb-2">
+                                <img src="./assets/img/star-1.png" width="50" height="50">
+                                <div class="info ms-3">
+                                    <p class="name lead mb-0">Nicolas Bornet</p>
+                                    <p class="analyse text-muted mb-0">3 reviews • <i class="flaticon-location"></i> FR</p>
+                                </div>
+                            </div>
+                            <div class="notation d-lg-flex justify-content-between my-3">
+                                <div class="note small me-lg-3 mb-2">
+                                    <div class="form__star d-flex justify-content-start">
+                                        <div class="star star__1 active"></div>
+                                        <div class="star star__2 active"></div>
+                                        <div class="star star__3 active"></div>
+                                        <div class="star star__4 active"></div>
+                                        <div class="star star__5"></div>
+                                    </div>
+                                </div>
+                                <div class="verified me-lg-3 mb-2">
+                                    <button type="button" class="certified small bg-success text-white d-inline px-0 px-1 rounded-3" data-bs-html="true" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="veritatrust-popover" data-bs-title="<i class='flaticon-cube-3d me-1'></i> Verified via Blockchain" data-bs-content="Blockchain lorem ipsum <a href='' target='_blank'>Tooltip</a> <u>with</u> <b>HTML</b>"><span class="text-white"><i class="flaticon-cube-3d me-1"></i> Verified via Blockchain</span></button>
+                                </div>
+                                <div class="date text-primary ms-auto">29 july 2022</div>
+                            </div>
+                            <div class="content mb-2">
+                                <h3>Très content de mes achats</h3>
+                                <p class="text-muted">Commande reçue rapidement J’ai commandé sur ce site un service de table pour un événement. Je l’ai reçu comme promis en 24H chrono. Je recommande
+                                </p>
+                            </div>
+                            <div class="share d-flex justify-content-around">
+                                <div class="recommanded">
+                                    <a href="#"><i class="flaticon-heart"></i> Useful</a></div>
+                                <div class="share"><a href="#"><i class="flaticon-network"></i> Share</a></div>
+                                <div class="flag"><a href="#" aria-label="flag"><i class="flaticon-red-flag"></i></a></div>
+                            </div>
+                        </div>   
+                     
+                        
+                    <%
+                        if(merchantReviews.length!=0){
+                        var i=0;
+                        merchantReviews.forEach(function(merchant_review){
+                               
+                        %>
+                                    
+                        <div class="bg-white p-3 mb-2 rounded-5 shadow aos animated" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                            <div class="profil d-flex pb-2">
+                                <img src="./assets/img/star-1.png" width="50" height="50">
+                                <div class="info ms-3">
+                                    <p class="name lead mb-0"><%=merchantReviews[i].first_name%> <%=merchantReviews[i].last_name%></p>
+                                    <p class="analyse text-muted mb-0"><%=merchantReviews[i].Nbre%> reviews • <i class="flaticon-location"></i> FR</p>
+                                </div>
+                            </div>
+                            <div class="notation d-lg-flex justify-content-between my-3">
+                                <div class="note small me-lg-3 mb-2">
+                                    <div class="form__star d-flex justify-content-start">
+                                     <!--   <div class="star star__1 active"></div>
+                                        <div class="star star__2 active"></div>
+                                        <div class="star star__3 active"></div>
+                                        <div class="star star__4 active"></div>
+                                        <div class="star star__5"></div> -->
+                                     <div> <img alt="Noté 5 sur 5 étoiles" src="img/star-<%=merchantReviews[i].rating%>-svg.svg" width="120" height="70"> </div>    
+                                    </div>
+                                </div>
+                             <!--   <div class="verified ms-3">
+                                    <p class="certified small bg-success text-white d-inline py-1 px-2 rounded-3 "><a class="text-white" href="https://rinkeby.etherscan.io/tx/"><i class="flaticon-cube-3d me-1"></i> Verified via Blockchain</a></p>
+                                </div>
+                                <div class="verified me-lg-3 mb-2">
+                                    <p class="certified small bg-success text-white d-inline py-1 px-2 rounded-3 " data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Blockchain lorem ipsum <em>Tooltip</em> <u>with</u> <b>HTML</b>"><a class="text-white" href="https://rinkeby.etherscan.io/tx/<%=merchantReviews[i].hash_transaction%>"><i class="flaticon-cube-3d me-1"></i> Verified via Blockchain</a></p>
+                                </div>  -->
+                                <div class="verified me-lg-3 mb-2">
+                                    <button type="button" class="certified small bg-success text-white d-inline px-0 px-1 rounded-3" data-bs-html="true" data-bs-trigger="focus" data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="veritatrust-popover" data-bs-title="<i class='flaticon-cube-3d me-1'></i> Verified via Blockchain" data-bs-content="We use the blockchain to track and verify the transaction. <br><a href='https://goerli.etherscan.io/tx/<%=merchantReviews[i].hash_transaction%>' target='_blank'>View the onchain transaction</a> | <a href='#' target='_blank'>What is Blockchain?</a>"><span class="text-white"><i class="flaticon-cube-3d me-1"></i> Verified via Blockchain</span></button>
+                                </div>
+                                <div class="date text-primary ms-auto"> <%=Intl.DateTimeFormat('en', { month: 'short' }).format(new Date((1+merchantReviews[i].experienceDate.getMonth()).toString()))%> <%=merchantReviews[i].experienceDate.getDate()%>, <%=merchantReviews[i].experienceDate.getFullYear()%></div>
+                            </div>
+                            
+
+                                    <div class="content mb-2">
+                                        
+                                                    
+                                        <h3><%=merchantReviews[i].title%></h3>
+                                        <p class="text-muted"><%=merchantReviews[i].content%>
+                                        </p> 
+                                    </div>
+                                            
+                                 
+                           
+                          
+                            <div class="related_product">
+                                <h4 class="h5"><%=merchantReviews[i].titreprodreview%></h4>
+                                <div class="d-flex">
+                                    <div class="photo"><img src="https://asset1.cxnmarksandspencer.com/is/image/mands/PL_05_T34_1316A_T4_X_EC_0?$PDP_IMAGEGRID_ZOOM_XLG$" alt=""></div>
+            
+                                    <div class="related_content">
+                                        <p class="text-primary mb-0"><%=merchantReviews[i].contentpr%></p>
+                                        <p class="mb-0">(<%=merchantReviews[i].first_name%>) has rated this product-<%=merchantReviews[i].product_id%> <%=merchantReviews[i].ratingp%>/5</p>
+                                        <a class="btn btn-secondary btn-sm mt-2" href="#">All reviews for this product</a>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            
+                            <div class="share d-flex justify-content-around">
+                                <div class="recommanded">
+                                    <a href="#"><i class="flaticon-heart"></i> Useful</a></div>
+                                <div class="share"><a href="#"><i class="flaticon-network"></i> Share</a></div>
+                                <div class="flag"><a href="#" aria-label="flag"><i class="flaticon-red-flag"></i></a></div>
+                            </div>
+                        </div>
+                        <%  i++; }) %>
+                         <% } else{ %>
+                          <h3>No data</h3>
+                        <p class="text-muted">no content
+                        </p>
+                        <% } %>
+                        <!--  Fin de la boucle pour l'affichage des datas -->
+                    </div>
+                    <nav class="mt-5" aria-label="...">
+                            <ul class="pagination pagination-lg justify-content-center">
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">1</span>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="?site=<%=webmerchant%>&page=2">2</a></li>
+                                <li class="page-item"><a class="page-link" href="?site=<%=webmerchant%>&page=3">3</a></li>
+                            </ul>
+                        </nav>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <div class="bg-white p-3 mb-3 rounded-5 shadow widget enterprise aos animated" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="header d-flex">
+                            <h4>Company's overview</h4>
+                            <p><a href="#">Tout afficher</a></p>
+                        </div>
+                        <div class="content">
+                            <ul class="ps-0">
+                                <li class="d-flex">
+                                    <div class="icon"><i class="flaticon-check"></i></div>
+                                    <div class="text">Claimed profile</div>
+                                </li>
+                                <li class="d-flex">
+                                    <div class="icon"><i class="flaticon-messager"></i></div>
+                                    <div class="text">Answered to 33 out of 38 negative reviews</div>
+                                </li>
+                                <li class="d-flex">
+                                    <div class="icon"><i class="flaticon-clock"></i></div>
+                                    <div class="text">Answered to negative reviews within 1 week</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 mb-3 rounded-5 shadow widget about aos animated" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                        <div class="header d-flex">
+                            <h4>About <%=webmerchant%></h4>
+                        </div>
+                        <div class="content">
+                           
+                            <p>We offer all the shoes and accessories you want, a wide range of fashionable products, and the best brands of the moment. A gigantic choice: Guess, Tommy Hilfiger, Ecco, Geox, Pepe Jeans,
+                                 Clarks, Gino Rossi and many more... Shoes, bags, wallets and belts – all available to you 24/7. We are always here for you!</p>
+                            <div class="contact">
+                                <h4>Contact</h4>
+                                <ul class="ps-0">
+                                    <li class="d-flex">
+                                        <div class="icon"><i class="flaticon-location"></i></div>
+                                        <div class="text">France</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="category">
+                                <h4>Category</h4>
+                                <ul class="ps-0">
+                                    <li class="d-flex">
+                                        <div class="text"><a href="#">Équipement moto</a></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3 mb-3 rounded-5 shadow widget other-shoppers aos animated" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                        <div class="header">
+                            <h4>People who viewed this business's page also viewed: :</h4>
+                        </div>
+                        <div class="content">
+                            <ul class="ps-0">
+                                <li class="d-flex">
+                                    <div class="image me-2"><img src="./assets/img/reviews-homepage.jpg" height="50" width="100"></div>
+                                    <div class="text">
+                                        <p class="name">HJC</p>
+                                        <div class="notation d-flex my-1">
+                                            <div class="note small me-2">
+                                                <div class="form__star d-flex justify-content-start">
+                                                    <div class="star star__1 active"></div>
+                                                    <div class="star star__2 active"></div>
+                                                    <div class="star star__3 active"></div>
+                                                    <div class="star star__4 active"></div>
+                                                    <div class="star star__5"></div>
+                                                </div>
+                                            </div>
+                                            <div class="score my-auto text-primary d-inline">381000</div>
+                                        </div>
+                                        <p class="small text-muted unclaimed">Unclaimed profile</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex">
+                                    <div class="image me-2"><img src="./assets/img/reviews-homepage.jpg" height="50" width="100"></div>
+                                    <div class="text">
+                                        <p class="name">Shark</p>
+                                        <div class="notation d-flex my-1">
+                                            <div class="note small me-2">
+                                                <div class="form__star d-flex justify-content-start">
+                                                    <div class="star star__1 active"></div>
+                                                    <div class="star star__2 active"></div>
+                                                    <div class="star star__3 active"></div>
+                                                    <div class="star star__4 active"></div>
+                                                    <div class="star star__5"></div>
+                                                </div>
+                                            </div>
+                                            <div class="score my-auto text-primary d-inline">369852</div>
+                                        </div>
+                                        <p class="small text-muted claimed">Unclaimed profile</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex">
+                                    <div class="image me-2"><img src="./assets/img/reviews-homepage.jpg" height="50" width="100"></div>
+                                    <div class="text">
+                                        <p class="name">Araï</p>
+                                        <div class="notation d-flex my-1">
+                                            <div class="note small me-2">
+                                                <div class="form__star d-flex justify-content-start">
+                                                    <div class="star star__1 active"></div>
+                                                    <div class="star star__2 active"></div>
+                                                    <div class="star star__3 active"></div>
+                                                    <div class="star star__4 active"></div>
+                                                    <div class="star star__5"></div>
+                                                </div>
+                                            </div>
+                                            <div class="score my-auto text-primary d-inline">740258</div>
+                                        </div>
+                                        <p class="small text-muted need-reviews">Review request</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <p class="border-top pt-3">Suggestions based on user browsing trends..</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-primary pt-5 pb-2 text-white">
+        <div class="container">
+            <div class="row py-3">
+                <div class="col-md-6">
+                    <h3>Stay in touch</h3>
+                    <p>Join our mailing list to receive updates regarding our new features, tips and advices.</p>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Our newsletter" aria-label="Our newsletter" aria-describedby="button-newsletter">
+                        <button class="btn btn-outline-success" type="button" id="button-newsletter">Subscribe</button>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <h3>Follow us</h3>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">Logo 1</li>
+                        <li class="list-inline-item">Logo 2</li>
+                        <li class="list-inline-item">Logo 3</li>
+                        <li class="list-inline-item">Logo 4</li>
+                        <li class="list-inline-item">Logo 5</li>
+                        <li class="list-inline-item">Logo 6</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="container">
+            <hr>
+            <div class="row py-3">
+                <div class="col-md-4">
+                    <img class="mb-3" src="./assets/img/logo-veritatrust-wg.png" alt="Veritatrust" width="200">
+                    <p>VeritaTrust is the only decentralized review system backed by Blockchain, A.I and machine learning, helping businesses to collect verified feedbacks, boost sales and increase loyalty.
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h4>Corporate</h4>
+                            <ul class="list-unstyled">
+                                <li>About</li>
+                                <li>Blog</li>
+                                <li>jobs</li>
+                                <li>Contact</li>
+                                <li>Press</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4">
+                            <h4>My Account</h4>
+                            <ul class="list-unstyled">
+                                <li>Sign up</li>
+                                <li>Login</li>
+                                <li>FAQ</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4">
+                            <h4>Enterprises</h4>
+                            <ul class="list-unstyled">
+                                <li>Sign up Pro</li>
+                                <li>Login</li>
+                                <li>Our solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <hr>
+            <div class="d-flex justify-content-between">
+                <p>© 2022 - All right reserved.</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy policy</a></li>
+                    <li class="list-inline-item"><a href="#">Legal information</a></li>
+                    <li class="list-inline-item"><a href="#">T&Cs</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="./assets/js/OwlCarousel2/owl.carousel.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/custom.js"></script>
+    
+ 
+</body>
+
+</html>

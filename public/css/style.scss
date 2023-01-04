@@ -1,0 +1,115 @@
+$greenveritatrust: #02a68a;
+$blueveritatrust: #002d6b;
+$duration: 200ms;
+* {
+    font-family: 'Raleway', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lora', serif;
+    & span {
+        color: $greenveritatrust;
+        font-family: 'Lora', serif;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    transition: all $duration ease-in-out;
+}
+
+.navbar-nav .show>.nav-link,
+.nav-link,
+.dropdown-item {
+    color: $blueveritatrust;
+    font-weight: bolder;
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.navbar-nav .nav-link.active,
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: $greenveritatrust;
+    background-color: transparent;
+}
+
+i {
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+li.dropdown:hover {
+    & ul.dropdown-menu {
+        display: block;
+        top: 100%;
+    }
+}
+
+.home__reviews {
+    .review__body {
+        text-align: justify;
+        & .lead {
+            font-family: 'Lora', serif;
+            font-weight: bolder;
+        }
+    }
+}
+
+form {
+    &.search {
+        &::before {
+            content: "\f102";
+            font-family: 'flaticon' !important;
+            transform: translate(35px, 2px);
+            font-size: 1.5rem;
+            color: $greenveritatrust;
+        }
+        & input {
+            padding-left: 50px;
+        }
+    }
+    & .form-control {
+        &:hover,
+        &:active,
+        &:focus {
+            box-shadow: rgba(4, 17, 29, 0.25) 0px 0px 8px 0px;
+            border-color: #02a68a;
+        }
+    }
+}
+
+a.btn,
+.home__categorie .list-unstyled a {
+    transition: all $duration ease-in-out;
+    transform: translate(0px, 0px);
+    box-shadow: rgba(4, 17, 29, 0.5) 0 5px 15px 0px;
+    &:hover {
+        box-shadow: rgba(4, 17, 29, 0.5) 0 1px 2px 0px;
+        transform: translate(0px, 5px);
+    }
+}
+
+.review__author,
+.review__societe {
+    font-weight: bolder;
+}
+
+footer {
+    & a {
+        color: #fff;
+        &:hover {
+            color: $greenveritatrust;
+        }
+    }
+}

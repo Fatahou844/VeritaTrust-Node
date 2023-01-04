@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/fonts/font/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/request/2.88.2/lib/redirect.min.js" integrity="sha512-OTYCPsYz3wr2sUrkS4UIeyzbtshLRAUAbjOWPbAa7WmUxLJwT7EQGId79DFnw4KC4QIwF8mikITeXKtdjqGhRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/request/2.88.2/request.min.js" integrity="sha512-mp7F6JbZdA4YjqV8e7sAJ4Qi3fv7of3u8LmUH76GD1RZCxWE6XMuLoNcqZozIDxTNSJQfR2BSSeFoD/Y4cFtaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script type="text/javascript" src="../bower_components/crypto-js/crypto-js.js"></script>
+
+    <script src ="js/sendPost.js">  </script>
+     <script src ="js/sendPost_2.js">  </script>
+     <script src="js/errorMessage.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js">
+   <!-- <script src="js/metaconnect.js"></script>
+    <script src="js/metamask_auth.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="./js/metamask-onboarding.bundle.js"></script> -->
+   <!--  <script src="https://www.google.com/recaptcha/api.js"></script>
+   <script src="js/metamask_authen.js" type="module"></script> -->
+  <!--  <script src="https://js.hcaptcha.com/1/api.js" async defer></script> -->
+    <title>Veritatrust</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Red+Hat+Mono:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+     <link rel="stylesheet" href="css/style.css" />
+      <link rel="stylesheet" href="css/main.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1-rc.2/web3.min.js"
+      integrity="sha512-KURAVUCRxZKDemghhiNqTnYzVPUtO3GYznBZRWRBT2GJJ5PmePAxfO7QMGCM8xUJ0QfrUYJDrtRJM4L4NOtfow=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+      
+    <script src="js/NoteCommentReview.js" type="module"></script>
+    <script src="js/script.js" type="module" defer></script>
+    <script src="https://js.hcaptcha.com/1/api.js?hl=en" defer></script> 
+    <script src="js/review.js" type="module" defer></script>
+    
+    <style>
+      .star-default {
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        background-size: cover;
+        cursor: pointer;
+      }
+      .star-empty {
+        background-image: url('img/star-0.png');
+      }
+      .star-filled {
+        background-image: url('img/star-1.png');
+      }
+    </style>
+    
+</head>
+
+<body>
+  <!--  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1/web3.min.js"
+      integrity="sha512-GKw4QT/RccGJIwQxY3MhyiQ5pHrhQ8SuKFEafV+WcpOvtz7iYFQuQGFCvmGlHLctJTe8KrWU1FqvF7VOkEAJtw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>  -->
+    
+
+    <!-- LOGIN SECTION -->
+
+
+   
+        
+      <section class="py-5 form" id="root">
+ 
+                    
+                    
+              <nav class="navbar sticky-top navbar-white bg-white navbar-dark navbar-expand-lg shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="./">
+                <img src="./assets/img/logo-veritatrust-c.png" alt="nom marchand" width="170">
+            </a>
+        </div>
+    </nav>
+    
+         <div class="row d-flex align-items-center" >
+             
+             
+
+            <!--    <div class="loader" hidden="hidden">
+                    <lottie-player src="https://assets2.lottiefiles.com/private_files/lf30_lndg7fhf.json"  background="transparent"  speed="1"  loop  autoplay></lottie-player>
+                </div>
+                <div class="up" hidden="hidden">
+                    <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_kfzgxkvq.json"  background="transparent"  speed="1" loop  autoplay></lottie-player>
+                </div>
+                <div class="confetti" hidden="hidden">
+                    <lottie-player class="success-anim" src="https://assets10.lottiefiles.com/packages/lf20_rovf9gzu.json"  background="transparent"  speed="1"></lottie-player>
+                </div> 
+
+                        <h1>Preuve d'humanité</h1>
+                         
+                        <div>
+                                Delegate: <span id="delegate-address">0x6cbed15c793ce57650b9877cf6fa156fbef513c4e6134f022a85b1ffdd59b2a1</span>
+                              </div>
+                              <div>Core: <span id="core-address">0xCfEB869F69431e42cdB54A4F4f105C19C080A601</span></div>
+                        
+
+                          <div id="connect-wallet">
+                            <button type="button" id="connect-wallet-button">Connect wallet</button>
+                          </div>
+                          <div id="main" class="hidden">
+                            <div class="wallet-info">
+                              Address: <span id="wallet-address"></span>
+                            </div>
+                            <form id="form">
+                              <h4>1. Confirmer la propriété de cette adresse</h4>
+                              <div id="ownership-confirmation" class="line">
+                                <button type="button" id="confirm-ownership-button">
+                                  Confirm ownership
+                                </button>
+                                <div class="comment">by signing a random piece of data</div>
+                              </div>
+                              <div id="ownership-confirmation-success" class="confirmation hidden">
+                                <img src="img/checkmark.png" alt="Checkmark" class="checkmark" />
+                                <span>Confirmation signed</span>
+                              </div>
+                              <h4>2. Confirm humanity</h4>
+                              <div id="humanity-confirmation">
+                                <div class="h-captcha" data-sitekey="<%=hcaptchaToken%>"></div>
+                              </div>
+                              <h4>3. Submit</h4>
+                              <div id="submission" class="line">
+                                <button type="submit">Sumbit address</button>
+                                <div id="submission-error" class="error-message"></div>
+                              </div>
+                              <div id="submission-success" class="confirmation hidden">
+                                <img src="img/checkmark.png" alt="Checkmark" class="checkmark" />
+                                <span>Address submitted <span id="submission-time"></span></span>
+                              </div>
+                            </form>
+                <h1></h1>
+                <p class="desc"></p>
+                <a href="#" class="onboard"></a>
+            </div>
+             </div>     -->
+       <!--  </section>
+         
+    <section class="py-5 form">  -->
+         <form class="row d-flex align-items-center" id ="review_form" method ="POST" action="" >
+        <div class="container">
+           
+            <div class="row d-flex align-items-center">
+                <div class="col-11 col-lg-8 pt-3 mx-auto text-center">
+                    <h3><%=share_your_opinion_message%> <span><%=company_name%></span></h3>
+                    <p><%=message_rate_experience%></p>
+                </div>
+                <div class="col-11 col-lg-8 py-3 mx-auto position-relative">
+                    <ul class="step-reviews nav text-center">
+                        <li class="nav-item w-33 step-1 active ">
+                            <!-- remplacer 'active' par 'done' lorsque la page a deja été réalisée -->
+                            <span class="badge rounded-circle">1</span>
+                            <p class="mb-0">Your merchant <br>review</p>
+                        </li>
+                        <li class="nav-item w-33 step-2 ">
+                            <span class="badge rounded-circle">2</span>
+                            <p class="mb-0" aria-current="page">Your product <br>review</p>
+                        </li>
+                        <li class="nav-item w-33 step-3 ">
+                            <span class="badge rounded-circle">3</span>
+                            <p class="mb-0">Validated<br>reviews</p>
+                        </li>
+                    </ul>
+                    <div id="line">
+                        <div id="line-progress"></div>
+                    </div>
+                </div>
+                <div class="col-11 col-lg-8 py-4 px-lg-4 mx-auto bg-light rounded-5">
+                    <div class="form__header">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-8 col-md-4 col-xl-3 d-flex rounded-4 border bg-white visuel-mark logo mx-auto">
+                                <img class="align-self-center m-0" src="https://store.fatasoft-consulting.com/wp-content/uploads/2022/07/cropped-icon-1.png" alt="Merchant name">
+                            </div>
+                            <div class="col-12 col-md-8 col-xl-9">
+                                <div class="form__header__note">
+                                    <p class="lead"><%=Rate_your_experience%></p>
+                                    <div class="form__star mb-3 d-flex justify-content-start" id="review"
+                                      data-review="merchand"
+                                      data-selected="1">
+                                     <!--   <input type="radio" class="star star__1" id="star-1" name="star" value="1"/>
+                                        <label class="star star__1" for="star-1"></label> 
+                                        <input type="radio" class="star star__2" id="star-2" name="star" value="2"/>
+                                        <label class="star star__2" for="star-2"></label> 
+                                        <input type="radio" class="star star__3" id="star-3" name="star" value="3"/>
+                                        <label class="star star__3" for="star-3"></label> 
+                                        <input type="radio" class="star star__4" id="star-4"  name="star" value="4"/>
+                                        <label class="star star__4" for="star-4"></label> 
+                                        <input type="radio" class="star star__5" id="star-5" name="star" value="5"/>
+                                        <label class="star star__5" for="star-5"></label>  -->
+                                        
+                                      <div class="star-review star-default star-empty" data-index="1"></div>
+                                      <div class="star-review star-default star-empty" data-index="2"></div>
+                                      <div class="star-review star-default star-empty" data-index="3"></div>
+                                      <div class="star-review star-default star-empty" data-index="4"></div>
+                                      <div class="star-review star-default star-empty" data-index="5"></div>
+                                        
+                                    </div>
+                                
+                                    <p><span id="review-value">1 </span> <span id="review-value-text"> <strong> star: </strong>very bad </span></p>
+                                    <span id="url-value" hidden><%=url_hash%></url_hash></url_hash></span>
+                                    
+                                <!--   <p><strong><span id="review-value">1</span> stars:</strong> <excellent_msg></p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form__content">
+                        <p class="lead mt-3 mb-0"><%=Write_a_title%></p>
+                        <input class="form-control" type="text" name="titre" id="titre" required>
+                        <p class="lead mb-0"><%=Write_your_review%></p>
+                         <p id="note_review" class="">Your review content: <span id="note-review" class="bad">Bad</span> </p>
+                        <textarea class="form-control" name="content" id="content" rows="10" placeholder="Write your review here. Talk about your experience without using offensive language. Leave an honest, useful and constructive testimonial." required></textarea>
+                        <p class="lead mt-3 mb-0"><%=experience_date%></p>
+                        <input class="form-control" type="date" max="<%= new Date().toISOString().split("T")[0] %>" data-date-inline-picker="true" value="<%= new Date().toISOString().split("T")[0] %>" name="date" id="date" required>
+                        <!-- max = var pour la date du lendemain -->
+                    </div>
+                    <div class="form__footer">
+                       <div class="h-captcha" data-sitekey="3b23a8ba-8c70-490f-b499-63b74fd9e7be"></div>
+                        <div id="captcha" style="margin-left:100px;color:black"></div>
+                        
+                            <span id="error"></span>
+                         
+                       
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn-block btn btn-primary btn-lg text-uppercase text-right"  id = "btn"><%=Publish%></button>
+                        </div>
+                        
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        </form>
+
+        
+           <footer class="bg-primary py-2 text-white">
+        <div class="container">
+            <div class="text-center">
+                <p class=" mb-0"><%=All_rights_reserved%></p>
+            </div>
+        </div>
+    </footer>
+    
+    </section>
+
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/custom.js"></script>
+    <script src="js/NoteCommentReview.js"></script>
+ 
+
+</body>
+
+</html>

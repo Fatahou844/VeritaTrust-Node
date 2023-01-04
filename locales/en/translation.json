@@ -1,0 +1,26 @@
+{
+    "experience_date":"Experience date",
+    "message_server_api_error_moderation":"Your review has not been considered!",
+    "success_message_review_stockage":"Your review has been saved successfully. thank you for sharing",
+    "error_captcha":"Please solve the captcha before continuing!",
+    "share_your_opinion_message": "Share your review about",
+    "message_rate_experience": "Rate your recent experience and get reward",
+    "Rate_company": "Rate company",
+    "Rate_products": "Rate products",
+    "Rate_your_experience": "Rate your experience",
+    "excellent_msg": "excellent!",
+    "Write_a_title": "Write a title",
+    "Write_your_review": "Write your review",
+    "Publish": "Publish",
+    "All_rights_reserved": "©2022 _ All rights reserved",
+    "merchant_form_message_opinion":"Your merchant review",
+    "merchant_form_message_opinion2":"Your product review",
+    "validated_message":"Validated reviews",
+    "product_form_write_your_review":"Write your review here: Talk about your experience without using offensive language. Leave an honest, useful and constructive testimonial.",
+    "add_unless_tree_pictures":"Add up to three photos or videos to your review",
+    "add_photo_video":"add photo or video",
+    "product_form_opinion_message":"write your review",
+    "product_form_opinion_message2":"give us your opinion on this product. use at least 10 characters",
+    "product_form_testimonal_msg":"Your testimonials help other customers make a good decision."
+    
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/fonts/font/flaticon_veritatrust.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+        <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js" defer ></script>
+     <script src="js/metaconnect2.js"></script>
+    <title>Veritatrust</title>
+</head>
+
+<body class="product">
+    <nav class="navbar sticky-top navbar-white bg-white navbar-dark navbar-expand-lg shadow-sm">
+        <div class="container" id="container-menu">
+            <a class="navbar-brand" href="./">
+                <img src="./assets/img/logo-veritatrust-c.png" alt="Veritatrust" width="170">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex w-lg-50 search my-3 my-lg-0" role="search" action="/search">
+                    <input class="form-control" placeholder="Rechercher un produit ou service" name="query">
+                </form>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active align-self-center" aria-current="page" href="./">Explore</a>
+                        <ul class="submenu dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Domaine name</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  align-self-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-self-center" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-self-center" href="#">Create</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link align-self-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#account" aria-controls="account"><i class="flaticon flaticon-user"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="offcanvas offcanvas-end text-bg-primary" data-bs-scroll="true" tabindex="-1" id="account" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Your account</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- if not logued / login form -->
+            <p>Enter your login and password</p>
+            <form>
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="usermail" aria-describedby="emailHelp" title="User Email" placeholder="User Email">
+                    <div id="emailHelp" class="form-text text-white">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="password" title="Password" placeholder="Password">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberme" checked>
+                    <label class="form-check-label" for="rememberme">Stay connected</label>
+                </div>
+                <button type="submit" class="btn btn-success text-white">Login</button>
+            </form>
+            <hr>
+            <p class="mt-3 mb-1">You haven't again an account ?</p>
+            <a href="#" class="btn btn-light">Create my account</a>
+            <!-- end if not logued / login form -->
+            <br>/* Lire les commentaires */
+            <!-- if logued / user menu -->
+            <p class="lead">Hello Firstname Lastname</p>
+            <ul class="list-unstyled list-profile">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">Following</a></li>
+                <li><a href="#">Sponsoring</a></li>
+                <li><a href="#">Badges</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+            <!-- end if logued / user menu -->
+            <button type="submit" class="btn btn-success text-white">Logout</button>
+        </div>
+    </div>
+    <section class="py-5">
+        <div class="container user_profil">
+            <div class="row d-flex align-items-center">
+                <div class="col-11 pt-3 mx-auto text-center">
+                    <h1>Here are the results for <%=query%></h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="items_result" class="search_results bg-success pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-11 col-md-12 col-lg-8 py-4 mx-auto">
+                <!--  start loop -->
+                  <%
+                        if(prd_reviews.length!=0){
+                        var i=0;
+                        prd_reviews.forEach(function(category){
+                               
+                        %>
+                    <div class="result star-5 d-md-flex mb-4 aos animated" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="item">
+                            <a href="/review-product/<%=prd_reviews[i].product_name%>">
+                                <h3 class="product__name h6 mb-1">
+                                    <%=prd_reviews[i].product_name.replace(/-/g,' ')%>
+                                </h3>
+                                <span class="lien_global"></span>
+                            </a>
+                            <div class="notation d-md-flex align-items-center">
+                                <div class="d-flex">
+                                    <img class="mb-2 mb-md-0" src="./assets/img/star-5.jpg" alt="notation" width="100" height="40">
+                                    <p class="mb-2 mb-md-0 mx-3"><%=prd_reviews[i].nbre_review%> reviews</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="ms-auto">
+                                    <a class="add_review mb-2 mb-md-0 border rounded-3 d-block" href="/listings/write-review/<%=prd_reviews[i].product_name%>">Add review</a>
+                        </div>
+                    </div>
+                <!-- fin boucle -->
+                <%  i++; }) %>
+                <% } else{ %>
+                          <h3>No data</h3>
+                        <p class="text-muted">no content
+                        </p>
+                
+                <% } %>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-primary pt-5 pb-2 text-white">
+        <div class="container">
+            <div class="row py-3">
+                <div class="col-md-6">
+                    <h3>Stay in touch</h3>
+                    <p>Join our mailing list to receive updates regarding our new features, tips and advices.</p>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Notre newsletter" aria-label="Notre newsletter" aria-describedby="button-newsletter">
+                        <button class="btn btn-outline-success" type="button" id="button-newsletter">Subscribe</button>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <h3>Follow us</h3>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">Logo 1</li>
+                        <li class="list-inline-item">Logo 2</li>
+                        <li class="list-inline-item">Logo 3</li>
+                        <li class="list-inline-item">Logo 4</li>
+                        <li class="list-inline-item">Logo 5</li>
+                        <li class="list-inline-item">Logo 6</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="container">
+            <hr>
+            <div class="row py-3">
+                <div class="col-md-4">
+                    <img class="mb-3" src="./assets/img/logo-veritatrust-wg.png" alt="Veritatrust" width="200">
+                    <p>VeritaTrust is the only decentralized review system backed by Blockchain, A.I and machine learning, helping businesses to collect verified feedbacks, boost sales and increase loyalty.
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h4>Corporate</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="#">About</a></li>
+                                <li>Blog</li>
+                                <li>jobs</li>
+                                <li>Contact</li>
+                                <li>Press</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4">
+                            <h4>My Account</h4>
+                            <ul class="list-unstyled">
+                                <li>Sign up</li>
+                                <li>Login</li>
+                                <li>FAQ</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4">
+                            <h4>Enterprises</h4>
+                            <ul class="list-unstyled">
+                                <li>Sign up Pro</li>
+                                <li>Login</li>
+                                <li>Our solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <hr>
+            <div class="d-flex justify-content-between">
+                <p>© 2022 - All right reserved.</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy policy</a></li>
+                    <li class="list-inline-item"><a href="#">Legal information</a></li>
+                    <li class="list-inline-item"><a href="#">T&Cs</a></li>
+                </ul>
+            </div>
+        </div>
+         <script src="/js/class-veritatrust.js" type="module" defer></script>
+         <script src = '/js/authentificator.js'></script>
+         
+         
+         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+             
+
+
+                    
+    </footer>
+    <a id="button"></a>
+    
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="./assets/js/OwlCarousel2/owl.carousel.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/custom.js"></script>
+     <script src="/js/metaconnect2.js"></script>
+    
+     
+</body>
+
+</html>

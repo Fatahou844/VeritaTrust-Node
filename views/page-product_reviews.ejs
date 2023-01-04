@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/fonts/font/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <title>Veritatrust</title>
+     <script src="js/review2.js" type="module" defer></script>
+     <script src="js/NoteCommentReview2.js" type="module"></script>
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script type="text/javascript" src="../bower_components/crypto-js/crypto-js.js"></script>
+  
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/request/2.88.2/request.min.js" integrity="sha512-mp7F6JbZdA4YjqV8e7sAJ4Qi3fv7of3u8LmUH76GD1RZCxWE6XMuLoNcqZozIDxTNSJQfR2BSSeFoD/Y4cFtaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+      <script src ="js/sendPost_3.js"  type="module">  </script>
+    <style>
+      .star-default {
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        background-size: cover;
+        cursor: pointer;
+      }
+      .star-empty {
+        background-image: url('img/star-0.png');
+      }
+      .star-filled {
+        background-image: url('img/star-1.png');
+      }
+    </style>
+</head>
+
+<body class="product">
+    <nav class="navbar sticky-top navbar-white bg-white navbar-dark navbar-expand-lg shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="./">
+                <img src="./assets/img/logo-veritatrust-c.png" alt="Veritatrust" width="170">
+            </a>
+        </div>
+    </nav>
+    <section class="py-5 form">
+        <div class="container" id="productreviews">
+            <div class="row d-flex align-items-center">
+                <div class="col-11 col-lg-8 pt-3 mx-auto text-center">
+                    <h3>Share your experience <span></span></h3>
+                    <p>Your testimonials help other customers make a good decision.</p>
+                </div>
+                <!-- Debut boucle -->
+                <%
+                        if(images_url.length!=0){
+                        var i=0;
+                        images_url.forEach(function(img_url){
+                               
+                        %>
+                <div class="allForms">
+                <form class="row d-flex align-items-center" id ="product_form<%=i%>" method ="POST" action=""  enctype="multipart/form-data">        
+                        
+                <div class="col-11 col-lg-8 py-4 px-lg-4 mx-auto bg-light rounded-5 mb-5 shadow">
+                    <div class="form__header">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-6 col-md-4 col-xl-3 d-flex rounded-4 border bg-white visuel-mark g-0 mx-auto">
+                                <img class="align-self-center" src=<%=images_url[i]%> alt="Product name">
+                            </div>
+                            <div class="col-12 col-md-8 col-xl-9">
+                                <div class="form__header__note">
+                                    <p class="lead"><%=products_name[i]%></p>
+                                     <div class="form__star mb-3 d-flex justify-content-start" id="review<%=i%>"
+                                      data-review="merchand"
+                                      data-selected="1" data-bs-toggle="collapse" data-bs-target=".reviews"<%=i%> aria-expanded="false" aria-controls="reviews_<%=i%>">
+                                    
+                                        
+                                      <div class="star-review star-default star-empty" data-index="1" data-bs-toggle="collapse" data-bs-target=".reviews<%=i%>" aria-expanded="false" aria-controls="reviews_<%=i%>"></div>
+                                      <div class="star-review star-default star-empty" data-index="2" data-bs-toggle="collapse" data-bs-target=".reviews<%=i%>" aria-expanded="false" aria-controls="reviews_<%=i%>"></div>
+                                      <div class="star-review star-default star-empty" data-index="3" data-bs-toggle="collapse" data-bs-target=".reviews<%=i%>" aria-expanded="false" aria-controls="reviews_<%=i%>"></div>
+                                      <div class="star-review star-default star-empty" data-index="4" data-bs-toggle="collapse" data-bs-target=".reviews<%=i%>" aria-expanded="false" aria-controls="reviews_<%=i%>"></div>
+                                      <div class="star-review star-default star-empty" data-index="5" data-bs-toggle="collapse" data-bs-target=".reviews<%=i%>" aria-expanded="false" aria-controls="reviews_<%=i%>"></div>
+                                        
+                                    </div>
+                                     <div class="text-muted"><em>How would you rate this product ?</em></div>
+                                    <p><span id="review-value<%=i%>">1 </span> <span id="review-value-text<%=i%>"> <strong> star: </strong>very bad </span></p>
+                                   
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form__content collapse reviews<%=i%>" id="reviews_<%=i%>">
+                             <p class="lead mt-3 mb-0">write a title</p>
+                            <input class="form-control" type="text" name="titre<%=i%>" id="titre<%=i%>" required>
+                            <p class="lead mb-0">write your product review</p>
+                            <p>Give us your product review. Use at least 10 characters.</p>
+                            <p id="note_review" class="">Your review content: <span id="note-review<%=i%>" class="bad">Bad</span> </p>
+                            <textarea class="form-control" name="content<%=i%>" id="content<%=i%>" rows="10" placeholder="Write your review here. Talk about your experience without using offensive language. Leave an honest, useful and constructive testimonial."></textarea>
+                            <p class="">Add up to 3 photos or videos to your review <span class="text-muted">(facultatif)</span></p>
+                            <div class="row mb-4">
+                                <div class="col-6 col-lg">
+                                    <div class="d-flex rounded-4 border bg-white visuel-mark">
+                                        <img class="align-self-center" src="img/add_image.webp" alt="Product name" id="img1<%=i%>">
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <div class="d-flex rounded-4 border bg-white visuel-mark">
+                                        <img class="align-self-center" src="img/add_image.webp" alt="Product name" id="img2<%=i%>">
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <label class="add__photo rounded-3 border w-100 text-center d-flex">
+                                        <div class="m-auto">
+                                            <i class="flaticon-galerie"></i>
+                                            <div class="">+ Add photo or video</div>
+                                            <input accept="image/jpeg, image/tiff, image/webp, image/png, video/mp4, video/quicktime" type="file" id ="image<%=i%>" onchange="loadFile(<%=i%>,event)" name="image"  class="d-none" multiple>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                      <p class="lead mt-3 mb-0">experience date</p>
+                         <input class="form-control" type="date" max="<%= new Date().toISOString().split("T")[0] %>" data-date-inline-picker="true" value="<%= new Date().toISOString().split("T")[0] %>" name="date<%=i%>" id="date<%=i%>" required>
+                        <div class="form__footer">
+                      
+                            <span id="error<%=i%>"></span>
+                            <span id="url-value" hidden><%=url_hash%></span>
+                       
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn-block btn btn-primary btn-lg text-uppercase text-right" name = "btn<%=i%>" id = "btn<%=i%>" >Publish</button>
+                            </div>
+                        </div>
+    
+                        </div>
+                        <script>
+                        var loadFile = function(i,event) {
+                        	var image = document.getElementById('img1'+i.toString());
+                        	image.src = URL.createObjectURL(event.target.files[0]);
+                        	
+                        	var image2 = document.getElementById('img2'+i.toString());
+                        	image2.src = URL.createObjectURL(event.target.files[1]);
+                        };
+                        </script>
+
+                        
+                </div>
+                </form>
+                </div>
+                <script>
+                    
+$(function(i) {
+const baseURL = 'https://webhook.site/f6eaffd7-fcd1-4c35-87f0-c0ef005b7d30';
+var testResponse;
+
+let container = document.querySelector("#productreviews");
+let product_review_bloc = container.querySelectorAll("div.form__header");
+
+const productReviewArray = Array.from(product_review_bloc);
+
+
+$("#product_form"+i.toString()).on('submit', function(event)
+{
+   event.preventDefault();
+  
+    
+   const btn = document.getElementById("btn");
+   var contentInput = document.getElementById("content"+i.toString()).value;
+   var titreInput = document.getElementById("titre"+i.toString()).value;
+   var dateInput = document.getElementById("date"+i.toString()).value;
+   
+   const wallet_id = $("#wallet-address").text();
+  
+   var ratingInput = 0;
+   var userId = 0;
+   var merchantID= "";
+
+    /*  if(star1.checked)
+         ratingInput = 1;
+      else if(star2.checked)
+         ratingInput = 2;
+
+      else if(star3.checked)
+         ratingInput = 3;
+
+      else if(star4.checked)
+         ratingInput = 4;
+
+      else if(star5.checked)
+         ratingInput = 5; */
+    
+      ratingInput =  $("#review-value"+i.toString()).text();   
+      dateInput = dateInput + " 00:00:00";
+      
+    console.log(dateInput);
+    
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const jobId = urlParams.get('jobId');
+    const userid = urlParams.get('userid');
+    const orderid = urlParams.get('orderid');
+    const productid = urlParams.get('productid').split(',');
+    const website = urlParams.get('website');
+    
+    var get_url = "http://dev.veritatrust.com/user_profile/";
+    var URL = get_url.concat(wallet_id);
+    console.log(wallet_id);
+     
+   // var my_token = hcaptcha.getResponse();
+   
+    axios.get('http://dev.veritatrust.com/merchant_profile/'+website) // Update 15-08-2022 add
+      
+   .then(function (resp) {
+       
+    merchantID = resp.data[0].id;
+    
+    axios.get(URL)
+      .then(function (response) {
+        console.log(response.data[0].id);
+        console.log(wallet_id);
+        userId = response.data[0].id;
+
+        axios.post(baseURL, {
+
+                  rating: ratingInput,
+                  title: titreInput,
+                  experience_date :dateInput,
+                  order_id :  orderid,
+                  product_id: productid[i],
+                  created_at :"",
+                  updated_at:"",
+                  statu: "pending",
+                  job_id : jobId,
+                  user_id :userid,
+                  merchant_id :merchantID,
+                  content: contentInput
+               
+                 
+               })
+               .then(res => {
+                  console.log(res)
+                  var error = document.getElementById("error"+i.toString());
+                  
+                  if (res.data == "<span style='color: red';>"+ "Your opinion has not been considered!"+"</span>")
+                        error.innerHTML = `<div class="callout callout-error"> Your opinion has not been considered! </div>`;
+                  else
+                  {
+               
+                       // sucess_message.innerHTML = "<div>"+ "Product review has been registred" + "</div>";
+                       error.innerHTML = `<div class="callout callout-error"> Product review has been registred</div>`;
+                     //window.location = res.data.redirectUrl
+                      
+                  }
+                
+                
+               });
+               
+      
+        });
+      
+   });
+
+
+   })
+   .catch(function (error) {
+     // handle error
+     if (error.response) 
+          console.log(error.response.data);
+
+   });
+   
+
+});
+                </script>
+
+                <!-- fin boucle -->
+                <%  i++; }) %>
+                <% } else{ %>
+                          <h3>No data</h3>
+                        <p class="text-muted">no content
+                        </p>
+                
+                <% } %>
+            </div>
+        </div>
+    </section>
+                    
+    <footer class="bg-primary py-2 text-white">
+        <div class="container">
+            <div class="text-center">
+                <p class=" mb-0">© 2022 - Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/custom.js"></script>
+
+</body>
+
+</html>

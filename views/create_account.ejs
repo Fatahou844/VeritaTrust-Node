@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./assets/fonts/font/flaticon_veritatrust.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js" defer ></script>
+   
+    <script src="https://js.hcaptcha.com/1/api.js?hl=en" defer></script> 
+    
+    
+    <title>Veritatrust</title>
+</head>
+
+<body class="product">
+    <nav class="navbar sticky-top navbar-white bg-white navbar-dark navbar-expand-lg shadow-sm">
+        <div class="container" id="container-menu">
+            <a class="navbar-brand" href="./">
+                <img src="./assets/img/logo-veritatrust-c.png" alt="Veritatrust" width="170">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex w-lg-50 search my-3 my-lg-0" role="search">
+                    <input class="form-control" placeholder="Rechercher un produit ou service">
+                </form>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active align-self-center" aria-current="page" href="./">Explore</a>
+                        <ul class="submenu dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Domaine name</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="flaticon flaticon-user"></i> Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  align-self-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-self-center" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link align-self-center" href="#">Create</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link align-self-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#account" aria-controls="account"><i class="flaticon flaticon-user"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="offcanvas offcanvas-end text-bg-primary" data-bs-scroll="true" tabindex="-1" id="account" aria-labelledby="offcanvasWithBothOptionsLabel">
+        
+   
+
+    </div>
+    <section class="py-5 form">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-11 col-lg-8 pt-3 mx-auto text-center">
+                    <h3>Join our VeritaTrust review community and get rewards!</h3>
+                </div>
+                <div class="col-11 col-lg-8 py-4 px-lg-6 mx-auto">
+                    <div class="form__account">
+                        <div class="row d-flex flex-column align-items-center">
+                            <div class="col-12 col-md-6 d-flex flex-column mx-auto gap-2">
+                                <button  class="btn btn-primary" onclick = "facebookSignin()">Sign in with Facebook</button>
+                                <button  class="btn btn-primary" onclick = "googleSignin()">Sign in with Google</button>
+                                <button  class="btn btn-primary" id="metaloginbtnbody">Sign in with Metamask</button>
+                               
+                                <a href="#" class="btn btn-primary">Sign in with Apple</a>
+                            </div>
+                            <div class="col-12 col-md-6 g-0 mx-auto">
+                                <div class="orbymail text-center">
+                                    <div class="separator">Use your email address</div>
+                                </div>
+                            </div>
+                            <form action="" id="signup">
+                                <div class="col-12 col-md-6 mx-auto">
+                                    <div class="d-flex gap-3">
+                                        <p>Gender</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="civilite1">
+                                            <label class="form-check-label" for="civilite1">Mr.</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="civilite2">
+                                            <label class="form-check-label" for="civilite2">Mrs.</label>
+                                        </div>
+                                    </div>
+                                    <div class="account__name d-flex gap-3">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="firstname" title="Firstname" placeholder="Firstname *" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="lastname" title="Lastname" placeholder="Lastname *" required>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="email" class="form-control" id="email" title="Email" placeholder="Email *" required>
+                                    </div>
+                                    <div class="input-group mb-3 ">
+                                        <input type="password" class="form-control" id="password" title="Password" placeholder="Enter your password *" required>
+                                        <span class="input-group-text bg-success toggle-password text-white border-success">
+                                                <i class="flaticon-hide"></i>
+                                            </span>
+                                    </div>
+                                    
+                                        <div class="input-group mb-3 ">
+                                        <input type="password" class="form-control" id="password-confirm" title="Password" placeholder="Confirm your password *" required>
+                                        <span class="input-group-text bg-success toggle-password text-white border-success">
+                                                <i class="flaticon-hide"></i>
+                                            </span>
+                                    </div>
+                                    <hr>
+                                    <p class="d-none"><a href="#">Vous avez un parrain ?</a></p>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="cgv">
+                                        <label class="form-check-label" for="cgv">
+                                        I have read and agree to the Terms of Use and Privacy Policy, and I acknowledge that I am over 18 years old.
+                                    </label>
+                                    </div>
+                                    <div class="d-none">
+                                        <input class="form-check-input" type="checkbox" value="" id="add_newsletter">
+                                        <label class="form-check-label" for="add_newsletter">
+                                        I want to receive the best of Veritatrust by email: great cashback, promotion codes and good deals                                    </label>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="col-12 col-md-6 mx-auto">
+                                <!-- à masquer par defaut avec un 'd-none' ou en js  callout callout-error d-flex  callout callout-primary d-flex -->
+                                <div class="d-none" id ="error-message">
+                                    <div class="me-3"><i class="flaticon-information"></i></div>
+                                    <div>Error message</div>
+                                </div>
+                                <div class="d-none" id="message-confirm">
+                                    <div class="me-3"><i class="flaticon-check"></i></div>
+                                    <div>Your account is created, Check your email for confirmation</div>
+                                </div>
+                               
+                                <div class="form__footer">
+                                    <div class="h-captcha" data-sitekey="3b23a8ba-8c70-490f-b499-63b74fd9e7be"></div>
+                                    <div id="captcha" style="margin-left:100px;color:black"></div>
+        
+                                    <div class="d-grid gap-2">
+                                        <button type="button" class="btn-block btn btn-success text-white btn-lg" id="signinbutton" onclick="emailPasswordSignin()">Create account</button>
+                                    </div>
+                                         
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <hr>
+
+
+                </div>
+            </div>
+        </div>
+        <script>
+             function emailPasswordSignin() {
+                
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            
+            var my_token = hcaptcha.getResponse();
+            
+            axios.post('https://dev.veritatrust.com/verifycaptcha/token', {
+                
+                  name: "token",
+                  token: my_token
+
+               })
+               .then(res => {
+                  console.log(res)
+                  
+                
+    
+                  if( res.data=== "<span style='color: red';>"+ "hcaptcha verification failed" + "</span>" )
+                        {
+                            var error = document.getElementById("error-message");
+                            error.className = "callout callout-error d-flex";
+                            error.innerHTML = "hcaptcha not verified!";
+                        }
+                  else
+                  {
+                      if(document.getElementById("cgv").checked == true)
+                      
+                      {
+                          console.log("is checked");
+                      
+                          if(document.getElementById("password").value === document.getElementById("password-confirm").value)
+                              {
+                          
+                         
+                             var error = document.getElementById("error-message");
+                             error.className = "d-none";
+                             const userAuth = firebase.auth().createUserWithEmailAndPassword(email, password).then(userData => {
+                    
+                              /*  var user = {
+                                        name: document.getElementById("firstname").value,
+                                        uid: userAuth.uid,
+                                        email: userAuth.email
+                                    }
+                                writeUserData(user); */
+                                userData.user.sendEmailVerification();
+                                console.log("userData");
+                                console.log(userData);
+                                hcaptcha.reset();
+                               
+                                
+                                var message = document.getElementById("message-confirm");
+                                message.className = "callout callout-primary d-flex";
+                                message.innerHTML = "Your account is created, Check your email for confirmation"
+                                
+                                        
+    
+                            
+                                
+                            }).catch((error) => {
+                              
+                              console.log("error"+error);
+                              
+                                var error = document.getElementById("error-message");
+                                error.className = "callout callout-error d-flex";
+                                error.innerHTML = "error to create account, this email have already a account";
+                              // ..
+                            });
+                            
+                          }
+                          
+                          else
+                          
+                              {
+                                  var error = document.getElementById("error-message");
+                                    error.className = "callout callout-error d-flex";
+                                    error.innerHTML = "passwords must be the same";
+                              }
+                          
+                       }
+                      else
+                      {
+                          console.log("is not checked");
+                          var error = document.getElementById("error-message");
+                            error.className = "callout callout-error d-flex";
+                            error.innerHTML = "you must accept terms and conditions";
+                      }
+                      
+                        
+                   
+                        
+                      hcaptcha.reset();
+                  }
+                 
+                 
+                
+               });
+               
+
+             }   
+            
+           
+        </script>
+       
+        
+
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+
+    </section>
+
+    <footer class="bg-primary pt-5 pb-2 text-white" id="footer">
+
+    </footer>
+    <script src = '/js/footer.js'></script>
+  
+    <!-- Firebase UI -->
+   
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script> 
+     <script src="/js/class-veritatrust.js" type="module" defer></script>
+        <script src = '/js/authentificator.js'></script>
+        <script src="/js/metaconnect2.js"></script>
+  
+    <!-- Firebase UI -->
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/custom.js"></script>
+   
+   
+</body>
+
+</html>
