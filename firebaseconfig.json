@@ -1,10 +1,10 @@
 {
   "type": "service_account",
   "project_id": "mvp-veritatrust-authen",
-  "private_key_id": "3b3e4769236e3277b67b4f1a0a019a943751d7cd",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQClVIlby0bKCTmr\nXuuwfM+HmOLw7FoXC+sfrrStWFPtWbGDHmovkwUr84HG7PQ0rLB/dunmx/xTB7BK\nmsOzIHtpWPYdKuoFPKgdfJnySh6nMTMPQ3cIJBH9Z/lSnIIhSj8hmbEAl4EnrRFG\nrc7JMGtfisTe9RPzjqKmT3xGjibBzoV978HKzr8Sq5Mwhh6GvRUX4QJR0WHvqFkb\n3VTrNYlIEbCEFtvQkmSbe1nKaYpz26XpikV/ZGu4+WcXqsvRwdXwuV8gQMLiNkbr\nzB3otcfv0erQ4PGzGPyjI4ZoYVHsYogO6N62p9Zk4E3een9CLoaYWhIDddTbS7a7\nWT/UtUyXAgMBAAECggEAEXbzp6G6kZ8V23eEeDlHBvDskDy3a5XTuZ4P8fvRqdH+\nwXYWC36BXlozzFq9lU7kuiJKpRldGzxFsCvXHnYA82j1XrFo1TLKI4tFC+YuhMTa\nuvMKgO6mg9lW6hYkXPXl41vD6ecXOqS6nXfAz1nxDb+v+klzWRgpMF5XJ3DewTwv\nChdqjJIJBeZZg7zplqmMgEhZt+/uqNdW2PPEeECm/BM9TLNsBejTHYdtbjAfd3hO\nDm+MLPjSmaba0PkvptFMbQ0mvIsiOd82x5NCPPFnglFtxv8uXfaUSDLmy4iYNwn8\nAEHCQ0YtSGNQuyPR8qEBuc3flZ6CXUMch0K8aoVdOQKBgQDjKUoRr0INEHylzd4+\n+mz5faeYgV863pDhvdEMkQWPn+1GF+1OFyRjcv7ePpXPNsy+y0KA44/bc9+MUUwq\nCoYZRKQLoYm086WaYT/87bjeOBsNv5oVZQNSAIP6sXaSPmLQPuQ7d4soq5igQRiP\nduH/50vD2zmbJ2VmtJacG6GBawKBgQC6Ub7+ifHh+L12f0xNnGSy2XZj7I/vWVja\n8FkSGsPqivVKqRNgfN10s7Bmx1dsaoNKahA0Q31Pk9kDt1HHA+EhpY3Fnvb/jBNx\nFoueN9SNlAhcJVINL1Id54s1PlETojuCoQcYk70kstxTe2qMo5YGkbaUI3+jItEO\n0fIYMdswhQKBgAhKgYGTu/1uFJ6YnPv/d+rDQ1K1phwn83HJ0895m5Jaa/aa+PZY\nseNPVy4VarJddauhD5RUufNwj0A312fRaoORlcs24ifQnMK9ufApXQ3/Tj16OM1/\nGlfr3OVRhNphnImtQfdJrbKWUMPInHTgCe+lKYbEgZ3AGltdTAH2oDZxAoGBAJhF\noNu0b3vn5ygGJ50yWNYWhfxqZMQPeGAOmC0EtONlx8zJ2606v17WUC/fcOKJNl3F\nyxJ7qdk0kuLHms0UrZTrEa/WGDWIDIebDmYzaMKAnkh4s9NUvj70ckAEewyZxRsg\ncYUzkRyCFTEhJ1Zjh4Q86EOvs2vnU4ZSLRJ7BJFlAoGAdPkPCoE+pb6QpTLcCCbE\ngTKlpXeWs1UFpDJt5Y869AQ4Wh9ff6D4qFEZhJuRE9OXiyhm9i6JyDUvrgK6xvPq\nnlWdZuqEp1Q03On86bomXq5arNm5LPxUUmiACe7CnP8VGgPq6TZshjTxXWtqjpn3\n1ydsnn6WR7PpNOgomQS+wyY=\n-----END PRIVATE KEY-----\n",
+  "private_key_id": "",
+  "private_key": "",
   "client_email": "firebase-adminsdk-a3ysu@mvp-veritatrust-authen.iam.gserviceaccount.com",
-  "client_id": "114131542249847869229",
+  "client_id": "",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
