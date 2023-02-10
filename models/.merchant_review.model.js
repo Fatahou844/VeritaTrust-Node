@@ -1,5 +1,5 @@
 'use strict';
-var dbConn = require('./../db.config');
+var dbConn = require('../db.config');
 
 //merchant_review object create
 var merchant_review = function(merchant_review){

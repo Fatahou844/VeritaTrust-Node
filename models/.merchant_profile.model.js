@@ -1,5 +1,5 @@
 'use strict';
-var dbConn = require('./../db.config');
+var dbConn = require('../db.config');
 //const {coreAddress, delegateKey, hcaptchaToken } = require('./../api.config');
 
 //merchant_profile object create

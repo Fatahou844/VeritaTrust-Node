@@ -3,9 +3,9 @@ const { response } = require('express');
 const { requestToBodyStream } = require('next/dist/server/body-streams');
 //const userprofile = require('../models/merchantReview');
 const db = require('../models/index')
-const merchant_profile = db.merchant_profile;
+const endpoint_url = db.endpoint_url;
 exports.findAll = function(req, res) {
-    merchant_profile.findAll(function(err, merchant_profile) {
+    endpoint_url.findAll(function(err, endpoint_url) {
       console.log('controller')
       if (err)
         res.send(err);
@@ -14,10 +14,10 @@ exports.findAll = function(req, res) {
       
       {
                 
-              console.log('res', merchant_profile);
+              console.log('res', endpoint_url);
               const filters = req.query;
         
-              const filteredUsers = merchant_profile.filter(user => {
+              const filteredUsers = endpoint_url.filter(user => {
                   let isValid = true;
                   for (var key in filters) {
                             
@@ -56,7 +56,7 @@ exports.findAll = function(req, res) {
                });
             
             res.send(filteredUsers);
-            //res.send(merchant_profile);
+            //res.send(endpoint_url);
             
         }
             
@@ -66,14 +66,13 @@ exports.findAll = function(req, res) {
     
 };
 
-exports.createmerchantprofile = async function(req, res) {
+exports.createendpointurl = async function(req, res) {
 
     //create user
     var data = userprofile.create({
-      name: req.body.name,
-      description: req.body.description,
-      email: req.body.email,
-      website: req.body.website
+      endpoint:  req.body.endpoint,
+      hash_urls: req.body.hash_urls,
+      hash_url_product: req.body.hash_url_product
      
   });
     return data;
@@ -82,7 +81,7 @@ exports.createmerchantprofile = async function(req, res) {
 
 exports.getMerchants = function(req, res) {
 
-    merchant_profile.findAll().then((user)=>{
+    endpoint_url.findAll().then((user)=>{
   
       if (user) {
         res.status(200).json(user);
@@ -100,7 +99,7 @@ exports.getMerchants = function(req, res) {
 
   exports.getUserByWebsite = async function(req, res) {
 
-    var data = await merchant_profile.findOne({
+    var data = await endpoint_url.findOne({
          where: { website:"www.store.fatasoft-consulting.com" } 
     });
 
@@ -111,24 +110,24 @@ exports.getMerchants = function(req, res) {
 };
 
 exports.create = function(req, res) {
-    const new_merchant_profile = new merchant_profile(req.body);
+    const new_endpoint_url = new endpoint_url(req.body);
     //handles null error
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        merchant_profile.create(new_merchant_profile, function(err, merchant_profile) {
+        endpoint_url.create(new_endpoint_url, function(err, endpoint_url) {
           if (err)
           res.send(err);
-          res.json({error:false,message:"merchant_profile added successfully!",data:merchant_profile});
+          res.json({error:false,message:"endpoint_url added successfully!",data:endpoint_url});
         });
     }
 };
 
 exports.findByWebsite = function(req, res) {
-    merchant_profile.findByWebsite(req.params.website, function(err, merchant_profile) {
+    endpoint_url.findByWebsite(req.params.website, function(err, endpoint_url) {
       if (err)
       res.send(err);
-      res.json(merchant_profile);
+      res.json(endpoint_url);
     });
 };
 
@@ -137,18 +136,18 @@ exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        merchant_profile.update(req.params.id, new merchant_profile(req.body), function(err, merchant_profile) {
+        endpoint_url.update(req.params.id, new endpoint_url(req.body), function(err, endpoint_url) {
             if (err)
                 res.send(err);
-            res.json({ error:false, message: 'merchant_profile successfully updated' });
+            res.json({ error:false, message: 'endpoint_url successfully updated' });
        });
     }
 };
 
 exports.delete = function(req, res) {
-    merchant_profile.delete( req.params.id, function(err, merchant_profile) {
+    endpoint_url.delete( req.params.id, function(err, endpoint_url) {
       if (err)
       res.send(err);
-      res.json({ error:false, message: 'merchant_profile successfully deleted' });
+      res.json({ error:false, message: 'endpoint_url successfully deleted' });
     });
 };

@@ -8,7 +8,7 @@ cloudinary.config({
     api_secret: 'yNX8NjrsLYJ7u96J9MW6XBAUIJg' 
   });
 
-const product_review = db.product_review;
+const organic_product_review = db.organic_product_review;
 
 const uploadImage = (path) => {
     return new Promise((resolve, reject) => {
@@ -24,16 +24,16 @@ const uploadImage = (path) => {
 
 
 exports.findAll = function(req, res) {
-    product_review.findAll(req.query.page ,req.query.site, function(err, product_review) {
+    organic_product_review.findAll(req.query.page ,req.query.site, function(err, organic_product_review) {
       console.log('controller')
       if (err)
         res.send(err);
         
-      console.log('res', product_review);
-     // res.send(product_review);
+      console.log('res', organic_product_review);
+     // res.send(organic_product_review);
      
      const filters = req.query;
-     const filteredUsers = product_review.filter(user => {
+     const filteredUsers = organic_product_review.filter(user => {
         let isValid = true;
         for (var key in filters) {
           
@@ -50,21 +50,21 @@ exports.findAll = function(req, res) {
 };
 
 /*exports.create = function(req, res) {
-    const new_product_review = new product_review(req.body);
+    const new_organic_product_review = new organic_product_review(req.body);
     //handles null error
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        product_review.create(new_product_review, function(err, product_review) {
+        organic_product_review.create(new_organic_product_review, function(err, organic_product_review) {
           if (err)
           res.send(err);
-          res.json({error:false,message:"product_review added successfully!",data:product_review});
+          res.json({error:false,message:"organic_product_review added successfully!",data:organic_product_review});
         });
     }
 };
 */
 
-exports.create2 = function(req, res) {
+exports.create_product_org = function(req, res) {
 
   const form = new formidable.IncomingForm();
   // Parse `req` and upload all associated files
@@ -91,23 +91,19 @@ exports.create2 = function(req, res) {
                     .then((url) => {
                         console.log(`Image uploaded to: ${url}`);
                                //create productreview
-            product_review.create({
-                product_id: fields["product_id"],
+            organic_product_review.create({
                 product_name: fields["product_name"],
                 rating: fields["rating"],
                 title: fields["title"],
                 experience_date: fields["experienceDate"],
                 content: fields["content"],
-                merchant_id: fields["merchant_id"],
-                user_id: fields["user_id"],
-                job_id: fields["job_id"],
-                order_id: fields["order_id"],
-                image_video: url
+                merchant_id: "4f6750685-6ee7-49dd-b9e8-1f204b13db6a",
+                image_video: image
                 
                 }).then((product) => {
                 //if user created, send success
                 if (product) {
-                    res.status(200).send('product review created successfully');
+                    res.status(200).send('organic product review created successfully');
                 }
                 //if user not created, send error
                 else {
@@ -126,7 +122,7 @@ exports.create2 = function(req, res) {
         {
             image = null; 
             //create productreview
-            product_review.create({
+            organic_product_review.create({
             product_name: fields["product_name"],
             rating: fields["rating"],
             title: fields["title"],
@@ -153,10 +149,10 @@ exports.create2 = function(req, res) {
 };
 
 exports.findById = function(req, res) {
-    product_review.findById(req.params.id, function(err, product_review) {
+    organic_product_review.findById(req.params.id, function(err, organic_product_review) {
       if (err)
       res.send(err);
-      res.json(product_review);
+      res.json(organic_product_review);
     });
 };
 
@@ -165,18 +161,18 @@ exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        product_review.update(req.params.id, new product_review(req.body), function(err, product_review) {
+        organic_product_review.update(req.params.id, new organic_product_review(req.body), function(err, organic_product_review) {
             if (err)
                 res.send(err);
-            res.json({ error:false, message: 'product_review successfully updated' });
+            res.json({ error:false, message: 'organic_product_review successfully updated' });
        });
     }
 };
 
 exports.delete = function(req, res) {
-    product_review.delete( req.params.id, function(err, product_review) {
+    organic_product_review.delete( req.params.id, function(err, organic_product_review) {
       if (err)
       res.send(err);
-      res.json({ error:false, message: 'product_review successfully deleted' });
+      res.json({ error:false, message: 'organic_product_review successfully deleted' });
     });
 };

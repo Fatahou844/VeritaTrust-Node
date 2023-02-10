@@ -1,5 +1,9 @@
 'use strict';
-const transaction = require('../models/transaction.model');
+const { response } = require('express');
+const { requestToBodyStream } = require('next/dist/server/body-streams');
+//const userprofile = require('../models/merchantReview');
+const db = require('../models/index')
+const transaction = db.transaction;
 exports.findAll = function(req, res) {
     transaction.findAll(function(err, transaction) {
       console.log('controller')
@@ -39,4 +43,17 @@ exports.delete = function(req, res) {
       res.send(err);
       res.json({ error:false, message: 'transaction successfully deleted' });
     });
+};
+
+exports.createTransaction = async function(req, res) {
+
+  //create user
+  var data = transaction.create({
+    user_id:  req.body.user_id,
+    merchant_id: req.body.merchant_id,
+    order_id: req.body.order_id
+   
+});
+  return data;
+
 };
