@@ -1,59 +1,56 @@
-const LocalStrategy = require("passport-local").Strategy;
-const uuid = require("uuid");
-const Op = require("sequelize").Op;
-const config = require("../appConfig");
-const db = require('../models/index');
-const userprofile = db.userprofile;
-const express = require('express');
-const passport = require('passport');
-const bcrypt = require("bcrypt");
-const { sendConfirmation } = require("../service/sendConfirmation");
-const { newUserConfirmation } = require("../service/newUserConfirmation");
-const { resetPasswordNotif } = require("../service/resetPasswordNotif");
-const { passwordNotifUpdate } = require("../service/passwordNotifUpdate");
-const {
-  createmerchantprofile,
-  getMerchants,
-  getUserByWebsite
-} = require('../controllers/merchant_profile.controller');
-const CryptoJS = require('crypto-js');
+// const LocalStrategy = require("passport-local").Strategy;
+// const uuid = require("uuid");
+// const Op = require("sequelize").Op;
+// const config = require("../appConfig");
+const db = require("../models/index");
+// const userprofile = db.userprofile;
+const express = require("express");
+// const passport = require('passport');
+// const bcrypt = require("bcrypt");
+// const { sendConfirmation } = require("../service/sendConfirmation");
+// const { newUserConfirmation } = require("../service/newUserConfirmation");
+// const { resetPasswordNotif } = require("../service/resetPasswordNotif");
+// const { passwordNotifUpdate } = require("../service/passwordNotifUpdate");
+// const {
+//   createmerchantprofile,
+//   getMerchants,
+//   getUserByWebsite
+// } = require('../controllers/merchant_profile.controller');
+// const CryptoJS = require("crypto-js");
 const queries = require("../queries");
-const {
-  QueryTypes
-} = require('sequelize');
-
+const { QueryTypes } = require("sequelize");
 
 const router = express.Router();
 
-
-router.get('/search-by-categoryname/:category_name', (req, res) => {
+router.get("/search-by-categoryname/:category_name", (req, res) => {
   const query = req.params.category_name;
-  
+
   const fullSQL = queries.getProductsMerchantprofileByCategorie(query);
 
-  db.sequelize.query(fullSQL, {
-    type: QueryTypes.SELECT
-  }).then(results => {
-    console.log(results);
-    res.json(results);
-  });
+  db.sequelize
+    .query(fullSQL, {
+      type: QueryTypes.SELECT,
+    })
+    .then((results) => {
+      console.log(results);
+      res.json(results);
+    });
 });
 
-router.get('/lastreview-caroussel', (req, res) => {
- 
-  
+router.get("/lastreview-caroussel", (req, res) => {
   const fullSQL = queries.getLastReviewCaroussel();
 
-  db.sequelize.query(fullSQL, {
-    type: QueryTypes.SELECT
-  }).then(results => {
-    console.log(results);
-    res.json(results);
-  }); 
-  
+  db.sequelize
+    .query(fullSQL, {
+      type: QueryTypes.SELECT,
+    })
+    .then((results) => {
+      console.log(results);
+      res.json(results);
+    });
 });
 
-router.get('/search-by-category/:categoryid', (req, res) => {
+router.get("/search-by-category/:categoryid", (req, res) => {
   const categoryId = req.params.categoryid;
 
   // Requête pour obtenir le nom de la catégorie en utilisant l'ID
@@ -61,37 +58,42 @@ router.get('/search-by-category/:categoryid', (req, res) => {
     SELECT * FROM vt_categories WHERE google_category_id = ${categoryId};
   `;
 
-  db.sequelize.query(getCategoryNameQuery, {
-    type: QueryTypes.SELECT
-  }).then(categoryResult => {
-    if (categoryResult.length === 0) {
-      // La catégorie n'existe pas, renvoyer une réponse appropriée
-      res.status(404).json({ error: 'Category not found' });
-    } else {
-      let categoryName = categoryResult[0].category_name;
-      
-      if(categoryResult[0].category_parent_id)
+  db.sequelize
+    .query(getCategoryNameQuery, {
+      type: QueryTypes.SELECT,
+    })
+    .then((categoryResult) => {
+      if (categoryResult.length === 0) {
+        // La catégorie n'existe pas, renvoyer une réponse appropriée
+        res.status(404).json({ error: "Category not found" });
+      } else {
+        let categoryName = categoryResult[0].category_name;
+
+        if (categoryResult[0].category_parent_id)
           categoryName = categoryResult[0].category_name;
-      else 
-         categoryName = categoryResult[0].vt_category;
+        else categoryName = categoryResult[0].vt_category;
 
-      const fullSQL = queries.getProductsMerchantprofileByCategorie(categoryName);
+        const fullSQL =
+          queries.getProductsMerchantprofileByCategorie(categoryName);
 
-      db.sequelize.query(fullSQL, {
-        type: QueryTypes.SELECT
-      }).then(results => {
-        console.log(results);
-        res.json(results);
-      });
-    }
-  }).catch(error => {
-    // Gérer les erreurs de requête
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
-  });
+        db.sequelize
+          .query(fullSQL, {
+            type: QueryTypes.SELECT,
+          })
+          .then((results) => {
+            console.log(results);
+            res.json(results);
+          });
+      }
+    })
+    .catch((error) => {
+      // Gérer les erreurs de requête
+      console.error(error);
+      res.status(500).json({ error: "An error occurred" });
+    });
 });
 
-router.get('/productsearch', (req, res) => {
+router.get("/productsearch", (req, res) => {
   const query = req.query.q;
   let sql = `
         SELECT
@@ -106,16 +108,17 @@ router.get('/productsearch', (req, res) => {
         WHERE
             products.id =  ${query}
     `;
-  db.sequelize.query(sql, {
-    type: QueryTypes.SELECT
-  }).then(results => {
-    console.log(results);
-    res.json(results);
-  });
-
+  db.sequelize
+    .query(sql, {
+      type: QueryTypes.SELECT,
+    })
+    .then((results) => {
+      console.log(results);
+      res.json(results);
+    });
 });
 
-router.get('/users/resultsfiltered', (req, res) => {
+router.get("/users/resultsfiltered", (req, res) => {
   const query = req.query.q;
   let sql = `
         SELECT
@@ -128,17 +131,17 @@ router.get('/users/resultsfiltered', (req, res) => {
         WHERE
             userprofile.nickname LIKE '${query}%'
     `;
-  db.sequelize.query(sql, {
-    type: QueryTypes.SELECT
-  }).then(results => {
-    console.log(results);
-    res.json(results);
-  });
-
+  db.sequelize
+    .query(sql, {
+      type: QueryTypes.SELECT,
+    })
+    .then((results) => {
+      console.log(results);
+      res.json(results);
+    });
 });
 
-router.get('/organic-merchant-review/:website', function (req, res) {
-  
+router.get("/organic-merchant-review/:website", function (req, res) {
   let sql = "";
 
   let params = [];
@@ -166,11 +169,9 @@ router.get('/organic-merchant-review/:website', function (req, res) {
     console.log(results);
     res.json(results);
   });
-
-
 });
 
-router.get('/merchant-review/:id', (req, res) => {
+router.get("/merchant-review/:id", (req, res) => {
   var reviewsData = [];
   let sql = "";
   let params = [];
@@ -210,7 +211,7 @@ router.get('/merchant-review/:id', (req, res) => {
         FROM
             merchant_review
         WHERE
-            merchant_review.merchant_id = '${req.params['id']}'
+            merchant_review.merchant_id = '${req.params["id"]}'
     ) AS RatingMoy,
     (
         SELECT transaction.hash_transaction
@@ -222,14 +223,15 @@ router.get('/merchant-review/:id', (req, res) => {
     INNER JOIN userprofile ON merchant_review.user_id = userprofile.id
     INNER JOIN product_review ON merchant_review.order_id = product_review.order_id
     WHERE
-        merchant_review.merchant_id = '${req.params['id']}' AND product_review.status = 'published'
+        merchant_review.merchant_id = '${req.params["id"]}' AND product_review.status = 'published'
     `;
     var a = req.query.stars.split(",");
-    sql += ' AND ( merchant_review.rating = ' + a[0].toString();
+    sql += " AND ( merchant_review.rating = " + a[0].toString();
     for (var item = 1; item < a.length; item++) {
-      sql += ' OR merchant_review.rating = ' + a[item].toString();
+      sql += " OR merchant_review.rating = " + a[item].toString();
     }
-    sql += ' ) GROUP BY merchant_review.id ORDER BY  merchant_review.createdAt DESC  LIMIT 20 OFFSET 0';
+    sql +=
+      " ) GROUP BY merchant_review.id ORDER BY  merchant_review.createdAt DESC  LIMIT 20 OFFSET 0";
     params.push(a);
     console.log(a);
   } else {
@@ -268,7 +270,7 @@ router.get('/merchant-review/:id', (req, res) => {
         FROM
             merchant_review
         WHERE
-            merchant_review.merchant_id = '${req.params['id']}'
+            merchant_review.merchant_id = '${req.params["id"]}'
     ) AS RatingMoy,
     (
         SELECT transaction.hash_transaction
@@ -280,7 +282,7 @@ router.get('/merchant-review/:id', (req, res) => {
     INNER JOIN userprofile ON merchant_review.user_id = userprofile.id
     INNER JOIN product_review ON merchant_review.order_id = product_review.order_id
     WHERE
-        merchant_review.merchant_id = '${req.params['id']}' AND product_review.status = 'published'
+        merchant_review.merchant_id = '${req.params["id"]}' AND product_review.status = 'published'
     GROUP BY
         merchant_review.id
     ORDER BY
@@ -289,18 +291,17 @@ router.get('/merchant-review/:id', (req, res) => {
     LIMIT 20 OFFSET 0`;
     console.log("params");
   }
-  db.sequelize.query(sql, {
-    type: QueryTypes.SELECT
-  }).then(results => {
-    console.log(results);
-    res.json(results);
-  });
-
+  db.sequelize
+    .query(sql, {
+      type: QueryTypes.SELECT,
+    })
+    .then((results) => {
+      console.log(results);
+      res.json(results);
+    });
 });
 
-
-router.get('/data/merchantreview/merchantreview/:id', (req, res) => {
-
+router.get("/data/merchantreview/merchantreview/:id", (req, res) => {
   let sql = "";
 
   sql = queries.getMerchantReviewsById(req.params["id"]);
@@ -309,11 +310,9 @@ router.get('/data/merchantreview/merchantreview/:id', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/data/findproductreview/:orderid', (req, res) => {
-
+router.get("/data/findproductreview/:orderid", (req, res) => {
   let sql = "";
 
   sql = queries.getProductReviewByOrderId(req.params["orderid"]);
@@ -322,11 +321,9 @@ router.get('/data/findproductreview/:orderid', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/data/productreview/productreview/:id', (req, res) => {
-
+router.get("/data/productreview/productreview/:id", (req, res) => {
   let sql = "";
 
   sql = queries.getProductReviewById(req.params["id"]);
@@ -335,11 +332,9 @@ router.get('/data/productreview/productreview/:id', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/suggestusers/:userid', (req, res) => {
-
+router.get("/suggestusers/:userid", (req, res) => {
   let sql = "";
 
   sql = queries.getTopSuggestionsUsersToFollow(req.params["userid"]);
@@ -348,11 +343,9 @@ router.get('/suggestusers/:userid', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/data/follow/followings/search/:userid', (req, res) => {
-
+router.get("/data/follow/followings/search/:userid", (req, res) => {
   let sql = "";
 
   sql = queries.getFollowingsFilteredByName(req.params["userid"], req.query.q);
@@ -361,11 +354,9 @@ router.get('/data/follow/followings/search/:userid', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/data/follow/followers/search/:userid', (req, res) => {
-
+router.get("/data/follow/followers/search/:userid", (req, res) => {
   let sql = "";
 
   sql = queries.getFollowersFilteredByName(req.params["userid"], req.query.q);
@@ -374,11 +365,9 @@ router.get('/data/follow/followers/search/:userid', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/suggestusersfollowers/:userid', (req, res) => {
-
+router.get("/suggestusersfollowers/:userid", (req, res) => {
   let sql = "";
 
   sql = queries.getSuggestionsUsersToFollow(req.params["userid"]);
@@ -387,11 +376,9 @@ router.get('/suggestusersfollowers/:userid', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/organic-product-review/:product_id', (req, res) => {
-
+router.get("/organic-product-review/:product_id", (req, res) => {
   let sql = "";
 
   let params = [];
@@ -416,30 +403,23 @@ router.get('/organic-product-review/:product_id', (req, res) => {
     console.log(results);
     res.json(results);
   });
-  
 });
 
-router.get('/lreview-dashboard/:id', function(req, res) {
+router.get("/lreview-dashboard/:id", function (req, res) {
+  var reviewsData = [];
+  const id = req.params["id"];
 
-    var reviewsData = [];
-    const id = req.params["id"];
+  mysqlquery(id, function (err, data) {
+    console.log(data);
 
-    mysqlquery(id, function(err, data) {
-
-        console.log(data);
-                            
-        res.json(data);
-   
-    })  
+    res.json(data);
+  });
 
   //  res.json(reviewsData);
-
 });
 
-function mysqlquery(id, callback)
-{
-    
-     var sqli = ` SELECT
+function mysqlquery(id, callback) {
+  var sqli = ` SELECT
      *
  FROM
      (
@@ -609,13 +589,12 @@ function mysqlquery(id, callback)
      Created
  DESC
  
-     `
+     `;
 
-                db.sequelize.query(sqli, { type: QueryTypes.SELECT }).then(results => {
-                    console.log(results);
-                    callback(null,results);
-                });
-                
-} 
+  db.sequelize.query(sqli, { type: QueryTypes.SELECT }).then((results) => {
+    console.log(results);
+    callback(null, results);
+  });
+}
 
 module.exports = router;

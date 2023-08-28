@@ -1,20 +1,17 @@
-const Op = require("sequelize").Op;
-const config = require("../appConfig");
-const db = require('../models/index');
-const userprofile = db.userprofile;
-const express = require('express');
+// const Op = require("sequelize").Op;
+// const config = require("../appConfig");
+const db = require("../models/index");
+// const userprofile = db.userprofile;
+const express = require("express");
 
-const queries = require("../queries");
-const {
-  QueryTypes
-} = require('sequelize');
-
+// const queries = require("../queries");
+const { QueryTypes } = require("sequelize");
 
 const router = express.Router();
-const baseUrl = 'http://api.veritatrust.com/api';
-const BaseUrlInvitation = 'api.veritatrust.com';
+const baseUrl = "http://api.veritatrust.com/api";
+const BaseUrlInvitation = "api.veritatrust.com";
 
-router.get('/search', (req, res) => {
+router.get("/search", (req, res) => {
   const query = req.query.q;
   let sql = `(
         SELECT
@@ -45,13 +42,14 @@ router.get('/search', (req, res) => {
         WHERE
             merchant_profile.name LIKE '%${query}%'
     )`;
-  db.sequelize.query(sql, {
-    type: QueryTypes.SELECT
-  }).then(results => {
-    console.log(results);
-    res.json(results);
-  });
-
+  db.sequelize
+    .query(sql, {
+      type: QueryTypes.SELECT,
+    })
+    .then((results) => {
+      console.log(results);
+      res.json(results);
+    });
 });
 
 module.exports = router;

@@ -1,24 +1,11 @@
 const express = require("express");
-const mysql = require("mysql2");
 const cors = require("cors");
-const sequelize = require("sequelize");
 const path = require("path");
-const apiRouter = express.Router();
-const multer = require("multer");
-const speakeasy = require("speakeasy");
-const Op = require("sequelize").Op;
 const db = require("./models/index");
 const userprofile = db.userprofile;
 const store = require("./public/store");
-const bcrypt = require("bcrypt");
-const { sendConfirmation } = require("./service/sendConfirmation");
-const { resetPasswordNotif } = require("./service/resetPasswordNotif");
-const { newUserConfirmation } = require("./service/newUserConfirmation");
-const { passwordNotifUpdate } = require("./service/passwordNotifUpdate");
 const categoriesRoutes = require("./routes/categories.routes");
 const followRoutes = require("./routes/follow.routes");
-const merchantReview = require("./routes/merchant_review.routes");
-const productReview = require("./routes/product_review.routes");
 const countriesRoutes = require("./routes/countries.routes");
 const twoFactorRoutes = require("./routes/twoFactorAuth.routes");
 const notifactionRoutes = require("./routes/notification.routes");
@@ -28,23 +15,14 @@ const pageRoutes = require("./routes/page.routes");
 const trackPageRoutes = require("./routes/trackPage.routes");
 const ReviewResponsesRoutes = require("./routes/ReviewResponse.routes");
 
-const twoFactorAuth = db.twoFactorAuth;
-
-/***
- * ajout du code pour la gestion des sessions
- *
- * */
 const session = require("express-session");
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const LocalStrategy = require("passport-local").Strategy;
+
 const config = require("./appConfig");
 const { create, findAll } = require("./controllers/merchant_review.controller");
 const { create2 } = require("./controllers/product_review.controller");
 const {
   getProducts,
-  getProductByProduct_name,
   getProductByContainedWith,
   getProductById,
 } = require("./controllers/products.controller");
@@ -55,29 +33,17 @@ const {
   finduserOrCreate,
   getUserByUsername,
   updateUserprofile,
-  getUserById,
 } = require("./controllers/userprofile.controller");
 
 const {
-  createuserTransaction,
-  updateUserTransaction,
   getuserTransaction,
 } = require("./controllers/userTransaction.controller");
-const {
-  createmerchantprofile,
-  getMerchants,
-  getUserByWebsite,
-} = require("./controllers/merchant_profile.controller");
+
 const {
   getInvitations,
   getInvitations2,
 } = require("./controllers/invitations.controller");
-const { QueryTypes } = require("sequelize");
-const axios = require("axios");
-const uuid = require("uuid");
-const QRCode = require("qrcode");
-const qr = require("qr-encode");
-const CryptoJS = require("crypto-js");
+
 const {
   createTransaction,
   updateTransaction,
@@ -116,8 +82,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
 const port = 4000;
-const baseUrl = "http://api.veritatrust.com/api";
-const BaseUrlInvitation = "api.veritatrust.com";
 
 // Serialize and deserialize user for session
 passport.serializeUser((user, done) => {
@@ -151,6 +115,7 @@ app.use(
         "https://newassets.hcaptcha.com",
         "https://accounts.google.com",
         "https://api.cloudinary.com/v1_1/dnbpmsofq/image/upload",
+        "https://api.veritatrust.com/api/",
       ],
       "frame-src": ["'self'", "https://newassets.hcaptcha.com"],
     },
@@ -194,31 +159,6 @@ app.db.sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-//! Use of Multer
-var storage = multer.diskStorage({
-  destination: (req, file, callBack) => {
-    callBack(null, "./public/images/"); // './public/images/' directory name where save the file
-  },
-
-  filename: (req, file, callBack) => {
-    callBack(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-var upload = multer({
-  storage: storage,
-});
-
-// Fonction de génération de secret 2FA
-const generateSecret = () => {
-  // Générer un nouveau secret
-  const secret = speakeasy.generateSecret();
-
-  // Retourner le secret généré
-  return secret;
-};
 /******************************************** facebook authentification ******************************************   */
 
 // Set up passport
