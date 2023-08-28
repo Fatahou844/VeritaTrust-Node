@@ -1,41 +1,45 @@
 const { deployEscrowContract } = require('./deployEscrowMerchant');
-var mysql = require("mysql2");
 const nodeCron = require("node-cron");
-var mysql = require("mysql2");
+const sequelize = require('sequelize');
+const db = require('../models/index');
 
-var dbConn = mysql.createConnection({
-    host: process.env.HOST_DB,
-    user: process.env.USER_DB,
-    password: process.env.PASSWORD_DB,
-    database: process.env.DATABASE_NAME
-});
 
-const job = nodeCron.schedule("*/15 * * * * *", function cronJob() {
-    console.log('job run', new Date().toLocaleString());
-    const deployContent = [];
-    try {
-        dbConn.query("SELECT * FROM merchant_review where status = 'pending'", function (err, result) {
-            if (err) {
-                err;
-            }
-            console.log("seelct qr", result);
-            result.forEach(element => {
-                deployContent.push(
-                    {
-                        content: element.content,
-                        job_id: element.job_id
-                    }
-                )
-                 deployEscrowContract(deployContent, dbConn, element.job_id);
+const job = nodeCron.schedule("*/3 * * * *", async function cronJob() {
+  console.log('job run', new Date().toLocaleString());
+  const deployContent = [];
+  try {
+    const sql_select =  `SELECT * FROM merchant_review where status = 'pending'`;
+
+    const results = await db.sequelize.query(sql_select, { type: sequelize.QueryTypes.SELECT });
+    console.log(results);
+
+    results.forEach(element => {
+      deployContent.push({
+        content: element.content,
+        job_id: element.job_id
+      });
+      
+      const sql_ =  `SELECT COUNT(*) FROM merchant_review where merchant_id = '${element.merchant_id}' and status = 'published'`;
+      
+      db.sequelize.query(sql_, { type: sequelize.QueryTypes.SELECT }).then(res => {
+            
+            res.forEach(ele => {
+                
+                deployEscrowContract(deployContent, element.job_id, element.user_id, element.merchant_id, element.rating, ele.ReviewsNumber, element.id);
             
             });
+            
             console.log('deployContent.length',deployContent.length);
+        // res.json(results);
         });
+    });
 
-    } catch (err) {
-        console.log(err)
-    }
-    
+    console.log('deployContent.length', deployContent.length);
+    // res.json(results);
+  } catch (err) {
+    console.log(err);
+  }
 });
+
 
 module.exports.job = job;

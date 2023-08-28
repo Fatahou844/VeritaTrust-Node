@@ -1,32 +1,35 @@
 'use strict';
+
 //const products = require('../models/merchantReview');
-const db = require('../models/index')
+const db = require('../models/index');
+
 const products = db.products;
-const { Op } = require("sequelize");
-exports.findAll = function(req, res) {
-    products.findAll(req.query.page ,req.query.site, function(err, products) {
-      console.log('controller')
-      if (err)
-        res.send(err);
-        
-      console.log('res', products);
-     // res.send(products);
-     
-     const filters = req.query;
-     const filteredUsers = products.filter(user => {
-        let isValid = true;
-        for (var key in filters) {
-          
-          var keys_filr = filters[key].toString().split(',');
-          if(key == 'rating')
-                isValid = isValid && (keys_filr.includes(user[key].toString()));
-                
-        }
-        return isValid;
-      });
-     
-     res.render('pages-review',  { title: 'All reviews', merchantReviews: filteredUsers, webmerchant: req.query.site});
+const product_review = db.product_review;
+const {
+  Op, Sequelize
+} = require("sequelize");
+exports.findAll = function (req, res) {
+  products.findAll(req.query.page, req.query.site, function (err, products) {
+    console.log('controller');
+    if (err) res.send(err);
+    console.log('res', products);
+    // res.send(products);
+
+    const filters = req.query;
+    const filteredUsers = products.filter(user => {
+      let isValid = true;
+      for (var key in filters) {
+        var keys_filr = filters[key].toString().split(',');
+        if (key == 'rating') isValid = isValid && keys_filr.includes(user[key].toString());
+      }
+      return isValid;
     });
+    res.render('pages-review', {
+      title: 'All reviews',
+      merchantReviews: filteredUsers,
+      webmerchant: req.query.site
+    });
+  });
 };
 
 /*exports.create = function(req, res) {
@@ -90,92 +93,186 @@ exports.getProductReview = function(req, res) {
 
 */
 
-exports.getProducts = function(req, res) {
-
-    products.findAll().then((product)=>{
-  
-      if (product) {
-        res.status(200).json(product);
-        
-      }
-      //if productreview not created, send error
-      else {
-          res.status(400).send('error to select');
-      }
-  
-    })
-  
-  
-  };
-
-  exports.getProductByProduct_name = function(req, res) {
-
-    products.findOne({
-        where: {
-          product_name: req.params["product_name"]
-        }
-      }).then((product)=>{
-  
-      if (product) {
-        res.status(200).json(product);
-        
-      }
-      //if productreview not created, send error
-      else {
-          res.status(400).send('error to select');
-      }
-  
-    })
-  
-  
-  };
-
-  exports.getProductByContainedWith = function(req, res) {
-
-    products.findAll({
-       
-        where: {
-          product_name: {
-            [Op.like]: `%${req.query.q}%`
-          }
-        }
-      }).then(productResult => {
-        if (productResult) {
-            res.status(200).json(productResult);
-        } else {
-            res.status(400).send('error to select');
-        }
-      });
-  
-  
-  };
-
-
-exports.findById = function(req, res) {
-    products.findById(req.params.id, function(err, products) {
-      if (err)
-      res.send(err);
-      res.json(products);
-    });
-};
-
-exports.update = function(req, res) {
-    
-    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
-        res.status(400).send({ error:true, message: 'Please provide all required field' });
-    }else{
-        products.update(req.params.id, new products(req.body), function(err, products) {
-            if (err)
-                res.send(err);
-            res.json({ error:false, message: 'products successfully updated' });
-       });
+exports.getProducts = function (req, res) {
+  products.findAll().then(product => {
+    if (product) {
+      res.status(200).json(product);
     }
+    //if productreview not created, send error
+    else {
+      res.status(400).send('error to select');
+    }
+  });
+};
+exports.getProductByProduct_name = function (req, res) {
+  products.findOne({
+    where: {
+      product_name: req.params["product_name"]
+    }
+  }).then(product => {
+    if (product) {
+      res.status(200).json(product);
+    }
+    //if productreview not created, send error
+    else {
+      res.status(400).send('error to select');
+    }
+  });
 };
 
-exports.delete = function(req, res) {
-    products.delete( req.params.id, function(err, products) {
-      if (err)
-      res.send(err);
-      res.json({ error:false, message: 'products successfully deleted' });
+exports.getProductById = function (req, res) {
+  products.findOne({
+    where: {
+      id: parseInt(req.params["product_name"][0])
+    }
+  }).then(product => {
+    if (product) {
+      res.status(200).json(product);
+    }
+    //if productreview not created, send error
+    else {
+      res.status(400).send('error to select');
+    }
+  });
+};
+
+exports.getProductByContainedWith = function (req, res) {
+  products.findAll({
+    where: {
+      product_name: {
+        [Op.like]: `%${req.query.q}%`
+      }
+    }
+  }).then(productResult => {
+    if (productResult) {
+      res.status(200).json(productResult);
+    } else {
+      res.status(400).send('error to select');
+    }
+  });
+};
+exports.findById = function (req, res) {
+  products.findById(req.params.id, function (err, products) {
+    if (err) res.send(err);
+    res.json(products);
+  });
+};
+
+exports.updateProduct = function (req, res) {
+
+  products
+    .findOne({
+      where: {
+        id: parseInt(req.params.product_name.split("-")[0]),
+      },
+    })
+    .then((product) => {
+      console.log(product);
+      if (product) {
+        products
+          .update(
+            { ReviewsNumber: product.ReviewsNumber + 1 },
+            {
+              where: {
+                id: parseInt(req.params.product_name.split("-")[0]),
+              },
+            }
+          )
+          .then((p) => {
+            console.log(p);
+            if (p) {
+              res.status(200).json(p);
+            }
+            //if user not created, send error
+            else {
+              res.status(400).send("error updated data");
+            }
+          });
+      }
+      //if user not created, send error
+      else {
+        res.status(400).send("error updated data");
+      }
     });
+         
+};
+
+exports.getRateMeanProductReview = function (req, res) {
+  product_review.findAll({
+    attributes: [[db.sequelize.fn('AVG', db.sequelize.col('rating')), 'average_rating']],
+    where: {
+        product_id: parseInt(req.params.product_name.split("-")[0])
+    }
+        })
+        .then(result => {
+            const averageRating = result[0].dataValues.average_rating;
+            res.status(200).json(averageRating);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(400).send('error to select');
+        });
+    
+};
+
+exports.updateNbReviewsRMProduct = function (req, res) {
+  product_review.findAll({
+    attributes: [[db.sequelize.fn('AVG', db.sequelize.col('rating')), 'average_rating']],
+    where: {
+        product_id: parseInt(req.params.product_name.split("-")[0])
+    }
+        })
+        .then(result => {
+            const averageRating = result[0].dataValues.average_rating;
+            //res.status(200).json(averageRating);
+            
+            /*********************************   ******************* /
+             *
+             *  Update Nbre reviews + Rate Mean
+             *   */
+               products
+                    .findOne({
+                      where: {
+                        id: parseInt(req.params.product_name.split("-")[0]),
+                      },
+                    })
+                    .then((product) => {
+                      console.log(product);
+                      if (product) {
+                        products
+                          .update(
+                            { 
+                              ReviewsNumber: product.ReviewsNumber + 1,
+                              ReviewMean: averageRating
+                            },
+                            {
+                              where: {
+                                id: parseInt(req.params.product_name.split("-")[0]),
+                              },
+                            }
+                          )
+                          .then((p) => {
+                            console.log(p);
+                            if (p) {
+                              res.status(200).json(p);
+                            }
+                            //if user not created, send error
+                            else {
+                              res.status(400).send("error updated data");
+                            }
+                          });
+                      }
+                      //if user not created, send error
+                      else {
+                        res.status(400).send("error updated data");
+                      }
+                    });
+             
+             /**  ######################################  */
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(400).send('error to select');
+        });
+    
 };

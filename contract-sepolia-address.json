@@ -1,0 +1,9 @@
+{
+    "deployAddr":"0x01edB0870E6Db990c189d467Fe373634D9e6b43E",
+    "tokenAddr":"0x0b1DFf91fDfD5CB1b3F20535a2a72b8e1Ecdc08F",
+    "factoryAddr":"0x949021E69AE14194403D456e355f100D633D2B00",
+    "repOracleAddr":"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "recOracleAddr":"0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "deployAddrPrivate":"3064c79a10ba44acc8bf5407b7b967bcb0e5c30e94b0e2b6d8f80d11dcc69b35"
+    
+}

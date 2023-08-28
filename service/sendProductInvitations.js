@@ -189,7 +189,7 @@ const emailProductInvitation = nodeCron.schedule("*/20 * * * * *", function cron
 
                                     name: domaine_name,
 
-                                    email: "af@veritatrust.com",
+                                    email: "no_reply@veritatrust.com",
 
                                 };
 
@@ -1360,7 +1360,7 @@ const emailProductInvitation = nodeCron.schedule("*/20 * * * * *", function cron
 
                                         <td class="logo" style="text-align: left;">
 
-                                            <img class="logo-boutique" src="https://store.fatasoft-consulting.com/wp-content/uploads/2022/07/cropped-icon-1.png" alt="Merchant name" width="90" height="90">
+                                            <img class="logo-boutique" src="${ele.logo}" alt="Merchant name" width="90" height="90">
 
                                         </td>
 

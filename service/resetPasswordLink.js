@@ -45,7 +45,7 @@ const sendEmail = async (customer_merchant_email, link) => {
         let smtpTemplate = new SibApiV3Sdk.UpdateSmtpTemplate();
         smtpTemplate.sender = {
             name: "veritatrust.com",
-            email: "af@veritatrust.com",
+            email: "no_reply@veritatrust.com",
         };
         smtpTemplate.templateName = "Récupération de votre compte";
         smtpTemplate.htmlContent = "<html><body><h1>"+link+"</h1></body></html>";

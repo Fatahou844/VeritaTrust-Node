@@ -1,19 +1,12 @@
-var ethers = require('ethers')
+const { validationNotification } = require('./validationNotification');
+const { ethers } = require('ethers');
+const SepoliaAddresses = require('../contract-sepolia-address.json');
+const sequelize = require('sequelize');
 
-const RinkyByAddresses = require('../contract-goerli-address.json');
+const db = require('../models/index');
 
-var mysql = require("mysql2");
+const Addresses =  SepoliaAddresses;
 
-var dbConn = mysql.createConnection({
-    host: process.env.HOST_DB,
-    user: process.env.USER_DB,
-    password: process.env.PASSWORD_DB,
-    database: process.env.DATABASE_NAME
-});
-
-const Addresses =  RinkyByAddresses;
-
-//const Addresses = RinkyByAddresses;
 console.log(Addresses)
 
 
@@ -25,24 +18,44 @@ const EscrowFactoryABI = require('../contract/artifacts/contracts/EscrowFactory.
 //const fromString = require('uint8arrays/from-string');
 const { default: axios } = require('axios');
 const ipfsClient = require('ipfs-http-client');
-console.log("ipff", ipfsClient)
 
-const deployEscrowContract = async (deployContent, connection, job_address) => {
+const { JsonRpcProvider } = require('@ethersproject/providers');
+
+/*
+const getProvider = () => {
+  const rpcUrl = 'wss://multi-quaint-choice.ethereum-sepolia.discover.quiknode.pro/40632f095a916ca0b96478ef7623eb353872d488/'; // Remplacez par votre propre URL de nœud Ethereum
+  return new ethers.providers.JsonRpcProvider(rpcUrl);
+};
+*/
+
+const deployEscrowContract = async (deployContent, job_address, USER_ID, merchantID, rating, length, reviewid) => {
 
     try {
-        console.log(process.env.NETWORK_NODE_WS)
-        var provider = new ethers.providers.WebSocketProvider("wss://goerli.infura.io/ws/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+        
+        var provider = new ethers.providers.WebSocketProvider("wss://sepolia.infura.io/ws/v3/728a362015e549609f3f745e906e1b8b")
+        //const provider = getProvider();
+        
+        //const network = await provider.send("qn_getTransactionsByAddress", ["FILL_ME_ARG_1"]);
 
         const signer = new ethers.Wallet(Addresses.deployAddrPrivate, provider);
+        
+        console.log("**********************Signer start*******************************")
+        
+        console.log("**********************Signer end*******************************")
         const hmtContract = new ethers.Contract(Addresses.tokenAddr, HMTContractABI, signer)
-
+        
+        console.log("hmtContract")
         const escrowFactoryContract = new ethers.Contract(Addresses.factoryAddr, EscrowFactoryABI, signer)
-
+      
+         console.log("**********************escrowFactoryContract start*******************************")
+         console.log("**********************escrowFactoryContract end*******************************")
+        
         const beforeHmtBalance = await hmtContract.totalSupply();
         console.log(
             'before hmt balance total',
             ethers.utils.formatEther(beforeHmtBalance)
         );
+
 
         const beforeHmtBalanceOfOwner = await hmtContract.balanceOf(
             Addresses.deployAddr
@@ -60,7 +73,7 @@ const deployEscrowContract = async (deployContent, connection, job_address) => {
         const escrowAddr = await escrowFactoryContract.createEscrow([
             Addresses.deployAddr,
         ]);
-        
+      
         //client prv
         // 0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e
 
@@ -90,7 +103,7 @@ const deployEscrowContract = async (deployContent, connection, job_address) => {
         const beforeEscrow = await hmtContract.balanceOf(to);
         console.log('before escro', ethers.utils.formatEther(beforeEscrow));
 
-        const beforeEscrowClient = await hmtContract.balanceOf(process.env.CLIENT_ADDR);
+        const beforeEscrowClient = await hmtContract.balanceOf("0x407CdDa48170470d66ac390B23F53A9f1e42C42a");
         console.log(
             'before escro client bal',
             ethers.utils.formatEther(beforeEscrowClient)
@@ -98,29 +111,58 @@ const deployEscrowContract = async (deployContent, connection, job_address) => {
 
         await fundEscrowAndChangeStatus(hmtContract, escrowContract, to);
         const hashfinal = await payout(deployContent, hmtContract, escrowContract, to, job_address)
-        connection.query("UPDATE merchant_review SET status = 'published' where status = 'pending' and job_id = ?",job_address, function (err, result) {
-            if (err) {
-                err;
-            }
-            console.log(result.affectedRows + " record(s) updated");
+        
+        const sql_update1 =  `UPDATE merchant_review SET status = 'published' where status = 'pending' and job_id = '${job_address}'`;
+        const sql_update2 =  `UPDATE transaction SET hash_transaction = '${hashfinal.transactionHash}' where transaction_id = '${job_address}'`;
+        const sql_update3 =  `UPDATE merchant_profile SET ReviewsNumber =  ReviewsNumber + 1  where id = '${merchantID}'`;
+        const sql_update4 =  `UPDATE merchant_profile SET ReviewMean =  ReviewMean + '${rating}'/'${length}'  where id = '${merchantID}'`;
+        
+        const currentDate = new Date();
+        const formattedCreatedAt = currentDate.toISOString(); // Format ISO pour DATETIME
+        const formattedUpdatedAt = currentDate.toISOString();
+        
+        const sql_insert =  `INSERT INTO notification(userId, notification_type, status, message,createdAt,updatedAt) VALUES(${USER_ID}, "emailing", "1", "reviews in blockchain",'${formattedCreatedAt}','${formattedUpdatedAt}')`;
+        
+        db.sequelize.query(sql_insert, { type: sequelize.QueryTypes.INSERT }).then(results => {
+            console.log(results);
+        // res.json(results);
+        });
+
+        db.sequelize.query(sql_update1, { type: sequelize.QueryTypes.UPDATE }).then(results => {
+            console.log(results);
+        // res.json(results);
+        });
+
+        db.sequelize.query(sql_update2, { type: sequelize.QueryTypes.UPDATE }).then(results => {
+            console.log(results);
+        // res.json(results);
         });
         
-        connection.query("UPDATE transaction SET hash_transaction = ? where id = ?",[hashfinal.transactionHash, job_address], function (err, res) {
-                        if (err) {
-                            err;
-                        }
-                        console.log(res.affectedRows + " record(s) updated");
-                 });
-                 
+        
+        
+         db.sequelize.query(sql_update3, { type: sequelize.QueryTypes.UPDATE }).then(results => {
+            console.log(results);
+        // res.json(results);
+        });
+        
+        db.sequelize.query(sql_update4, { type: sequelize.QueryTypes.UPDATE }).then(results => {
+            console.log(results);
+        // res.json(results);
+        });
+        
+        validationNotification(USER_ID,hashfinal.transactionHash, "merchantreview",reviewid);
+        
+
+        const sql_string = `INSERT INTO reward (Reward_type, User_id, Job_id,reward_value) VALUES ('merchant_review',(SELECT merchant_review.user_id FROM merchant_review WHERE merchant_review.job_id = '${job_address}'),'${job_address}',1)`;
+        
+        
+
         // Creation de la requette pour insérer un nouveau reward sur le compte du client
-        connection.query("INSERT INTO reward (Reward_type, User_id, Job_id,reward_value) VALUES (?,(SELECT merchant_review.user_id FROM merchant_review WHERE merchant_review.job_id = ?),?,?)", ['merchant_review',job_address, job_address, 1], function (err, res) {
-                    if(err) {
-                      console.log("error: ", err);
-                      result(null, err);
-                    }else{
-                      result(null, res);
-                    }
-                }); 
+        
+     /*   db.sequelize.query(sql_update2, { type: sequelize.QueryTypes.UPDATE }).then(results => {
+            console.log(results);
+        // res.json(results);
+        }); */
                     
                     
     } catch (err) {
@@ -205,7 +247,7 @@ const payout = async (deployContent, hmtContract, escrowContract, escrowAddress,
     console.log(hashPath);  */
 
     const escrowBulkPay = await escrowContract.bulkPayOut(
-        [process.env.CLIENT_ADDR],
+        ["0x407CdDa48170470d66ac390B23F53A9f1e42C42a"],
         [ethers.utils.parseUnits('1')],
         'https://burakkaraoglan.com',
         "hashPath",
@@ -219,7 +261,7 @@ const payout = async (deployContent, hmtContract, escrowContract, escrowAddress,
     const afterEscrow = await hmtContract.balanceOf(escrowAddress);
     console.log('after escro', ethers.utils.formatEther(afterEscrow));
 
-    const afterEscrowClient = await hmtContract.balanceOf(process.env.CLIENT_ADDR);
+    const afterEscrowClient = await hmtContract.balanceOf("0x407CdDa48170470d66ac390B23F53A9f1e42C42a");
 
     console.log(
         'after escro client bal',
@@ -246,120 +288,8 @@ const payout = async (deployContent, hmtContract, escrowContract, escrowAddress,
     return tsxBulkPay;
 };
 
-// DEMO
-
-const getLatestEscrowDetails = async () => {
-    var provider = new ethers.providers.WebSocketProvider(process.env.NETWORK_NODE_WS)
-
-    const signer = new ethers.Wallet(Addresses.deployAddrPrivate, provider);
-
-    const escrowFactoryContract = new ethers.Contract(Addresses.factoryAddr, EscrowFactoryABI, signer)
-    const lastEscrow = await escrowFactoryContract.lastEscrow();
-
-    if (ethers.constants.AddressZero === lastEscrow) {
-        return {
-            escrowAddr: '',
-            escrowBalance: '',
-            clientBalance: '',
-            deployerBalance: '',
-            manifestHash: '',
-            finalHash: '',
-            content: []
-        };
-    } else {
-
-        let escrowContract = new ethers.Contract(lastEscrow, EscrowABI, signer)
-
-        const hmtContract = new ethers.Contract(Addresses.tokenAddr, HMTContractABI, signer);
-
-        const escrowBalance = await hmtContract.balanceOf(escrowContract.address);
-
-        const clientBalance = await hmtContract.balanceOf(process.env.CLIENT_ADDR);
-
-        const deployerBalance = await hmtContract.balanceOf(
-            Addresses.deployAddr
-        );
-
-        const finalHash = await escrowContract.finalResultsHash();
-        const manifestHash = await escrowContract.manifestHash();
-
-
-        if (finalHash === '') {
-            return {
-                escrowAddr: '',
-                escrowBalance: '',
-                clientBalance: '',
-                deployerBalance: '',
-                manifestHash: '',
-                finalHash: '',
-                content: []
-            };
-        }
-
-        const res = await axios.get(finalHash)
-
-
-
-        return {
-            escrowAddr: lastEscrow,
-            escrowBalance: ethers.utils.formatEther(escrowBalance),
-            clientBalance: ethers.utils.formatEther(clientBalance),
-            deployerBalance: ethers.utils.formatEther(deployerBalance),
-            manifestHash,
-            finalHash,
-            content: res.data
-        }
-    }
-
-}
-
-const sentToken = async () => {
-    var provider = new ethers.providers.WebSocketProvider(process.env.NETWORK_NODE_WS)
-
-    console.log(Addresses.deployAddr)
-    const balance = await provider.getBalance(Addresses.deployAddr);
-
-    console.log(ethers.utils.formatEther(balance))
-    const signer = new ethers.Wallet(Addresses.deployAddrPrivate, provider);
-    console.log(Addresses.tokenAddr)
-    const hmtContract = new ethers.Contract(Addresses.tokenAddr, HMTContractABI, signer);
-
-    const beforeHmtBalanceDep = await hmtContract.balanceOf(Addresses.deployAddr);
-    console.log("beforeDEpl", ethers.utils.formatEther(beforeHmtBalanceDep))
-
-    const tsxTransferEscrow = await hmtContract.transfer(
-        process.env.REPUTATION_ORACLE_ADDR,
-        ethers.utils.parseUnits('100', 'ether')
-    );
-    const tsxTransferEscrowRes = await tsxTransferEscrow.wait();
-    console.log('tsxTransferEscrow', tsxTransferEscrowRes);
-
-    const afterHmtBalance = await hmtContract.balanceOf(Addresses.deployAddr);
-    console.log("after", ethers.utils.formatEther(afterHmtBalance))
-    
-    return ethers.utils.formatEther(afterHmtBalance);
-
-} 
-/*
-
-EXAMPLE TOKEN SEND
-const factoryTrxBalance = await hmtContract.balanceOf(Addresses.factoryAddr);
-console.log('before', ethers.utils.formatEther(factoryTrxBalance));
-
-const transactionNftCreate = await hmtContract.transfer(Addresses.factoryAddr, ethers.utils.parseUnits('19', 'ether'));
-console.log('Mining....', transactionNftCreate.hash);
-const transactionNftCreateReceipt = await transactionNftCreate.wait();
-
-
-const factoryTrxBalanceAfter = await hmtContract.balanceOf(
-  Addresses.factoryAddr
-);
-console.log('after', ethers.utils.formatEther(factoryTrxBalanceAfter));
-
-*/
 
 module.exports = {
-    sentToken: sentToken,
+   
     deployEscrowContract: deployEscrowContract,
-    getLatestEscrowDetails: getLatestEscrowDetails,
 }
