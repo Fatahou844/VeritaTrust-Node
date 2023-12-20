@@ -46,7 +46,7 @@ module.exports = {
         allowNull: true,
       },
       status: {
-        type: Sequelize.ENUM('verified', 'completed', 'validated', 'connected', 'reviewed'),
+        type: Sequelize.ENUM('verified', 'completed', 'domaine_verified' ,'validated', 'connected', 'reviewed'),
         defaultValue: 'verified',
         allowNull: true,
       },

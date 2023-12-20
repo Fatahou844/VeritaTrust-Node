@@ -1,29 +1,39 @@
-// const uuid = require("uuid");
-// const Op = require("sequelize").Op;
-// const config = require("../appConfig");
-const db = require("../models/index");
+const uuid = require("uuid");
+const Op = require("sequelize").Op;
+const config = require("../appConfig");
+const db = require('../models/index');
 const userprofile = db.userprofile;
 const speakeasy = require("speakeasy");
-const express = require("express");
+const express = require('express');
+const bcrypt = require("bcrypt");
+const { sendConfirmation } = require("../service/sendConfirmation");
+const { newUserConfirmation } = require("../service/newUserConfirmation");
+const { resetPasswordNotif } = require("../service/resetPasswordNotif");
+const { passwordNotifUpdate } = require("../service/passwordNotifUpdate");
+const twoFactorRoutes = require('../routes/twoFactorAuth.routes');
+const VeritatrustUsers = db.VeritatrustUsers;
+const twoFactorAuth = db.twoFactorAuth;
+
 
 const QRCode = require("qrcode");
 
-// const CryptoJS = require("crypto-js");
-// const queries = require("../queries");
-const { QueryTypes } = require("sequelize");
+
+const CryptoJS = require('crypto-js');
+const queries = require("../queries");
+const {
+  QueryTypes
+} = require('sequelize');
 
 const router = express.Router();
 
+ 
 // Activation de l'authentification 2FA pour l'utilisateur
 router.post(
   "/enable-2fa",
 
   (req, res) => {
     // Générer le secret 2FA
-    const secret2fa = speakeasy.generateSecret({
-      length: 20,
-      name: "VeritaTrust",
-    }); // Fonction de génération de secret
+    const secret2fa = speakeasy.generateSecret({ length: 20, name: 'VeritaTrust' }); // Fonction de génération de secret
 
     // Enregistrer le secret 2FA dans la base de données pour l'utilisateur
     twoFactorAuth.create({
@@ -35,7 +45,7 @@ router.post(
     const otpauthUrl = speakeasy.otpauthURL({
       secret: secret2fa.base32,
       label: "VeritaTrust", //
-      algorithm: "sha1", //
+      algorithm: 'sha1'    //
     });
 
     //Générer le QR Code à partir de l'URL OTPAuth
@@ -112,7 +122,8 @@ router.post(
 
       // Renvoyer une réponse réussie
       res.json({
-        message: "success",
+        message:
+          "success",
       });
     } catch (error) {
       // Gérer les erreurs
@@ -145,26 +156,28 @@ router.post("/disable-2fa", async (req, res) => {
 });
 
 router.post("/connect-authweb3", async (req, res, next) => {
-  try {
+    try {
     const { id, userWalletAddress } = req.body;
+  
+    const updateUser = await userprofile.update({
+ 
+      userWalletAddress: userWalletAddress,
 
-    const updateUser = await userprofile.update(
-      {
-        userWalletAddress: userWalletAddress,
-      },
-      {
-        where: {
-          id: req.body.id,
-        },
-      }
-    );
-
+    }, {
+    where: {
+      id: req.body.id
+    }
+        
+    });
+    
     res.send("ok");
+
   } catch (err) {
     next(err);
   }
-
+  
   res.send("ok");
+  
 });
 
 router.get("/", (req, res) => {
@@ -177,31 +190,12 @@ router.get("/", (req, res) => {
           res.send(null);
         }
 
-        // Do something with the user data, such as render a dashboard
-        const userdata = {
-          city: req.user.city,
-          country: req.user.country,
-          currency: req.user.currency,
-          dateNaissance: req.user.dateNaissance,
-          email: req.user.email,
-          first_name: req.user.first_name,
-          gender: req.user.gender,
-          id: req.user.id,
-          last_name: req.user.last_name,
-          level_account: req.user.level_account,
-          localAdress: req.user.localAdress,
-          nickname: req.user.nickname,
-          profile_url: req.user.profile_url,
-          total_rewards: req.user.total_rewards,
-          twoFactorAuthEnabled: req.user.twoFactorAuthEnabled,
-          userWalletAddress: req.user.userWalletAddress,
-          verified: req.user.verified,
-          zip: req.user.zip,
-          facebookId: req.user.facebookId,
-          googleId: req.user.googleId,
-          phoneNumber: req.user.phoneNumber,
-          twoFactorAuthSecret: req.user.twoFactorAuthSecret,
-        };
+        // Do something with the user data, such as render a dashboard 
+         const userdata = {"city": req.user.city, "country": req.user.country, "currency":req.user.currency, "dateNaissance":req.user.dateNaissance, "email":req.user.email,"role":"user",
+             "first_name":req.user.first_name, "gender":req.user.gender, "id":req.user.id, "last_name":req.user.last_name, "level_account":req.user.level_account, "localAdress":req.user.localAdress,
+             "nickname":req.user.nickname, "profile_url":req.user.profile_url, "total_rewards":req.user.total_rewards, "twoFactorAuthEnabled":req.user.twoFactorAuthEnabled, "userWalletAddress":req.user.userWalletAddress,
+             "verified": req.user.verified, "zip":req.user.zip, "facebookId":req.user.facebookId, "googleId":req.user.googleId, "phoneNumber": req.user.phoneNumber, "twoFactorAuthSecret": req.user.twoFactorAuthSecret, "CodeLangSession": req.user.CodeLangSession
+         }
         // res.send(req.user || null);
         res.send(userdata || null);
       })
@@ -213,49 +207,70 @@ router.get("/", (req, res) => {
   }
 });
 
-router.get("/users/:id", (req, res) => {
-  // Query the database to retrieve user data
-  userprofile
-    .findOne({ where: { id: req.params.id } })
-    .then((user) => {
-      if (!user) {
-        res.send(null);
-      }
-
-      // Do something with the user data, such as render a dashboard
-      const userdata = {
-        city: user.city,
-        country: user.country,
-        currency: user.currency,
-        first_name: user.first_name,
-        id: user.id,
-        last_name: user.last_name,
-        level_account: user.level_account,
-        localAdress: user.localAdress,
-        nickname: user.nickname,
-        profile_url: user.profile_url,
-        createdAt: user.createdAt,
-      };
-      // res.send(req.user || null);
-      res.send(userdata || null);
+router.get("/admin", (req, res) => {
+  if (req.isAuthenticated()) {
+    // Query the database to retrieve user data
+    VeritatrustUsers.findOne({
+      where: { emailAddress: req.user.emailAddress },
     })
-    .catch((err) => {
-      res.send(null);
-    });
+      .then((user) => {
+        if (!user) {
+          res.send(null);
+        }
+
+        const userdata = {
+          email: user.emailAddress,
+          first_name: user.firstName,
+          id: user.id,
+          last_name: user.lastName,
+          role: user.role,
+        };
+        res.send(userdata || null);
+      })
+      .catch((err) => {
+        res.send(null);
+      });
+  } else {
+    res.send(null);
+  }
+});
+
+router.get("/users/:id", (req, res) => {
+ 
+ 
+    // Query the database to retrieve user data
+    userprofile
+      .findOne({ where: { id: req.params.id } })
+      .then((user) => {
+        if (!user) {
+          res.send(null);
+        }
+
+        // Do something with the user data, such as render a dashboard 
+         const userdata = {"city": user.city, "country": user.country, "currency":user.currency,
+             "first_name":user.first_name, "id":user.id, "last_name":user.last_name, "level_account":user.level_account, "localAdress":user.localAdress,
+             "nickname":user.nickname, "profile_url":user.profile_url, "createdAt":user.createdAt
+             
+         }
+        // res.send(req.user || null);
+        res.send(userdata || null);
+      })
+      .catch((err) => {
+        res.send(null);
+      });
+ 
+   
 });
 
 router.get("/data/userprofile/:id", (req, res) => {
-  const sql =
-    "SELECT first_name, last_name, profile_url, level_account, createdAt FROM userprofile where id=" +
-    req.params["id"];
-  db.sequelize
-    .query(sql, {
-      type: QueryTypes.SELECT,
-    })
-    .then((results) => {
-      console.log(results);
-      res.json(results);
-    });
+  const sql = 'SELECT first_name, last_name, profile_url, level_account, createdAt FROM userprofile where id='+req.params['id'];
+  db.sequelize.query(sql, {
+    type: QueryTypes.SELECT
+  }).then(results => {
+    console.log(results);
+    res.json(results);
+  });
+  
 });
 
 module.exports = router;

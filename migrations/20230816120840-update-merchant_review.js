@@ -28,6 +28,11 @@ module.exports = {
         defaultValue: 'pending',
         allowNull: true,
       },
+       source: {
+      type: Sequelize.ENUM('0', '1'),
+      defaultValue: '0',
+      allowNull: true
+    },
       isAnswered: {
         type: Sequelize.ENUM('0', '1'),
         defaultValue: '0',
@@ -52,6 +57,10 @@ module.exports = {
         defaultValue: '03916e0d-2fbe-4ab3-90de-95b2ad24b87d',
         allowNull: true,
       },
+         lang_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true
+    },
       merchant_id: {
         type: Sequelize.STRING,
         defaultValue: '4f6750685-6ee7-49dd-b9e8-1f204b13db6a',

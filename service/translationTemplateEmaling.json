@@ -1,0 +1,49 @@
+{
+  
+    "27": {
+      "lang_id": 27,
+      "messages": {
+        "Dear": "Cher",
+        "msg1": "Vous recevez cet e-mail car vous avez récemment effectué un achat sur",
+        "msg2": "Tous les avis, qu'ils soient positifs ou négatifs, seront publiés instantanément.",
+        "msg3": "Merci d'avance pour votre aide.",
+        "msg4": "Cordialement,",
+        "msg5": "Cet e-mail est envoyé automatiquement. Il est possible que vous n'ayez pas encore reçu votre produit ou service. Si c'est le cas, veuillez attendre de recevoir votre commande pour donner votre avis.",
+        "msg6": "Vous ne souhaitez plus recevoir ces e-mails ? Vous pouvez",
+        "msg7": "Vous désabonner ici",
+        "howWouldRate": "Comment évalueriez-vous",
+        "shareExperience": "Partagez votre expérience"
+      }
+    },
+    "22": {
+      "lang_id": 22,
+      "messages": {
+        "Dear": "Dear",
+        "msg1": "You are receiving this email because you recently made a purchase on",
+        "msg2": "All reviews, whether positive or negative, will be published instantly.",
+        "msg3": "Thank you in advance for your help.",
+        "msg4": "Best regards,",
+        "msg5": "This email is sent automatically. You may not have received your product or service yet. If so, please wait until you receive your order before giving your opinion.",
+        "msg6": "No longer wish to receive these emails? You can",
+        "msg7": "Unsubscribe here",
+        "howWouldRate":"How would you rate",
+        "shareExperience":"Share your experience"
+      }
+    },
+    "47": {
+      "lang_id": 47,
+      "messages": {
+         "Dear": "Caro",
+          "msg1": "Stai ricevendo questa email perché hai recentemente effettuato un acquisto su",
+          "msg2": "Tutte le recensioni, positive o negative, saranno pubblicate immediatamente.",
+          "msg3": "Grazie in anticipo per il tuo aiuto.",
+          "msg4": "Cordiali saluti,",
+          "msg5": "Questa email viene inviata automaticamente. Potrebbe essere che tu non abbia ancora ricevuto il tuo prodotto o servizio. In tal caso, attendi di ricevere il tuo ordine prima di esprimere la tua opinione.",
+          "msg6": "Non desideri più ricevere queste email? Puoi",
+          "msg7": "Cancellarti qui",
+          "howWouldRate": "Come valuteresti",
+          "shareExperience": "Condividi la tua esperienza"
+      }
+    }
+  
+}

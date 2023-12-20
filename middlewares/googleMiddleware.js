@@ -4,11 +4,13 @@ const Op = require("sequelize").Op;
 const config = require("../appConfig");
 const db = require("../models/index");
 const userprofile = db.userprofile;
-const express = require("express");
-const passport = require("passport");
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
 const { newUserConfirmation } = require("../service/newUserConfirmation");
 
 const router = express.Router();
+
 
 // Middleware de redirection automatique après l'authentification
 // Middleware pour stocker l'URL d'origine dans la session
@@ -43,8 +45,9 @@ passport.use(
         })
         .then((user) => {
           if (user) {
-            // Update user or create
-            userprofile
+              
+              // Update user or create
+              userprofile
               .update(
                 { googleId: profile.id },
                 {
@@ -59,9 +62,9 @@ passport.use(
               })
               .catch((err) => {
                 console.error("Error updating user: ", err);
-              });
-
-            //done(null, user);
+              }); 
+                  
+//done(null, user);
           } else {
             // Create a new user in the database
             const passwordValue = Math.random().toString(36).slice(2, 10);
@@ -77,16 +80,10 @@ passport.use(
                 verified: 1,
               })
               .then((newUser) => {
+                  
                 const confirmation_link =
-                  "https://api.veritatrust.com/user-changepassword/" +
-                  verificationToken;
-                newUserConfirmation(
-                  profile.displayName,
-                  profile.displayName,
-                  confirmation_link,
-                  profile.emails[0].value,
-                  passwordValue
-                );
+                  "https://api.veritatrust.com/user-changepassword/" + verificationToken;
+                newUserConfirmation(profile.displayName, profile.displayName, confirmation_link, profile.emails[0].value, passwordValue )
                 done(null, newUser);
               });
           }
@@ -95,8 +92,7 @@ passport.use(
   )
 );
 
-passport.use(
-  "google-part-reviewform",
+passport.use('google-part-reviewform',
   new GoogleStrategy(
     {
       clientID: config["google"].clientID,
@@ -111,6 +107,8 @@ passport.use(
       // Check if the user already exists in the database
       console.log("profile");
       console.log(profile);
+      
+      
       userprofile
         .findOne({
           where: {
@@ -122,10 +120,12 @@ passport.use(
         })
         .then((user) => {
           if (user) {
-            // Update user or create
-            userprofile
+              
+              // Update user or create
+              userprofile
               .update(
-                { googleId: profile.id },
+                { googleId: profile.id,
+                  CodeLangSession: request.query.lang},
                 {
                   where: {
                     email: user.email,
@@ -138,9 +138,9 @@ passport.use(
               })
               .catch((err) => {
                 console.error("Error updating user: ", err);
-              });
-
-            //done(null, user);
+              }); 
+                  
+//done(null, user);
           } else {
             // Create a new user in the database
             const passwordValue = Math.random().toString(36).slice(2, 10);
@@ -156,16 +156,10 @@ passport.use(
                 verified: 1,
               })
               .then((newUser) => {
+                  
                 const confirmation_link =
-                  "https://api.veritatrust.com/user-changepassword/" +
-                  verificationToken;
-                newUserConfirmation(
-                  profile.displayName,
-                  profile.displayName,
-                  confirmation_link,
-                  profile.emails[0].value,
-                  passwordValue
-                );
+                  "https://api.veritatrust.com/user-changepassword/" + verificationToken;
+                newUserConfirmation(profile.displayName, profile.displayName, confirmation_link, profile.emails[0].value, passwordValue )
                 done(null, newUser);
               });
           }
@@ -174,42 +168,74 @@ passport.use(
   )
 );
 
-router.get(
-  "/",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.use((req, res, next) => {
+  if (!req.session.originalUrl) {
+    req.session.originalUrl = req.originalUrl || "/";
+  }
+  next();
+});
+
+
+router.get('/', passport.authenticate('google', { scope: ['profile','email'] }));
 
 router.get(
   "/callback",
   passport.authenticate("google", {
-    successRedirect: config["urlClients"].urlSuccess,
+    successRedirect: "/account",
     failureRedirect: config["urlClients"].urlRedirect,
   })
 );
 
 // Route pour l'authentification avec la deuxième stratégie
-router.get(
-  "/reviewform",
-  (req, res, next) => {
-    const returnTo = req.query.returnTo || "/account";
-    req.session.returnTo = returnTo;
+router.get('/reviewform', (req, res, next) => {
+    
+    const Lang = req.query.returnTo.split('/')[3];
 
-    next();
-  },
-  passport.authenticate("google-part-reviewform")
-);
+    const returnTo = req.query.returnTo ||  '/add-review-create-for-beta';
+    
+    req.session.returnTo = returnTo;
+    req.CustomLang = Lang;
+
+
+    
+       req.session.save(() => {
+          next();
+       });
+       
+  }, passport.authenticate('google-part-reviewform',{ scope: ['profile', 'email'] }));
+ 
+
 
 // Route pour le rappel après l'authentification avec la deuxième stratégie
-router.get(
-  "/reviewform/callback",
-  passport.authenticate("google-part-reviewform", {
-    failureRedirect: config["urlClients"].urlRedirect,
-  }),
-  (req, res) => {
+router.get('/reviewform/callback',
+  passport.authenticate('google-part-reviewform', { failureRedirect: config["urlClients"].urlRedirect }),
+   (req, res) => {
     // Rediriger vers l'URL d'origine
-    const returnUrl = req.session.returnTo || "/account";
+    const Lang = req.session.Lang;
+    const returnUrl = req.session.returnTo ||  '/add-review-create-for-beta';
     delete req.session.returnTo; // Effacer la valeur après utilisation
+        // Update user or create
+    const lang = req.cookies.lang;
+          userprofile
+          .update(
+            { 
+              CodeLangSession: lang},
+            {
+              where: {
+                email: req.user.email,
+              },
+            }
+          )
+          .then(() => {
+            console.log("Userprofile updated successfully");
+            done(null, user);
+          })
+          .catch((err) => {
+            console.error("Error updating user: ", err);
+          }); 
+    
     res.redirect(returnUrl);
+   //res.send('<script>window.opener.postMessage({ user: ' + JSON.stringify(req.user) + ' }, "*"); window.close();</script>');
   }
 );
 

@@ -61,15 +61,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     category_1: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     category_2: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     category_3: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     last_session: {
@@ -94,6 +94,45 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         allowNull: false,
       },
+      
+    status: {
+      type: DataTypes.ENUM('0','1','2','3'),
+      defaultValue: '0',
+      allowNull: true
+    },
+      PageViewsNb: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
+      },
+      
+    Language_review_collecting: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
+      },
+      
+    Data_to_collect: {
+      type: DataTypes.ENUM('0','1','2','3'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+    InviteFrequency: {
+      type: DataTypes.ENUM('0','1','2','3'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+     EmailToReplay: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    
+      SenderName: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
       
   }, {
     sequelize,

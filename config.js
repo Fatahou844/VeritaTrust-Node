@@ -1,0 +1,13 @@
+// config.js
+
+module.exports = {
+  encryptionKey: `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt/3R6qvoXNLbaLurkSHr
+zEV+n850tYp0RNUNby7tBDs1euwIYjUIvd2RmGA6IDtCu/WNVxa5i0XXEepI3O6S
+P8im++gjkDfgBiicCyrAgjl9ZN7JAZy8dSYaw0h/YzfU3aN/l04q/GSMFNaHSzFt
+HjfrOfAsEgAqNl3YgdMR3MqPfFZsm7N0BEZhfwW/y7HO6+aX45H0KBs4fM8x08NL
+Y0dJGsT3lN72FG/KBh2t+9DbidcIB5R5I89LZeLudsb/zMNy94uR4jktkfP2zw0g
+bTkwDe7E/Y5ETN7N09KMAroxCBCifKSSjhTHfuUTM15+cYpassxiMx3pZB/eSD5a
+qQIDAQAB
+-----END PUBLIC KEY-----`,
+};

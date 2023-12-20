@@ -89,7 +89,7 @@ exports.getReviewResponseById = async function (req, res) {
       reviewResponses.forEach(response => {
         const merchantUser = merchantUserDict[response.merchantUserId];
         if (merchantUser) {
-          response.merchantUserName = `${merchantUser.first_name} ${merchantUser.last_name} (${merchantUser.nickname})`;
+          response.merchantUserName = `${merchantUser.first_name} ${merchantUser.last_name}`;
         }
         results.push({
             "id": response.id,

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const transactionController = require('../controllers/transaction.controller');
+const { getAllTransaction, getTransactionByJob_id } = require("../controllers/transaction.controller");
 
 
 const isAuthenticated = (req, res, next) => {
@@ -21,7 +22,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // Retrieve all transaction
-router.get('/', transactionController.findAll);
+router.get('/', getAllTransaction);
 
 // Create a new transaction
 router.post('/', transactionController.create);
@@ -31,4 +32,11 @@ router.get('/:id', transactionController.findById);
 
 // Delete a transaction with id
 router.delete('/:id', transactionController.delete);
+
+router.get("/search/:job_id", getTransactionByJob_id);
+
+router.put("/:job_id", transactionController.updateTransactionStatus);
+
+
 module.exports = router;
+

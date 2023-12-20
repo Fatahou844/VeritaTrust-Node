@@ -1,14 +1,17 @@
 const { deployEscrowContract } = require('./deployEscrowProduct');
+//const { deployEscrowContract } = require('./deployCcdEscrowProduct');
 const nodeCron = require("node-cron");
 const sequelize = require('sequelize');
 const db = require('../models/index');
 
 
-const job = nodeCron.schedule("*/3 * * * *", async function cronJob() {
+const job = nodeCron.schedule("*/1 * * * *", async function cronJob() {
   console.log('job run', new Date().toLocaleString());
+ 
   const deployContent = [];
+  
   try {
-    const sql_select =  `SELECT * FROM product_review where status = 'pending'`;
+    const sql_select =  `SELECT * FROM product_review where status = 'moderation' LIMIT 1`;
 
     const results = await db.sequelize.query(sql_select, { type: sequelize.QueryTypes.SELECT });
     console.log(results);
@@ -16,6 +19,7 @@ const job = nodeCron.schedule("*/3 * * * *", async function cronJob() {
     results.forEach(element => {
       deployContent.push({
         content: element.content,
+        images: element.image_video.split(','),
         job_id: element.job_id
       });
       

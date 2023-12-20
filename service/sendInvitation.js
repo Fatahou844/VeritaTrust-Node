@@ -20,6 +20,7 @@ const cors = require('cors');
 const sequelize = require('sequelize');
 const db = require('../models/index');
 const nodeCron = require("node-cron");
+const translationTemplateEmaling = require('./translationTemplateEmaling.json')
 
 /***
 
@@ -33,15 +34,24 @@ const nodeCron = require("node-cron");
 
 
 
-const emailInvitation = nodeCron.schedule("*/20 * * * * *", function cronJob() {
+const emailInvitation = nodeCron.schedule("*/30 * * * * *", function cronJob() {
 
     console.log("emailInvitation run", new Date().toLocaleString());
+    
+    
     try {
 
-        const sql = "SELECT * FROM invitations where Delivery_status = 'Not delivered' and invitation_type = 'merchant_review' and has_sent != 1";
+        const sql = "SELECT * FROM invitations where Delivery_status = 'Not delivered' and invitation_type = 'merchant_review' and has_sent != 1  LIMIT 1";
         db.sequelize.query(sql, { type: sequelize.QueryTypes.SELECT }).then(result => {
             console.log(result);
+            
+             // Créez un objet pour faire correspondre les invitations aux informations de l'utilisateur
+             const userMap = {};
+  
             result.forEach((element)=> {
+                
+                //setTimeout(() => console.log("Code exécuté après 500 ms"), 10000);
+
                 const sql2 = `SELECT * FROM merchant_profile WHERE id = '${element.profile_id}'`;
 
                 db.sequelize.query(sql2, { type: sequelize.QueryTypes.SELECT }).then(res => {
@@ -50,6 +60,7 @@ const emailInvitation = nodeCron.schedule("*/20 * * * * *", function cronJob() {
 
                         var customer_merchant_email = ele.email;
                         var customer_merchant_id = ele.id;
+                        var customer_merchant_language = ele.Language_review_collecting;
 
                         /*** Pour chaque element on va envoyer des invitations
 
@@ -66,7 +77,18 @@ const emailInvitation = nodeCron.schedule("*/20 * * * * *", function cronJob() {
                         var firstname = element.customer_firstname;
 
                         var lastname = element.customer_lastname;
-
+                        
+                        var invitation_url = element.invitation_url;
+                        
+                           // Associez l'invitation aux informations de l'utilisateur
+                        userMap[element.id] = {
+                          customer_merchant_email,
+                          customer_merchant_id,
+                          domaine_name,
+                          firstname,
+                          lastname,
+                          invitation_url,
+                        };
 
 
                         const SibApiV3Sdk = require("sib-api-v3-sdk");
@@ -77,10 +99,7 @@ const emailInvitation = nodeCron.schedule("*/20 * * * * *", function cronJob() {
 
                         let apiKey = defaultClient.authentications["api-key"];
 
-                        apiKey.apiKey = "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";
-
-                   
-
+                        apiKey.apiKey = "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";       // "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";
 
 
                         // ADD CONTACT IN LIST
@@ -98,31 +117,6 @@ const emailInvitation = nodeCron.schedule("*/20 * * * * *", function cronJob() {
                         createContact.email = element.Recipient;
 
                         createContact.listIds = [2];
-
-
-
-                /*        apiInstance_2.createContact(createContact).then(
-
-                            function(data) {
-
-                                console.log(
-
-                                    "API called successfully. Returned data: " +
-
-                                    JSON.stringify(data)
-
-                                );
-
-                            },
-
-                            function(error) {
-
-                                console.error(error);
-
-                            }
-
-                        );
-*/
 
 
                         let templateId = 2;
@@ -434,12 +428,12 @@ ul.social li{
           	<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
           		<tr>
           			<td class="logo client" style="text-align: left;">
-						<a href="https://${element.invitation_url}">
-							<img src="${ele.logo}" alt="${domaine_name}">
+						<a href="https://${userMap[element.id].invitation_url}">
+							<img src="${ele.logo}" alt="${userMap[element.id].domaine_name}">
 						</a>
 			          </td>
           			<td class="logo veritatrust" style="text-align: right;">
-						<a href="https://${element.invitation_url}">
+						<a href="https://${userMap[element.id].invitation_url}">
 							<img src="http://dev.veritatrust.com/assets/img/logo-veritatrust-w.png" alt="VeritaTrust">
 						</a>
 			          </td>
@@ -453,9 +447,9 @@ ul.social li{
             	<tr>
             		<td style="padding: 0 2.5em; text-align: left;">
             			<div class="text">
-							<p>Dear ${firstname}  ${lastname}<br>
-							You are receiving this email because you recently purchased on <a href="https://${element.invitation_url}">${domaine_name}</a></p>
-							<h1 style="text-align: center;"><strong>How would you rate<br> <a href="https://${element.invitation_url}">${domaine_name}</a>?</strong></h1>
+							<p>${translationTemplateEmaling[customer_merchant_language]["messages"]["Dear"]} ${userMap[element.id].firstname}  ${userMap[element.id].lastname}<br>
+							${translationTemplateEmaling[customer_merchant_language]["messages"]["msg1"]} <a href="https://${userMap[element.id].invitation_url}">${userMap[element.id].domaine_name}</a></p>
+							<h1 style="text-align: center;"><strong>${translationTemplateEmaling[customer_merchant_language]["messages"]["howWouldRate"]}<br> <a href="https://${userMap[element.id].invitation_url}">${userMap[element.id].domaine_name}</a>?</strong></h1>
             			</div>
             		</td>
             	</tr>
@@ -467,18 +461,18 @@ ul.social li{
 		      	<table class="bg_white" role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 					<td valign="middle" style="text-align:center; padding: 0 2.5em;">
-						<a href="https://${element.invitation_url}">
+						<a href="https://${userMap[element.id].invitation_url}">
 							<img src="https://dev.veritatrust.com/assets/img/star-mail.gif" alt="Share your experience" style="width: 400px; max-width: 100%; height: auto; display: block; margin: 0 auto 20px;">
 						</a>
-						<span><a href="https://${element.invitation_url}" class="btn btn-primary">Share your experience!</a></span>
+						<span><a href="https://${userMap[element.id].invitation_url}" class="btn btn-primary">${translationTemplateEmaling[customer_merchant_language]["messages"]["shareExperience"]}</a></span>
 						</td>
 					</tr>
 					<tr>
 						<td style="padding: 2.5em; text-align: left;">
 							<div class="">
-								<p>All reviews, both positive and negative, will be published instantly.</p>
-								<p>Thank you in advance for your help.</p>
-								<p>Best regards,<br><a href="https://${element.invitation_url}">${domaine_name}</a> team</p>
+								<p>${translationTemplateEmaling[customer_merchant_language]["messages"]["msg2"]}</p>
+								<p>${translationTemplateEmaling[customer_merchant_language]["messages"]["msg3"]}</p>
+								<p>${translationTemplateEmaling[customer_merchant_language]["messages"]["msg4"]}<br><a href="https://${userMap[element.id].invitation_url}">${userMap[element.id].domaine_name}</a> team</p>
 							</div>
 						</td>
 					</tr>
@@ -496,7 +490,7 @@ ul.social li{
                   <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                     <tr>
                       <td style="text-align: center;">
-                      	<p>This email is sent automatically, it is possible that you have not yet received your product or service. If this is the case, please wait until you receive your order to give your opinion.</p>
+                      	<p>${translationTemplateEmaling[customer_merchant_language]["messages"]["msg5"]}</p>
                       </td>
                     </tr>
                   </table>
@@ -507,7 +501,7 @@ ul.social li{
         </tr><!-- end: tr -->
         <tr>
           <td class="bg_white unsubscribe" style="text-align: center;">
-          	<p>You no longer wish to receive these e-mails? You can <a href="http://dev.veritatrust.com/unsuscribe?user=${element.Recipient}&sender=${customer_merchant_id}">Unsubscribe here</a></p>
+          	<p>${translationTemplateEmaling[customer_merchant_language]["messages"]["msg6"]} <a href="http://dev.veritatrust.com/unsuscribe?user=${element.Recipient}&sender=${customer_merchant_id}">${translationTemplateEmaling[customer_merchant_language]["messages"]["msg7"]}</a></p>
           </td>
         </tr>
       </table>
@@ -521,9 +515,9 @@ ul.social li{
 
 
 
-                        smtpTemplate.subject = "Concerning your order " + domaine_name;
+                        smtpTemplate.subject = "Concerning your order " + userMap[element.id].domaine_name;
 
-                        smtpTemplate.replyTo = customer_merchant_email;
+                        smtpTemplate.replyTo = userMap[element.id].customer_merchant_email;
 
                         smtpTemplate.toField = element.Recipient;
 
@@ -611,56 +605,6 @@ ul.social li{
                             }
 
                         );
-
-
-
-                     /*   let sendTestEmail = new SibApiV3Sdk.SendTestEmail();
-                        
-
-
-                        sendTestEmail.emailTo = [element.Recipient];
-
-
-
-                        apiInstance.sendTestTemplate(templateId, sendTestEmail).then(
-
-                            function() {
-
-                                console.log("API called successfully.");
-
-                            },
-
-                            function(error) {
-
-                                console.error(error);
-
-                            }
-
-                        ); */
-                        
-                        /***
-                         * 
-                         * Update code 28 septembre 2022 pour modifier la fonction d emailing transactionnel
-                         * 
-                         * */
-                        
-              
-                    
-
-                    
-                    /***
-                     * 
-                     * Update 29 septembre 2022
-                     *  */
-
-                
-
-                      //  })
-                   // });
-
-
-
- 
 
                     }); // Fin de for each ele.
                 });

@@ -25,14 +25,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     aw_thumb_url: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     category_name: {
       type: DataTypes.STRING,
       allowNull: true
     },
+    Brand_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     merchant_category: {
       type: DataTypes.STRING,
+      allowNull: true
+    },
+    
+    category_id: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     ean: DataTypes.STRING,
@@ -59,6 +68,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         defaultValue: 0,
         allowNull: false,
+      },
+        status: {
+        type: DataTypes.ENUM('0','1'),
+        defaultValue: '0',
+        allowNull: true,
+      },
+      
+    PageViewsNb: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
       },
   }, {
     sequelize,

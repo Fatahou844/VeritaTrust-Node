@@ -53,15 +53,15 @@ module.exports = {
         allowNull: true,
       },
       category_1: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
       category_2: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
       category_3: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
       last_session: {
@@ -86,6 +86,46 @@ module.exports = {
         defaultValue: 0,
         allowNull: false,
       },
+      
+       status: {
+      type: Sequelize.ENUM('0','1','2','3'),
+      defaultValue: '0',
+      allowNull: true
+    },
+      PageViewsNb: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
+      },
+      
+            
+    Language_review_collecting: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
+      },
+      
+    Data_to_collect: {
+      type: Sequelize.ENUM('0','1','2','3'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+    InviteFrequency: {
+      type: Sequelize.ENUM('0','1','2','3'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+     EmailToReplay: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    
+      SenderName: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

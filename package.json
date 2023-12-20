@@ -1,75 +1,100 @@
 {
-  "name": "veritatrust_exchange",
-  "version": "1.0.0",
-  "configurations": [
-    {
-      "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "type": "dart"
-    }
-  ],
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "nodemon": "node index.js",
-    "start_windows": "set NODE_ENV=production&&node index.js"
-  },
-  "author": "Fatah",
-  "license": "ISC",
+  "name": "veritatrust-react-app",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/",
   "dependencies": {
-    "accept-language-parser": "^1.5.0",
-    "axios": "^0.27.2",
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
+    "@ethersproject/providers": "^5.7.2",
+    "@hcaptcha/react-hcaptcha": "^1.4.4",
+    "@popperjs/core": "^2.11.6",
+    "axios": "^1.2.3",
+    "bcrypt": "^4.0.0",
+    "body-parser": "^1.20.0",
     "cloudinary": "^1.33.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
-    "cryptojs": "^2.5.3",
-    "dotenv": "^16.0.1",
-    "ethers": "^5.7.0",
-    "express": "^4.18.1",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "form-data": "^4.0.0",
+    "express-session-file-store": "^1.0.2",
     "formidable": "^2.1.1",
     "helmet": "^7.0.0",
-    "http": "^0.0.1-security",
-    "i18n": "^0.15.0",
-    "i18next": "^21.8.16",
-    "i18next-fs-backend": "^1.1.5",
-    "i18next-http-middleware": "^3.2.1",
+    "http-proxy-middleware": "^2.0.6",
     "ipfs-http-client": "^33.1.1",
-    "jsonwebtoken": "^9.0.0",
+    "isotope": "^1.0.0-alpha.3",
+    "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.3.3",
+    "mysql2": "^3.1.2",
     "next": "^12.1.6",
+    "node-cache": "^5.1.2",
     "node-cron": "^3.0.2",
+    "node-rsa": "^1.1.1",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
-    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "passport-otp": "^0.0.1",
-    "passport-totp": "^0.0.2",
+    "path": "^0.12.7",
     "qr-encode": "^0.3.0",
     "qrcode": "^1.5.1",
+    "react": "^18.2.0",
+    "react-confetti": "^6.1.0",
+    "react-dom": "^18.2.0",
+    "react-notifications-component": "^4.0.1",
+    "react-offcanvas": "^0.4.0",
+    "react-redux-toastr": "^7.6.10",
+    "react-router-dom": "^6.6.1",
+    "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.1",
+    "redis": "^4.6.10",
     "redux": "^4.2.1",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
     "request": "^2.88.2",
     "requirejs": "^2.3.6",
-    "sequelize": "^6.28.0",
+    "rsuite": "^5.26.1",
+    "sequelize": "^6.32.1",
+    "sequelize-cli": "^6.6.1",
+    "session-file-store": "^1.5.0",
     "sib-api-v3-sdk": "^8.5.0",
     "speakeasy": "^2.0.0",
+    "styled-components": "^5.3.6",
     "uuid": "^9.0.0",
-    "ws": "^8.12.0"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "node server.js & npm run start-react",
+    "start-react": "react-scripts start",
+    "build": "react-scripts build",
+    "build-server": "babel src/server -d dist/server",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start_windows": "set NODE_ENV=production&&npm start.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
-  },
-  "keywords": [
-    "react",
-    "javascript",
-    "nodejs"
-  ]
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "encoding": "^0.1.13"
+  }
 }

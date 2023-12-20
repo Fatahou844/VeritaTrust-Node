@@ -3,6 +3,7 @@
 const {sendNotification} = require('../service/sendNotification')
 const db = require('../models/index');
 const merchant_review = db.merchant_review;
+const product_review = db.product_review;
 const LastReview = db.LastReview;
 
 exports.findAll = function (req, res) {
@@ -73,6 +74,22 @@ exports.create = function (req, res) {
   });
 };  */
 
+exports.updateMerchantReviewById = function (req, res) {
+  //create user
+  var data = merchant_review
+    .update(req.body, {
+      where: {
+        id: req.params["id"],
+      },
+    })
+    .then((merchant) => {
+      if (merchant) {
+        res.status(200).send("merchant have been updated successfully");
+      } else {
+        res.status(400).send("error updated");
+      }
+    });
+};
 
 exports.create = function (req, res) {
   // Vérifier le LastReviewSubmitDate
@@ -97,7 +114,9 @@ exports.create = function (req, res) {
           merchant_id: req.body.merchant_id,
           job_id: req.body.job_id,
           user_id: req.body.user_id,
-          order_id: req.body.order_id
+          order_id: req.body.order_id,
+          lang_id: req.body.lang_id,
+
         }).then(merchant => {
           if (merchant) {
             res.status(200).send('Merchant review created successfully');
@@ -124,7 +143,9 @@ exports.create = function (req, res) {
         merchant_id: req.body.merchant_id,
         job_id: req.body.job_id,
         user_id: req.body.user_id,
-        order_id: req.body.order_id
+        order_id: req.body.order_id,
+        lang_id: req.body.lang_id,
+
       }).then(merchant => {
         //if user created, send success
         if (merchant) {
@@ -193,3 +214,91 @@ exports.delete = function (req, res) {
     });
   });
 };
+
+exports.updateMerchantReviewByJobId = function (req, res) {
+  //create user
+  var data = merchant_review
+    .update(req.body, {
+      where: {
+        job_id: req.params["job_id"],
+      },
+    })
+    .then((merchant) => {
+      if (merchant) {
+        res.status(200).send("merchant have been updated successfully");
+      } else {
+        res.status(400).send("error updated");
+      }
+    });
+};
+
+exports.findMerchantAndProductReviewsByTransactionId = function (req, res) {
+  const transactionId = req.params.transaction_id;
+
+  // Utilisation de Promise.all pour exécuter deux requêtes parallèles
+  Promise.all([
+    merchant_review.findAll({ where: { job_id: transactionId } }),
+    product_review.findAll({ where: { job_id: transactionId } }),
+  ])
+    .then(([merchantReviews, productReviews]) => {
+      // Ajoutez le champ "type" à chaque revue
+      const merchantReviewsWithType = merchantReviews.map((merchantReview) => {
+        return { ...merchantReview.toJSON(), type: "merchant_review" };
+      });
+
+      const productReviewsWithType = productReviews.map((productReview) => {
+        return { ...productReview.toJSON(), type: "product_review" };
+      });
+
+      // Fusionnez les deux tableaux avec les champs "type" ajoutés
+      const result = {
+        reviews: [...merchantReviewsWithType, ...productReviewsWithType],
+      };
+
+      // Si au moins une critique est trouvée, renvoyez le résultat
+      if (result.reviews.length > 0) {
+        res.status(200).json(result);
+      } else {
+        res.status(404).send("Aucune critique trouvée pour cette transaction.");
+      }
+    })
+    .catch((error) => {
+      // Gérez les erreurs potentielles ici
+      console.error("Erreur lors de la recherche de critiques : ", error);
+      res.status(500).send("Erreur interne du serveur");
+    });
+};
+
+exports.findMerchantAndProductReviews = function (req, res) {
+  // Utilisation de Promise.all pour exécuter deux requêtes parallèles
+  Promise.all([merchant_review.findAll(), product_review.findAll()])
+    .then(([merchantReviews, productReviews]) => {
+      // Ajoutez le champ "type" à chaque revue
+      const merchantReviewsWithType = merchantReviews.map((merchantReview) => {
+        return { ...merchantReview.toJSON(), type: "merchant_review" };
+      });
+
+      const productReviewsWithType = productReviews.map((productReview) => {
+        return { ...productReview.toJSON(), type: "product_review" };
+      });
+
+      // Fusionnez les deux tableaux avec les champs "type" ajoutés
+      const result = {
+        reviews: [...merchantReviewsWithType, ...productReviewsWithType],
+      };
+
+      // Si au moins une critique est trouvée, renvoyez le résultat
+      if (result.reviews.length > 0) {
+        res.status(200).json(result);
+      } else {
+        res.status(404).send("Aucune critique trouvée pour cette transaction.");
+      }
+    })
+    .catch((error) => {
+      // Gérez les erreurs potentielles ici
+      console.error("Erreur lors de la recherche de critiques : ", error);
+      res.status(500).send("Erreur interne du serveur");
+    });
+};
+
+

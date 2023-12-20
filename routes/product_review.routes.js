@@ -14,8 +14,25 @@ router.get('/:id', product_reviewController.findById);
 router.get('/productreview/:id', product_reviewController.findProductReviewById);
 
 // Update a product_review with id
-router.put('/:id', product_reviewController.update);
+//router.put('/:id', product_reviewController.update);
 
 // Delete a product_review with id
 router.delete('/:id', product_reviewController.delete);
+
+router.put(
+  "/productreview/:id",
+  product_reviewController.updateProductReviewById
+);
+
+router.put(
+  "/productreviewbyjobid/:job_id",
+  product_reviewController.updateProductReviewByJob_id
+);
+
+router.put(
+  "/productreviewbyproductid/:product_id",
+  product_reviewController.updateProductReviewByProductId
+);
+
+
 module.exports = router;

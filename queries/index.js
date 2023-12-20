@@ -3,6 +3,7 @@ const queries = {
     `SELECT 
     merchant_review.id, 
     merchant_review.rating, 
+    merchant_review.lang_id,
     merchant_review.title, 
     merchant_review.content, 
     merchant_review.order_id, 
@@ -66,6 +67,7 @@ ORDER BY product_review.createdAt DESC
 
   getProductReviewsByProduct_Id: (product_id) => `SELECT product_review.id, 
        product_review.image_video,
+       product_review.lang_id,
        product_review.product_name,
        (SELECT products.aw_image_url 
         FROM products 
@@ -97,7 +99,7 @@ WHERE product_review.product_id = '${product_id}' AND product_review.status = 'p
 ORDER BY product_review.createdAt DESC
 `,
 
-  getMerchantReviewsById: (id) =>
+getMerchantReviewsById: (id) =>
     `SELECT 
     merchant_review.id, 
     merchant_review.rating, 
@@ -149,7 +151,7 @@ WHERE
         AND product_review.status = 'published'
 `,
 
-  getProductReviewByOrderId: (OrderId) => `SELECT product_review.id, 
+ getProductReviewByOrderId: (OrderId) => `SELECT product_review.id, 
        product_review.image_video,
        product_review.product_name,
        product_review.rating, 
@@ -167,9 +169,7 @@ WHERE
         AND product_review.status = 'published'
 `,
 
-  getSuggestionsUsersToFollow: (
-    userId
-  ) => `SELECT u.id, u.first_name, u.last_name, COUNT(DISTINCT mr.id) + COUNT(DISTINCT pr.id) AS total_reviews
+  getSuggestionsUsersToFollow: (userId) => `SELECT u.id, u.first_name, u.last_name, COUNT(DISTINCT mr.id) + COUNT(DISTINCT pr.id) AS total_reviews
 FROM follow f
 INNER JOIN userprofile u ON f.follower_userId = u.id
 LEFT JOIN merchant_review mr ON f.follower_userId = mr.user_id
@@ -186,9 +186,8 @@ GROUP BY u.id, u.first_name, u.last_name
 ORDER BY total_reviews DESC;
 `,
 
-  getTopSuggestionsUsersToFollow: (
-    userId
-  ) => `SELECT u.id, u.first_name, u.last_name, r.num_reviews
+
+  getTopSuggestionsUsersToFollow: (userId) => `SELECT u.id, u.first_name, u.last_name, r.num_reviews
 FROM userprofile u
 JOIN (
   SELECT user_id, COUNT(*) AS num_reviews
@@ -207,7 +206,7 @@ JOIN (
 WHERE u.id <> ${userId}
 `,
 
-  getLastReviewCaroussel: () => ` SELECT
+getLastReviewCaroussel:() =>  ` SELECT
     r.id,
     r.content,
     r.createdAt,
@@ -253,27 +252,20 @@ ORDER BY
     r.createdAt DESC
 LIMIT 24;`,
 
-  getFollowingsFilteredByName: (
-    userId,
-    queryname
-  ) => `SELECT u.id, u.nickname, u.first_name, u.last_name
+
+  getFollowingsFilteredByName: (userId, queryname) => `SELECT u.id, u.nickname, u.first_name, u.last_name
 FROM follow f 
 INNER JOIN userprofile u ON f.following_userId = u.id 
 WHERE f.follower_userId = ${userId} AND (u.nickname LIKE '${queryname}%' OR u.first_name LIKE '${queryname}%');
 `,
 
-  getFollowersFilteredByName: (
-    userId,
-    queryname
-  ) => `SELECT u.id, u.nickname, u.first_name, u.last_name
+  getFollowersFilteredByName: (userId, queryname) => `SELECT u.id, u.nickname, u.first_name, u.last_name
 FROM follow f 
 INNER JOIN userprofile u ON f.follower_userId = u.id 
 WHERE f.following_userId = ${userId} AND (u.nickname LIKE '${queryname}%' OR u.first_name LIKE '${queryname}%');
 `,
 
-  getProductsMerchantprofileByCategorie: (
-    categorie_name
-  ) => `WITH RECURSIVE mainCat AS (
+getProductsMerchantprofileByCategorie: (categorie_name) => `WITH RECURSIVE mainCat AS (
   SELECT
     parent.google_category_id AS id,
     parent.vt_category AS name,
@@ -342,6 +334,8 @@ WHERE
   OR m.category_3 IN (
     SELECT name FROM mainCat WHERE name = '${categorie_name}' OR route LIKE '${categorie_name}-%'
   );`,
+
+
 };
 
 module.exports = queries;

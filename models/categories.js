@@ -23,29 +23,45 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
     categories.init({
+        
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+        unique: true
+      },
 
         vt_category: {
             type: DataTypes.STRING,
             allowNull: false
         },
+        vt_category_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
         category_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        category_name_fr: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            collate: 'utf8_general_ci'
+        },
+        category_name_it: {
             type: DataTypes.STRING,
             allowNull: false
         },
         google_category_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
             unique: true
         },
         category_parent_id: {
           type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: categories,
-                key: 'google_category_id'
-            }
+            allowNull: true
+          
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -62,6 +78,8 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'categories',
         tableName: 'vt_categories'
-    });
+    },  {
+  collate: 'utf8_general_ci' // Interclassement par défaut pour la table
+});
     return categories;
 };

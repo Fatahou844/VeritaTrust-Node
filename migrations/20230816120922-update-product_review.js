@@ -37,6 +37,11 @@ module.exports = {
         defaultValue: 'pending',
         allowNull: true,
       },
+    source: {
+      type: Sequelize.ENUM('0', '1'),
+      defaultValue: '0',
+      allowNull: true
+    },
       job_id: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -46,6 +51,10 @@ module.exports = {
         defaultValue: '03916e0d-2fbe-4ab3-90de-95b2ad24b87d',
         allowNull: true,
       },
+      lang_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true
+    },
       merchant_id: {
         type: Sequelize.STRING,
         defaultValue: '4f6750685-6ee7-49dd-b9e8-1f204b13db6a',
@@ -57,7 +66,12 @@ module.exports = {
       },
       image_video: {
         type: Sequelize.STRING(1024),
+        defaultValue:"https://res.cloudinary.com/dnbpmsofq/image/upload/v1693389293/cimc4wol5dpfrjcsmxvs.gif",
         allowNull: true,
+      },
+       proof_purchase: {
+          type: Sequelize.STRING(1024),
+          allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -15,16 +15,25 @@ module.exports = {
       },
       aw_thumb_url: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       category_name: {
         type: Sequelize.STRING,
         allowNull: true,
       },
+     Brand_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true
+      },
       merchant_category: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
+      
+        category_id: {
+          type: Sequelize.INTEGER,
+          allowNull: false
+        },
       ean: {
         type: Sequelize.STRING,
       },
@@ -52,6 +61,16 @@ module.exports = {
         type: Sequelize.FLOAT,
         defaultValue: 0,
         allowNull: false,
+      },
+      status: {
+        type: Sequelize.ENUM('0','1'),
+        defaultValue: '0',
+        allowNull: true,
+      },
+       PageViewsNb: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,

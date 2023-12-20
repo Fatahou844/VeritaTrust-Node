@@ -42,7 +42,7 @@ const sendNotification = async (userid) => {
 
                         let apiKey = defaultClient.authentications["api-key"];
 
-                        apiKey.apiKey = "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";
+                        apiKey.apiKey = "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";
 
                    
 

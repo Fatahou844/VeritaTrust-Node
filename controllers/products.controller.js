@@ -100,7 +100,7 @@ exports.getProducts = function (req, res) {
     }
     //if productreview not created, send error
     else {
-      res.status(400).send('error to select');
+      res.status(400).json(-1);
     }
   });
 };
@@ -120,6 +120,40 @@ exports.getProductByProduct_name = function (req, res) {
   });
 };
 
+exports.getProductByID2 = function (req, res) {
+  products.findOne({
+    where: {
+      id: req.params["id"]
+    }
+  }).then(product => {
+    if (product) {
+      res.status(200).json(product);
+    }
+    //if productreview not created, send error
+    else {
+      res.status(400).send('-1');
+    }
+  });
+};
+
+exports.deleteProductByID = function (req, res) {
+  products.destroy({
+    where: {
+      id: req.params["id"]
+    }
+  }).then((rowsDeleted) => {
+    if (rowsDeleted === 1) {
+      res.status(200).send("Product deleted successfully");
+    } else {
+      res.status(404).send("Product not found");
+    }
+  }).catch((error) => {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  });
+};
+
+
 exports.getProductById = function (req, res) {
   products.findOne({
     where: {
@@ -136,6 +170,15 @@ exports.getProductById = function (req, res) {
   });
 };
 
+exports.createNewProduct = async function (req, res) {
+  try {
+    const newProduct = await products.create(req.body);
+    res.status(201).json(newProduct); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erreur lors de la création du produit');
+  }
+};
 exports.getProductByContainedWith = function (req, res) {
   products.findAll({
     where: {
@@ -147,7 +190,7 @@ exports.getProductByContainedWith = function (req, res) {
     if (productResult) {
       res.status(200).json(productResult);
     } else {
-      res.status(400).send('error to select');
+      res.status(400).json(-1);
     }
   });
 };
@@ -275,4 +318,38 @@ exports.updateNbReviewsRMProduct = function (req, res) {
             res.status(400).send('error to select');
         });
     
+};
+
+exports.updateProduct2 = function (req, res) {
+  products
+    .findOne({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    })
+    .then((product) => {
+      console.log(product);
+      if (product) {
+        products
+          .update(req.body, {
+            where: {
+              id: parseInt(req.params.id),
+            },
+          })
+          .then((p) => {
+            console.log(p);
+            if (p) {
+              res.status(200).json(p);
+            }
+            //if user not created, send error
+            else {
+              res.status(400).send("error updated data");
+            }
+          });
+      }
+      //if user not created, send error
+      else {
+        res.status(400).send("error updated data");
+      }
+    });
 };

@@ -40,16 +40,28 @@ exports.findAll = function (req, res) {
   });
 };
 
-exports.createmerchantprofile = async function (req, res) {
-  //create user
-  var data = userprofile.create({
-    name: req.body.name,
-    description: req.body.description,
-    email: req.body.email,
-    website: req.body.website
-  });
-  return data;
-};
+exports.createmerchantprofile = function (req, res) {
+
+    merchant_profile.create({
+      name: req.body.name,
+      website: req.body.website
+    })
+    .then((merchant) => {
+      console.log(merchant);
+      if (merchant) {
+        res.status(200).json(merchant);
+      } else {
+        res.status(400).json(-1);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Brands Internal server error" });
+    });
+
+};  
+
+
 exports.getMerchants = function (req, res) {
   merchant_profile.findAll().then(user => {
     if (user) {
@@ -139,6 +151,65 @@ exports.getMerchantByWebsite = function (req, res) {
       }
     });
 };
+
+const { Op } = require("sequelize");
+
+exports.getMerchantProfileSearch = function (req, res) {
+  const searchTerm = req.params.q;
+
+/*  merchant_profile
+    .findAll({
+      where: {
+        website: {
+          [Op.like]: `www.${searchTerm}%`, // Utilise Op.like pour une correspondance partielle
+        },
+      },
+    })
+    .then((merchant) => {
+      console.log(merchant);
+      if (merchant) {
+        res.status(200).json(merchant);
+      } else {
+        res.status(404).json({ error: "Merchant not found" });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    });  */
+    
+    
+merchant_profile
+  .findAll({
+    where: {
+      [Op.or]: [
+        {
+          website: {
+            [Op.like]: `www.${searchTerm}%`, // Correspondance partielle pour a
+          },
+        },
+        {
+          website: {
+            [Op.like]: `${searchTerm}%`, // Correspondance partielle pour b
+          },
+        },
+      ],
+    },
+  })
+  .then((merchant) => {
+    console.log(merchant);
+    if (merchant) { // Vérifiez si au moins un résultat a été trouvé
+      res.status(200).json(merchant);
+    } else {
+      res.status(400).json(-1);
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  });
+};
+
 
 exports.getMerchantByMerchantId = function (req, res) {
   merchant_profile
@@ -257,3 +328,38 @@ exports.updateNbReviewsRMMerchantProfile = function (req, res) {
         });
     
 };
+
+exports.updateMerchant_profile = function (req, res) {
+  merchant_profile
+    .findOne({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    })
+    .then((merchantprofile) => {
+      console.log(merchantprofile);
+      if (merchantprofile) {
+        merchant_profile
+          .update(req.body, {
+            where: {
+              id: parseInt(req.params.id),
+            },
+          })
+          .then((p) => {
+            console.log(p);
+            if (p) {
+              res.status(200).json(p);
+            }
+            //if user not created, send error
+            else {
+              res.status(400).send("error updated data");
+            }
+          });
+      }
+      //if user not created, send error
+      else {
+        res.status(400).send("error updated data");
+      }
+    });
+};
+

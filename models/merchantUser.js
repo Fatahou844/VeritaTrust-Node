@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
     status: {
-      type: DataTypes.ENUM('verified', 'completed', 'validated', 'connected', 'reviewed'),
+      type: DataTypes.ENUM('verified', 'completed', 'domaine_verified' ,'validated', 'connected', 'reviewed'),
       defaultValue: 'verified',
       allowNull: true
     },

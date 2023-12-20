@@ -29,6 +29,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      proofOfPurchase: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      
       transaction_state: {
         type: Sequelize.ENUM('pending', 'completed'),
         defaultValue: 'pending',
@@ -44,6 +49,12 @@ module.exports = {
         defaultValue: 'pending',
         allowNull: true,
       },
+      
+     status: {
+          type: Sequelize.ENUM('1', '0'),
+          defaultValue: '1',
+          allowNull: true
+        },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

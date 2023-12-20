@@ -79,7 +79,7 @@ exports.getUsers = function (req, res) {
     }
     //if productreview not created, send error
     else {
-      res.status(400).send("error to select");
+      res.status(400).send("-1");
     }
   });
 };

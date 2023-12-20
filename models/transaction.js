@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
+    proofOfPurchase: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     transaction_state: {
       type: DataTypes.ENUM('pending', 'completed'),
       defaultValue: 'pending',
@@ -48,6 +52,11 @@ module.exports = (sequelize, DataTypes) => {
     transaction_state_3: {
       type: DataTypes.ENUM('pending', 'completed'),
       defaultValue: 'pending',
+      allowNull: true
+    },
+     status: {
+      type: DataTypes.ENUM('1', '0'),
+      defaultValue: '1',
       allowNull: true
     }
   }, {
