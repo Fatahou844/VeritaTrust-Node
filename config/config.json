@@ -1,16 +1,16 @@
 {
     "development": {
-      "username": " ",
-      "password": "",
-      "database": "",
+      "username": "sc1bebr7832_fatahdb",
+      "password": "Verit@trust2023",
+      "database": "sc1bebr7832_VeritatrustDBForTesting",
       "host": "127.0.0.1",
       "dialect": "mysql"
     },
     
     "production": {
-      "username": "",
-      "password": "",
-      "database": "",
+      "username": "sc1bebr7832_fatahdb",
+      "password": "Verit@trust2023",
+      "database": "sc1bebr7832_VeritatrustDBForTesting",
       "host": "127.0.0.1",
       "dialect": "mysql"
     }
