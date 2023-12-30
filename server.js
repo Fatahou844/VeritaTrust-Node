@@ -9,7 +9,7 @@ const speakeasy = require("speakeasy");
 const Op = require("sequelize").Op;
 const db = require("./models/index");
 const userprofile = db.userprofile;
-const store = require("./public/store");
+//const store = require("./public/store");
 const bcrypt = require("bcrypt");
 const { sendConfirmation } = require("./service/sendConfirmation");
 const { resetPasswordNotif } = require("./service/resetPasswordNotif");
@@ -243,26 +243,7 @@ app.use(
 );
 
 // Configurer le middleware pour Redux
-app.use((req, res, next) => {
-  // Utilisez la propriété req.url pour obtenir le chemin de l'URL.
-  const url = req.url;
 
-  // Divisez le chemin de l'URL en segments en utilisant '/' comme séparateur.
-  const segments = url.split("/");
-
-  // Le segment 'en' ou 'fr' dans le chemin de l'URL est la langue.
-  // Assurez-vous de vérifier s'il existe un segment valide avant de l'utiliser.
-  if (segments.includes("it")) {
-    req.CustomLang = "it";
-  } else if (segments.includes("fr")) {
-    req.CustomLang = "fr";
-  } else {
-    req.CustomLang = "en";
-  }
-
-  req.store = store;
-  next();
-});
 
 app.db.sequelize
   .authenticate({
