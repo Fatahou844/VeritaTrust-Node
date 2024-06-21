@@ -444,8 +444,7 @@ ul.social li{
           headers: {
             accept: "application/json",
             "content-type": "application/json",
-            "api-key":
-              "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", // Remplacez 'YOUR_API_KEY_HERE' par votre clé API réelle
+            "api-key": process.env.BREVO_API_KEY, // Remplacez 'YOUR_API_KEY_HERE' par votre clé API réelle
           },
         }
       );

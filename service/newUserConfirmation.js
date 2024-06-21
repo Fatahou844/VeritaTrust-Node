@@ -21,6 +21,9 @@ const newUserConfirmation = async (
 
   let apiKey = defaultClient.authentications["api-key"];
 
+  const dotenv = require("dotenv");
+  dotenv.config();
+
   apiKey.apiKey = process.env.BREVO_API_KEY;
 
   // ADD CONTACT IN LIST
@@ -451,7 +454,7 @@ ul.social li{
         headers: {
           "X-Mailin-custom":
             "api-key:" +
-            "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" +
+            process.env.BREVO_API_KEY +
             "|content-type:application/json|accept:application/json",
         },
       };

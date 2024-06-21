@@ -449,7 +449,7 @@ ul.social li{
         headers: {
           "X-Mailin-custom":
             "api-key:" +
-            "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" +
+            process.env.BREVO_API_KEY +
             "|content-type:application/json|accept:application/json",
         },
       };

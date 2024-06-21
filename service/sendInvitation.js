@@ -94,7 +94,7 @@ const emailInvitation = nodeCron.schedule("*/30 * * * * *", function cronJob() {
 
                 let apiKey = defaultClient.authentications["api-key"];
 
-                apiKey.apiKey = process.env.BREVO_API_KEY; // "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";
+                apiKey.apiKey = process.env.BREVO_API_KEY; //
 
                 // ADD CONTACT IN LIST
 

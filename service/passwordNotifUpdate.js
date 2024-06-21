@@ -1,9 +1,4 @@
-const passwordNotifUpdate = async (
-  first_name,
-  last_name,
-  email_recipient
-  
-) => {
+const passwordNotifUpdate = async (first_name, last_name, email_recipient) => {
   /*** Pour chaque element on va envoyer des invitations
 
                          * APPEL A API SENDIN BLUE pour envoyer les invitations
@@ -20,36 +15,35 @@ const passwordNotifUpdate = async (
 
   let apiKey = defaultClient.authentications["api-key"];
 
-  apiKey.apiKey =
-    "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";
+  apiKey.apiKey = BREVO_API_KEY;
 
   // ADD CONTACT IN LIST
 
- // let apiInstance_2 = new SibApiV3Sdk.ContactsApi();
+  // let apiInstance_2 = new SibApiV3Sdk.ContactsApi();
 
   //let createContact = new SibApiV3Sdk.CreateContact();
 
- // createContact.email = email_recipient;
+  // createContact.email = email_recipient;
 
-//  createContact.listIds = [2];
+  //  createContact.listIds = [2];
 
-// apiInstance_2.createContact(createContact).then(function (data) {
-   
-      let templateId = 4;
+  // apiInstance_2.createContact(createContact).then(function (data) {
 
-      // Update email body
+  let templateId = 4;
 
-      let smtpTemplate = new SibApiV3Sdk.UpdateSmtpTemplate();
+  // Update email body
 
-      smtpTemplate.sender = {
-        name: "veritatrust.com",
+  let smtpTemplate = new SibApiV3Sdk.UpdateSmtpTemplate();
 
-        email: "no_reply@veritatrust.com",
-      };
+  smtpTemplate.sender = {
+    name: "veritatrust.com",
 
-      smtpTemplate.templateName = "Verification email";
+    email: "no_reply@veritatrust.com",
+  };
 
-      smtpTemplate.htmlContent = `<!DOCTYPE html>
+  smtpTemplate.templateName = "Verification email";
+
+  smtpTemplate.htmlContent = `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
     <meta charset="utf-8"> <!-- utf-8 works for most cases -->
@@ -414,64 +408,65 @@ ul.social li{
 </body>
 </html>`;
 
-      //"<html><body><h1>This is my updated transactional email</h1></body></html>";
+  //"<html><body><h1>This is my updated transactional email</h1></body></html>";
 
-      smtpTemplate.subject = "Welcome in veritatrust, Click on to update your password";
+  smtpTemplate.subject =
+    "Welcome in veritatrust, Click on to update your password";
 
-      smtpTemplate.replyTo = "support@veritatrust.com";
+  smtpTemplate.replyTo = "support@veritatrust.com";
 
-      smtpTemplate.toField = email_recipient;
+  smtpTemplate.toField = email_recipient;
 
-      smtpTemplate.isActive = true;
+  smtpTemplate.isActive = true;
 
-      //smtpTemplate.attachmentUrl = "https://example.net/upload-file";
+  //smtpTemplate.attachmentUrl = "https://example.net/upload-file";
 
-      let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+  let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-      apiInstance.updateSmtpTemplate(templateId, smtpTemplate).then(
-        function () {
-          console.log("API called successfully.");
+  apiInstance.updateSmtpTemplate(templateId, smtpTemplate).then(
+    function () {
+      console.log("API called successfully.");
 
-          var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+      var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
-          sendSmtpEmail = {
-            to: [
-              {
-                email: email_recipient,
-                name: first_name,
-              },
-            ],
-            templateId: 4,
-            params: {
-              name: first_name,
-              surname: last_name,
-            },
-
-            headers: {
-              "X-Mailin-custom":
-                "api-key:" +
-                "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" +
-                "|content-type:application/json|accept:application/json",
-            },
-          };
-
-          apiInstance.sendTransacEmail(sendSmtpEmail).then(
-            function (data) {
-              console.log("API called successfully. Returned data: " + data);
-            },
-            function (error) {
-              console.error(error);
-            }
-          );
+      sendSmtpEmail = {
+        to: [
+          {
+            email: email_recipient,
+            name: first_name,
+          },
+        ],
+        templateId: 4,
+        params: {
+          name: first_name,
+          surname: last_name,
         },
 
+        headers: {
+          "X-Mailin-custom":
+            "api-key:" +
+            process.env.BREVO_API_KEY +
+            "|content-type:application/json|accept:application/json",
+        },
+      };
+
+      apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+          console.log("API called successfully. Returned data: " + data);
+        },
         function (error) {
           console.error(error);
         }
       );
-//},
+    },
 
-/*function (error) {
+    function (error) {
+      console.error(error);
+    }
+  );
+  //},
+
+  /*function (error) {
       console.error(error);
     }
   ); */
