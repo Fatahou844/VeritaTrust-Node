@@ -42,7 +42,7 @@ const sendValidationCode = async (userid, validationCode) => {
 
                         let apiKey = defaultClient.authentications["api-key"];
 
-                        apiKey.apiKey = "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";
+                        apiKey.apiKey = "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";
 
                    
 
@@ -507,7 +507,7 @@ ul.social li{
                                 },
                                 
                                 headers: {
-                                    'X-Mailin-custom': 'api-key:'+"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"+'|content-type:application/json|accept:application/json'
+                                    'X-Mailin-custom': 'api-key:'+"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"+'|content-type:application/json|accept:application/json'
                                 }
                             };
 

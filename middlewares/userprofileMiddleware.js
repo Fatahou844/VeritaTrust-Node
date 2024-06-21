@@ -13,16 +13,58 @@ const { passwordNotifUpdate } = require("../service/passwordNotifUpdate");
 const twoFactorRoutes = require('../routes/twoFactorAuth.routes');
 const VeritatrustUsers = db.VeritatrustUsers;
 const twoFactorAuth = db.twoFactorAuth;
+const {OAuth2Client} = require('google-auth-library');
+const passport = require('passport');
+const BearerStrategy = require('passport-http-bearer').Strategy;
 
 
 const QRCode = require("qrcode");
-
+const GOOGLE_CLIENT_ID = "1036726798056-idduh86bhvsjo0mrhuuhoj8l87u4alvi.apps.googleusercontent.com"
 
 const CryptoJS = require('crypto-js');
 const queries = require("../queries");
 const {
   QueryTypes
 } = require('sequelize');
+
+const googleClient = new OAuth2Client({
+  clientId: `${GOOGLE_CLIENT_ID}`,
+});
+
+/*
+passport.use(new BearerStrategy(
+  function(token, done) {
+    userprofile.findOne({ token: "" }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user, { scope: 'read' });
+    });
+  }
+));
+*/
+const authenticateUser = async (req, res) => {
+ 
+  let user = await userprofile.findOne({ where:{ googleId: req.params.googleid }});
+  console.log("User found:", user);
+
+    if (!user) {
+      user = await new userprofile({
+        googleId: req.params.googleid,
+      });
+    
+      await user.save();
+      console.log("User created:", user);
+    }
+    
+    const userdata = {"city": user.city, "country": user.country, "currency":user.currency, "dateNaissance":user.dateNaissance, "email": user.email,"role":"user",
+             "first_name":user.first_name, "gender":user.gender, "id":user.id, "last_name":user.last_name, "level_account":user.level_account, "localAdress":user.localAdress,
+             "nickname":user.nickname, "profile_url":user.profile_url, "total_rewards":user.total_rewards, "twoFactorAuthEnabled":user.twoFactorAuthEnabled, "userWalletAddress":user.userWalletAddress,
+             "verified": user.verified, "zip":user.zip, "phoneNumber": user.phoneNumber, "googleId":user.googleId
+         }
+
+
+  res.json({ userdata });
+};
 
 const router = express.Router();
 
@@ -135,6 +177,8 @@ router.post(
   }
 );
 
+router.get("/getuseranyway/:googleid", authenticateUser); // (This is actually /auth POST route)
+
 // Désactivation de l'authentification 2FA pour l'utilisateur
 router.post("/disable-2fa", async (req, res) => {
   // Supprimer les informations d'authentification 2FA de l'utilisateur dans la base de données
@@ -180,7 +224,7 @@ router.post("/connect-authweb3", async (req, res, next) => {
   
 });
 
-router.get("/", (req, res) => {
+router.get("/",   (req, res) => {
   if (req.isAuthenticated()) {
     // Query the database to retrieve user data
     userprofile
@@ -235,7 +279,7 @@ router.get("/admin", (req, res) => {
   }
 });
 
-router.get("/users/:id", (req, res) => {
+router.get("/users/:id",  (req, res) => {
  
  
     // Query the database to retrieve user data
@@ -248,7 +292,7 @@ router.get("/users/:id", (req, res) => {
 
         // Do something with the user data, such as render a dashboard 
          const userdata = {"city": user.city, "country": user.country, "currency":user.currency,
-             "first_name":user.first_name, "id":user.id, "last_name":user.last_name, "level_account":user.level_account, "localAdress":user.localAdress,
+             "first_name":user.first_name, "id":user.id, "last_name":user.last_name, "level_account":user.level_account, "localAdress":user.localAdress, "hasPassword":user.password || user.password!=""?true:false,
              "nickname":user.nickname, "profile_url":user.profile_url, "createdAt":user.createdAt
              
          }

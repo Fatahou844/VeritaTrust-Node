@@ -1,16 +1,14 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const sequelize = require("sequelize");
 const path = require("path");
-const apiRouter = express.Router();
 const multer = require("multer");
 const speakeasy = require("speakeasy");
 const Op = require("sequelize").Op;
+const dotenv = require("dotenv");
 const db = require("./models/index");
 const userprofile = db.userprofile;
 const store = require("./public/store");
-const bcrypt = require("bcrypt");
 const { sendConfirmation } = require("./service/sendConfirmation");
 const { resetPasswordNotif } = require("./service/resetPasswordNotif");
 const { newUserConfirmation } = require("./service/newUserConfirmation");
@@ -37,9 +35,18 @@ const cookieParser = require("cookie-parser");
 const merchantReviewRoutes = require("./routes/merchant_review.routes");
 const transactionsRoutes = require("./routes/transaction.routes");
 const productreviewRoutes = require("./routes/product_review.routes");
-const VeritatrustUsers = db.VeritatrustUsers;
+const CashFlowRewardsRoutes = require("./routes/CashFlowReward.routes");
+const VoucherGiftTransactionsRoutes = require("./routes/VoucherGiftTransactions.routes");
+const VoucherGiftsRoutes = require("./routes/VoucherGift.routes");
+const SubscriptionsRoutes = require("./routes/subscription.routes");
+const userTransactionRoutes = require("./routes/userTransaction.routes");
+const supportMessagesRoutes = require("./routes/supportMessage.routes");
+const ReportResponsesRoutes = require("./routes/ReportResponse.routes");
+const http = require("http");
+const socketIo = require("socket.io");
 
-const twoFactorAuth = db.twoFactorAuth;
+const VeritatrustUsers = db.VeritatrustUsers;
+dotenv.config();
 
 /***
  * ajout du code pour la gestion des sessions
@@ -47,15 +54,13 @@ const twoFactorAuth = db.twoFactorAuth;
  * */
 const session = require("express-session");
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const LocalStrategy = require("passport-local").Strategy;
+
 const config = require("./appConfig");
 const { create, findAll } = require("./controllers/merchant_review.controller");
 const { create2 } = require("./controllers/product_review.controller");
 const {
   getProducts,
-  getProductByProduct_name,
+
   getProductByContainedWith,
   getProductById,
 } = require("./controllers/products.controller");
@@ -66,29 +71,18 @@ const {
   finduserOrCreate,
   getUserByUsername,
   updateUserprofile,
-  getUserById,
 } = require("./controllers/userprofile.controller");
 
 const {
-  createuserTransaction,
-  updateUserTransaction,
   getuserTransaction,
 } = require("./controllers/userTransaction.controller");
-const {
-  createmerchantprofile,
-  getMerchants,
-  getUserByWebsite,
-} = require("./controllers/merchant_profile.controller");
+
 const {
   getInvitations,
   getInvitations2,
 } = require("./controllers/invitations.controller");
-const { QueryTypes } = require("sequelize");
 const axios = require("axios");
-const uuid = require("uuid");
-const QRCode = require("qrcode");
-const qr = require("qr-encode");
-const CryptoJS = require("crypto-js");
+
 const {
   createTransaction,
   updateTransaction,
@@ -105,12 +99,8 @@ const configKey = require("./config");
 const privateKey = configKey.encryptionKey;
 
 require("./service/sendInvitation").emailInvitation;
-// require("./service/nodeCronMerchant").job.start();
-// require("./service/nodeCronProduct").job.start();
 require("./service/nodeCcdCronProduct").job.start();
-// require("./service/nodeCronProduct").job.start();
 require("./service/nodeCronLevelAccount").job.start();
-
 require("./service/nodeCronStateMerchantProduct").merchantProfileJob.start();
 require("./service/nodeCronStateMerchantProduct").productStatsJob.start();
 
@@ -134,23 +124,19 @@ const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
 const port = 4000;
-const baseUrl = "http://api.veritatrust.com/api";
-const BaseUrlInvitation = "api.veritatrust.com";
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 // Serialize and deserialize user for session
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-
-/*
-passport.deserializeUser((id, done) => {
-  userprofile.findByPk(id).then((user) => {
-    done(null, user);
-  });
-});
-  
- 
-*/
 
 passport.deserializeUser(async (id, done) => {
   try {
@@ -222,21 +208,29 @@ app.use(
   })
 );
 
+const enforceHttps = (req, res, next) => {
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+  next();
+};
+app.use(enforceHttps);
+
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
 // Le reste de votre configuration et de vos routes...
 app.use(cookieParser());
 app.db = db;
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
 
 // Set up sessions
 app.use(
   session({
-    secret: "VERITARUST_DEV_KEY",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
@@ -384,7 +378,7 @@ app.use("/api", reviewMiddleware);
 app.use("/api", productMiddleware);
 app.use("/api", userprofileMiddleware);
 app.use("/api", invitationMiddleware);
-
+app.use("/api/reportreview", ReportResponsesRoutes);
 app.use("/api/data", countriesRoutes);
 app.use("/api/notification", notifactionRoutes);
 app.use("/api/twofactor", twoFactorRoutes);
@@ -402,32 +396,32 @@ app.use("/api/page", pageRoutes);
 app.use("/api/track-page", trackPageRoutes);
 app.use("/api/reportreview", reportreviewRoutes);
 
-/*app.get('/api/products/:product_name', (req, res) => { BrandRoutes LangRoutes VeritatrustUsers  LikesRoutes reportreviewRoutes
-  var sql = "SELECT * FROM products where product_name = ?";
-  connection.query(sql, req.params['product_name'], function (err, rows) {
-    if (err) {
-      console.log("error: ", err);
-      res.status(500).json({
-        error: 'Error retrieving data'
-      });
-      return;
-    }
-    res.json(rows);
-  });
-}); */
+app.use("/api/supportmessages", supportMessagesRoutes);
+app.use("/api/CashFlowRewardsRoutes", CashFlowRewardsRoutes);
+app.use("/api/VoucherGiftTransactions", VoucherGiftTransactionsRoutes);
+app.use("/api/VoucherGifts", VoucherGiftsRoutes);
+app.use("/api/Subscriptions", SubscriptionsRoutes);
+app.use("/api/userTransactions", userTransactionRoutes);
 
 // Définissez une route pour récupérer les données depuis la base de données
 
-app.get("/api/burak", (req, res) => {
-  db.sequelize
-    .query(
-      `UPDATE product_review SET status = 'published' where status = 'moderation'`,
-      { type: sequelize.QueryTypes.UPDATE }
-    )
-    .then((results) => {
-      console.log(results);
-      // res.json(results);
-    });
+app.get("/api/coinmarketcap", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=HMT&convert=USD",
+      {
+        headers: {
+          "X-CMC_PRO_API_KEY": "38e1c295-a5ef-489a-8581-37bb6d9e13ce",
+        },
+      }
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données :", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des données" });
+  }
 });
 
 app.get("/api/store-lang", (req, res) => {
@@ -453,7 +447,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Démarrez le serveur
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+server.listen(port, () => {
+  console.log("Serveur backend lancé sur le port " + port);
 });

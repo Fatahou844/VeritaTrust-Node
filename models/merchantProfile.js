@@ -124,6 +124,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     
+      CollectingReviews: {
+      type: DataTypes.ENUM('0','1'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+    DisplayingReviews: {
+      type: DataTypes.ENUM('0','1'),
+      defaultValue: '0',
+      allowNull: true
+    },
      EmailToReplay: {
       type: DataTypes.STRING,
       allowNull: true
@@ -132,6 +143,12 @@ module.exports = (sequelize, DataTypes) => {
       SenderName: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    
+       isClaimed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     },
       
   }, {

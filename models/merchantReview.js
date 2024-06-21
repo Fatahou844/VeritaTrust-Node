@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+        models.merchant_review.belongsTo(models.userprofile, { foreignKey: "user_id" });
+      models.merchant_review.belongsTo(models.merchant_profile, { foreignKey: "merchant_id" });
     }
   }
   merchant_review.init({

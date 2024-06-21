@@ -5,19 +5,11 @@ const product_reviewController = require('../controllers/product_review.controll
 // Retrieve all product_review
 router.get('/', product_reviewController.findAll);
 
-// Create a new product_review
-//router.post('/', product_reviewController.create);
-
-// Retrieve a single product_review with id
-router.get('/:id', product_reviewController.findById);
 
 router.get('/productreview/:id', product_reviewController.findProductReviewById);
 
-// Update a product_review with id
-//router.put('/:id', product_reviewController.update);
+router.get('/v2', product_reviewController.getproduct_reviews);
 
-// Delete a product_review with id
-router.delete('/:id', product_reviewController.delete);
 
 router.put(
   "/productreview/:id",

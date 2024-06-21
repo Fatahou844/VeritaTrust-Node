@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true,
         autoIncrement: true,
         unique: true
       },
@@ -56,6 +55,8 @@ module.exports = (sequelize, DataTypes) => {
         google_category_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+                    primaryKey: true,
+
             unique: true
         },
         category_parent_id: {

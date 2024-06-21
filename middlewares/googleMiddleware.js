@@ -1,4 +1,5 @@
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
+const BearerStrategy = require('passport-http-bearer').Strategy;
 const uuid = require("uuid");
 const Op = require("sequelize").Op;
 const config = require("../appConfig");
@@ -6,6 +7,10 @@ const db = require("../models/index");
 const userprofile = db.userprofile;
 const express = require('express');
 const session = require('express-session');
+const jwt = require("jsonwebtoken");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const cors = require('cors'); // Importez le module cors
 const passport = require('passport');
 const { newUserConfirmation } = require("../service/newUserConfirmation");
 
@@ -18,6 +23,16 @@ function storeReturnTo(req, res, next) {
   req.session.returnTo = req.originalUrl;
   next();
 }
+
+passport.use(new BearerStrategy(
+  function(token, done) {
+    userprofile.findOne({ token: token }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user, { scope: 'read' });
+    });
+  }
+));
 
 passport.use(
   new GoogleStrategy(
@@ -168,6 +183,41 @@ passport.use('google-part-reviewform',
   )
 );
 
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: "secret",
+};
+
+
+passport.use(
+  new JwtStrategy(jwtOptions, async function (jwt_payload, done) {
+    console.log("JWT payload received:", jwt_payload);
+    try {
+      const user = await userprofile.findOne({
+        where: { email: jwt_payload.sub },
+      });
+
+      if (user) {
+        console.log("User found:", user);
+        return done(null, user);
+      } else {
+        console.log("User not found for email:", jwt_payload.sub);
+        return done(null, false);
+      }
+    } catch (err) {
+      console.error("Error while finding user:", err);
+      return done(err, false);
+    }
+  })
+);
+
+const generateJWT = (req, res, next) => {
+  const token = jwt.sign({ sub: req.user.email, id: req.user.id }, jwtOptions.secretOrKey);
+  req.token = token;
+  next();
+};
+
+
 router.use((req, res, next) => {
   if (!req.session.originalUrl) {
     req.session.originalUrl = req.originalUrl || "/";
@@ -175,15 +225,45 @@ router.use((req, res, next) => {
   next();
 });
 
+router.use(cors());
 
-router.get('/', passport.authenticate('google', { scope: ['profile','email'] }));
 
-router.get(
+router.get('/', passport.authenticate('google', { scope: ['profile','email'] }),
+  (req, res) => {
+    // Renvoie une réponse avec un modèle d'iframe
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Google Sign-In</title>
+      </head>
+      <body>
+        <iframe src="https://accounts.google.com/gsi/button?click_listener=()%3D%3E%7Bn(%22Button%20Clicked%22%2C%7Bname%3A%22google%22%2Caction%3A%22Google%20authentication%22%7D)%7D&amp;logo_alignment=left&amp;size=large&amp;shape=circle&amp;text=continue_with&amp;theme=outline&amp;type=standard&amp;width=320&amp;client_id=YOUR_CLIENT_ID&amp;iframe_id=gsi_154909_815446&amp;as=3ikm9wxW%2FrHI8CGzQfyHeQ&amp;hl=fr_FR" id="gsi_154909_815446" title="Bouton &quot;Se connecter avec Google&quot;" style="display: block; position: relative; top: 0px; left: 0px; height: 44px; width: 340px; border: 0px; margin: -2px -10px;" tabindex="-1"></iframe>
+      </body>
+      </html>
+    `);
+  });
+
+/*router.get(
   "/callback",
   passport.authenticate("google", {
     successRedirect: "/account",
     failureRedirect: config["urlClients"].urlRedirect,
   })
+);
+*/
+
+router.get(
+  "/callback",
+  passport.authenticate("google", { failureRedirect: config["urlClients"].urlRedirect,}), (req,res)=>{
+         // Envoyer le JWT au client dans la réponse
+            const token = jwt.sign({ sub: req.user.email }, jwtOptions.secretOrKey);  
+            res.cookie('jwtToken', token);
+            res.redirect("https://api.veritatrust.com/account")
+            
+  }
 );
 
 // Route pour l'authentification avec la deuxième stratégie

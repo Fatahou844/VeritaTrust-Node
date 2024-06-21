@@ -42,7 +42,7 @@ const sendNotification = async (userid) => {
 
                         let apiKey = defaultClient.authentications["api-key"];
 
-                        apiKey.apiKey = "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";
+                        apiKey.apiKey = "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";
 
                    
 
@@ -399,12 +399,12 @@ ul.social li{
           	<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
           		<tr>
           			<td class="logo client" style="text-align: left;">
-						<a href="https://api.veritatrust.com/user-dashboard/${userid}">
+						<a href="https://api.veritatrust.com/account">
 							<img src="https://store.fatasoft-consulting.com/wp-content/uploads/2022/07/cropped-icon-1.png" alt="${domaine_name}">
 						</a>
 			          </td>
           			<td class="logo veritatrust" style="text-align: right;">
-						<a href="https://api.veritatrust.com/user-dashboard/${userid}">
+						<a href="https://api.veritatrust.com/account>
 							<img src="http://dev.veritatrust.com/assets/img/logo-veritatrust-w.png" alt="VeritaTrust">
 						</a>
 			          </td>
@@ -419,7 +419,7 @@ ul.social li{
             		<td style="padding: 0 2.5em; text-align: left;">
             			<div class="text">
 							<p>Dear ${firstname} ${lastname},<br>
-							Thank you for your review on <a href="https://api.veritatrust.com/user-dashboard/${userid}">${domaine_name}</a>. It's successfully registered.</p>
+							Thank you for your review on <a href="https://api.veritatrust.com/account">${domaine_name}</a>. It's successfully registered.</p>
 							
             			</div>
             		</td>
@@ -432,13 +432,13 @@ ul.social li{
 		      	<table class="bg_white" role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 					<td valign="middle" style="text-align:center; padding: 0 2.5em;">
-						<span><a href="https://api.veritatrust.com/user-dashboard/${userid}" class="btn btn-primary">Check your reward!</a></span>
+						<span><a href="https://api.veritatrust.com/account" class="btn btn-primary">Check your reward!</a></span>
 						</td>
 					</tr>
 					<tr>
 						<td style="padding: 2.5em; text-align: left;">
 							<div class="">
-								<p>Best regards,<br><a href="https://api.veritatrust.com/user-dashboard/${userid}">${domaine_name}</a> team</p>
+								<p>Best regards,<br><a href="https://api.veritatrust.com/account">${domaine_name}</a> team</p>
 							</div>
 						</td>
 					</tr>

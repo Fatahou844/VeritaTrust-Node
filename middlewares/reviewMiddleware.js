@@ -200,6 +200,8 @@ FROM
         type: QueryTypes.SELECT
       }).then(results => {
         console.log(results);
+        
+        
         res.json(results);
       });
 });
@@ -232,6 +234,125 @@ router.get('/productsearch', (req, res) => {
 
 });
 
+router.get('/measmerchant', (req, res) => {
+  const query = req.query.merchant_id;
+  let sql = `SELECT
+    m.id AS merchantId,
+    m.website AS merchantName,
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'reviewType', 'merchant_review',
+            'reviewId', mr.id,
+            'reviewText', mr.content,
+            'reviewTitle', mr.title,
+            'reviewRating', mr.rating,
+            'source', mr.source,
+            'order_id', mr.order_id,
+            'isAnswered', mr.isAnswered,
+            'addShowCase', mr.addShowCase,
+            'favorite', mr.favorite,
+            'createdAt', mr.createdAt,
+            'user', JSON_OBJECT(
+                'userId', mu.id,
+                'userName', mu.nickname
+            ),
+            'merchant', JSON_OBJECT(
+                'merchantId', m.id,
+                'merchantName', m.website
+            ),
+            'responses', (
+                SELECT
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'responseId', rr.id,
+                            'responseText', rr.content,
+                            'responseType', rr.ReviewType,
+                            'createdAt', rr.createdAt
+                        )
+                    )
+                FROM
+                    ReviewResponse rr
+                WHERE
+                    rr.ReviewId = mr.id AND rr.ReviewType = 'merchant_review'
+            )
+        )
+    ) AS merchantReviews,
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'reviewType', 'product_review',
+            'reviewId', pr.id,
+            'reviewText', pr.content,
+            'reviewTitle', pr.title,
+            'reviewRating', pr.rating,
+             'source', pr.source,
+            'order_id', pr.order_id,
+            'isAnswered', pr.isAnswered,
+            'addShowCase', pr.addShowCase,
+            'favorite', pr.favorite,
+            'createdAt', pr.createdAt,
+            'user', JSON_OBJECT(
+                'userId', pu.id,
+                'userName', pu.nickname
+            ),
+            'merchant', JSON_OBJECT(
+                'merchantId', m.id,
+                'merchantName', m.website
+            ),
+            'responses', (
+                SELECT
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'responseId', rr.id,
+                            'responseText', rr.content,
+                            'responseType', rr.ReviewType,
+                            'createdAt', rr.createdAt
+                        )
+                    )
+                FROM
+                    ReviewResponse rr
+                WHERE
+                    rr.ReviewId = pr.id AND rr.ReviewType = 'product_review'
+            )
+        )
+    ) AS productReviews
+FROM
+    merchant_profile m
+LEFT JOIN
+    merchant_review mr ON m.id = mr.merchant_id
+LEFT JOIN
+    userprofile mu ON mr.user_id = mu.id
+LEFT JOIN
+    product_review pr ON m.id = pr.merchant_id AND mr.user_id = pr.user_id
+LEFT JOIN
+    userprofile pu ON pr.user_id = pu.id
+WHERE
+    m.id = ${query}`;
+  db.sequelize.query(sql, {
+    type: QueryTypes.SELECT
+  }).then(results => {
+    console.log(results);
+      // Parcourir chaque élément du tableau
+        for (let i = 0; i < results.length; i++) {
+          // Convertir les chaînes JSON en objets JSON
+          results[i].merchantReviews = JSON.parse(results[i].merchantReviews);
+          results[i].productReviews = JSON.parse(results[i].productReviews);
+        
+          // Créer un nouvel objet avec les valeurs correctes
+          results[i] = {
+            merchantId: results[i].merchantId,
+            merchantName: results[i].merchantName,
+            reviews: {
+              merchantReviews: results[i].merchantReviews,
+              productReviews: results[i].productReviews
+            }
+          };
+        }
+    res.json(results);
+  });
+
+});
+
+
 router.get('/users/resultsfiltered', (req, res) => {
   const query = req.query.q;
   let sql = `
@@ -260,7 +381,7 @@ router.get('/organic-merchant-review/:website', function (req, res) {
 
   let params = [];
   if (req.query.stars) {
-    sql = `SELECT merchant_review.id, merchant_review.rating, merchant_review.lang_id, merchant_review.title, merchant_review.content, merchant_review.order_id,   merchant_review.job_id, merchant_review.merchant_id, merchant_review.createdAt, CAST(merchant_review.experience_date AS DATE) as experienceDate, userprofile.id as userid, 
+    sql = `SELECT merchant_review.id, merchant_review.rating, merchant_review.lang_id, merchant_review.title, merchant_review.content, merchant_review.order_id,   merchant_review.job_id, merchant_review.isAnswered, merchant_review.merchant_id, merchant_review.createdAt, CAST(merchant_review.experience_date AS DATE) as experienceDate, userprofile.id as userid, 
         userprofile.first_name, userprofile.last_name, userprofile.level_account, userprofile.profile_url ,(SELECT COUNT(*) FROM merchant_review WHERE merchant_review.user_id = userprofile.id) as Nbre, (SELECT FORMAT(SUM(merchant_review.rating) / COUNT(*), 1)  FROM merchant_review ) as RM FROM merchant_review INNER JOIN userprofile ON merchant_review.user_id = userprofile.id
 
         WHERE merchant_review.merchant_id = (SELECT u.id FROM merchant_profile as u WHERE u.website = '${req.params["website"]}') AND merchant_review.status = 'published'`;

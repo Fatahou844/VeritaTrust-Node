@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         
       },
       notification_type: {
-        type: DataTypes.ENUM('following', 'emailing'),
+        type: DataTypes.ENUM('following', 'emailing','support'),
         allowNull: false,
       },
       

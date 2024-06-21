@@ -1,0 +1,1162 @@
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-16 14:12:12
+    [email] => fatahouahamadi88+test90@gmail.com
+    [firstname] => fatah
+    [lastname] => aissata
+    [orderId] => 47
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => Hummingbird - Vector graphics
+                    [name2] => 
+                    [productId] => 14
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-18 02:04:16
+    [email] => smail.maakik+test5@gmail.com
+    [firstname] => Nico
+    [lastname] => Fatah
+    [orderId] => 48
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => Hummingbird printed sweater (Size: S)
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-18 02:26:35
+    [email] => sm@e-works.fr
+    [firstname] => nico
+    [lastname] => fatah
+    [orderId] => 49
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => Hummingbird printed sweater (Size: S)
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-18 03:58:33
+    [email] => fatahouahamadi88+testpresta1@gmail.com
+    [firstname] => fatahou
+    [lastname] => Dallah
+    [orderId] => 50
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => The best is yet to come' Framed poster (Dimension: 40x60cm)
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-18 04:07:24
+    [email] => fatahouahamadi88+testpresta1@gmail.com
+    [firstname] => fatahou
+    [lastname] => Dallah
+    [orderId] => 51
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 6
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-18 04:08:42
+    [email] => fatahouahamadi88+testpresta1@gmail.com
+    [firstname] => fatahou
+    [lastname] => Dallah
+    [orderId] => 52
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 9
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-20 15:25:06
+    [email] => fatahouahamadi88+aissata1998@gmail.com
+    [firstname] => fatah
+    [lastname] => aissata
+    [orderId] => 53
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-20 15:30:29
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 54
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-20 15:48:30
+    [email] => fatahouahamadi88+aissata2@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 55
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-21 05:19:39
+    [email] => fatahouahamadi88+aissata2@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 56
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-21 05:23:42
+    [email] => fatahouahamadi88+test1001@gmail.com
+    [firstname] => fatah
+    [lastname] => nico
+    [orderId] => 57
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 9
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-21 05:29:33
+    [email] => fatahouahamadi88+test1001@gmail.com
+    [firstname] => fatah
+    [lastname] => nico
+    [orderId] => 58
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-21 06:35:01
+    [email] => fatahouahamadi88+test1001@gmail.com
+    [firstname] => fatah
+    [lastname] => nico
+    [orderId] => 59
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-21 06:43:42
+    [email] => fatahouahamadi88+test1001@gmail.com
+    [firstname] => fatah
+    [lastname] => nico
+    [orderId] => 60
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-21 06:54:01
+    [email] => fatahouahamadi88+test1001@gmail.com
+    [firstname] => fatah
+    [lastname] => nico
+    [orderId] => 61
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 11
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-22 03:55:36
+    [email] => fatahouahamadi88+test1001@gmail.com
+    [firstname] => fatah
+    [lastname] => nico
+    [orderId] => 62
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-24 08:18:52
+    [email] => louisfatah23@gmail.com
+    [firstname] => Fatahou 
+    [lastname] => Ahamadi 
+    [orderId] => 63
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-24 08:25:53
+    [email] => fatahouahamadi88+optim2@gmail.com
+    [firstname] => fatah
+    [lastname] => testoptim
+    [orderId] => 64
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-24 08:33:33
+    [email] => fatahouahamadi88+optim2@gmail.com
+    [firstname] => fatah
+    [lastname] => testoptim
+    [orderId] => 65
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-24 09:27:44
+    [email] => fatahouahamadi88+optimize21@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 66
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-24 09:57:12
+    [email] => fatahouahamadi88+optimize21@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 67
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-28 07:14:37
+    [email] => brahim.bbh+test02@gmail.com
+    [firstname] => Brahim
+    [lastname] => Ben
+    [orderId] => 68
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-28 07:35:09
+    [email] => fatahouahamadi88+testlundi@gmail.com
+    [firstname] => fatah
+    [lastname] => lundi 
+    [orderId] => 69
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-08-29 09:28:24
+    [email] => smail.maakik+test8@gmail.com
+    [firstname] => Firstname
+    [lastname] => Lastname
+    [orderId] => 70
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-01 07:18:30
+    [email] => brahim.bbh+test05@gmail.com
+    [firstname] => Brahim
+    [lastname] => Ben Tour
+    [orderId] => 71
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 4
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-04 08:30:13
+    [email] => fatahouahamadi88+testlundi@gmail.com
+    [firstname] => fatah
+    [lastname] => lundi 
+    [orderId] => 72
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 6
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-04 14:19:12
+    [email] => fatahouahamadi88+testlundi@gmail.com
+    [firstname] => fatah
+    [lastname] => lundi 
+    [orderId] => 73
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-07 09:29:11
+    [email] => brahim.bbh+test08@gmail.com
+    [firstname] => Brahim 
+    [lastname] => Test sept
+    [orderId] => 74
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 8
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-18 09:49:15
+    [email] => smail.maakik+test10@gmail.com
+    [firstname] => Samuel
+    [lastname] => Umtiti
+    [orderId] => 75
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-18 10:07:30
+    [email] => smail.maakik+test11@gmail.com
+    [firstname] => Vincent
+    [lastname] => Candela
+    [orderId] => 76
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-18 11:30:06
+    [email] => fresca_pasta@yahoo.com
+    [firstname] => C
+    [lastname] => C
+    [orderId] => 77
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-18 13:05:30
+    [email] => ccccld82@gmail.com
+    [firstname] => Cla
+    [lastname] => Cla
+    [orderId] => 78
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-19 05:49:30
+    [email] => brahim.bbh+test205@gmail.com
+    [firstname] => BEN
+    [lastname] => BOU
+    [orderId] => 79
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-22 03:42:47
+    [email] => fatahouahamadi88+prestatest@gmail.com
+    [firstname] => fatahou
+    [lastname] => presta
+    [orderId] => 80
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 4
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-22 06:29:31
+    [email] => fatahouahamadi88+prestatest@gmail.com
+    [firstname] => fatahou
+    [lastname] => presta
+    [orderId] => 81
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-22 06:36:19
+    [email] => fatahouahamadi88+prestamr@gmail.com
+    [firstname] => Prestashobname
+    [lastname] => mr
+    [orderId] => 82
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-25 02:53:04
+    [email] => beppeniandra@gmail.com
+    [firstname] => Giuseppe
+    [lastname] => ASSOLARI
+    [orderId] => 83
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 1
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-25 02:53:56
+    [email] => beppeniandra@gmail.com
+    [firstname] => Giuseppe
+    [lastname] => ASSOLARI
+    [orderId] => 84
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 1
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-25 03:44:55
+    [email] => fatahouahamadi88+prestamr@gmail.com
+    [firstname] => Prestashobname
+    [lastname] => mr
+    [orderId] => 85
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+            [1] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-09-25 03:48:41
+    [email] => fatahouahamadi88+prestamr@gmail.com
+    [firstname] => Prestashobname
+    [lastname] => mr
+    [orderId] => 86
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-10-17 02:26:47
+    [email] => fatahouahamadi88+test1998@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahmed
+    [orderId] => 87
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-12-29 02:58:10
+    [email] => tiwasavage@trust4finance.com
+    [firstname] => tiwa
+    [lastname] => savage
+    [orderId] => 88
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 7
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2023-12-29 03:02:11
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 89
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 05:04:56
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 90
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 05:06:54
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 91
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 4
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 05:41:07
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 92
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 05:56:46
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 93
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 1
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 06:39:24
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 94
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 07:06:03
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 95
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-03 07:16:41
+    [email] => fatahouahamadi88+aissata@gmail.com
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 96
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 4
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-01-28 07:45:20
+    [email] => smail.maakik+test13@gmail.com
+    [firstname] => Smail
+    [lastname] => Maakik
+    [orderId] => 97
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 3
+                    [image] => 
+                )
+
+        )
+
+)
+
+actionValidateOrder hook triggered: Array
+(
+    [order_date] => 2024-03-08 12:02:28
+    [email] => aissata@amazon.fr
+    [firstname] => fatahou
+    [lastname] => ahamadi
+    [orderId] => 7
+    [source] => Prestashop
+    [website] => www.presta.veritatrust.com
+    [products] => Array
+        (
+            [0] => Array
+                (
+                    [url] => 
+                    [name] => 
+                    [productId] => 2
+                    [image] => 
+                )
+
+        )
+
+)
+

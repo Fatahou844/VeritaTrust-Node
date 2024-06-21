@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+          models.product_review.belongsTo(models.userprofile, { foreignKey: "user_id" });
+      models.product_review.belongsTo(models.merchant_profile, { foreignKey: "merchant_id" });
+      models.product_review.belongsTo(models.products, { foreignKey: "product_id" });
     }
   }
   product_review.init({
@@ -46,6 +49,24 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: '0',
       allowNull: true
     },
+     isAnswered: {
+      type: DataTypes.ENUM('0', '1'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+    addShowCase: {
+      type: DataTypes.ENUM('0', '1'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
+    favorite: {
+      type: DataTypes.ENUM('0', '1'),
+      defaultValue: '0',
+      allowNull: true
+    },
+    
     job_id: {
       type: DataTypes.STRING,
       allowNull: true

@@ -9,7 +9,8 @@ const {
   getMerchantProfileSearch,
   createmerchantprofile,
   updateMerchant_profile,
-  getMerchants
+  getMerchants,
+  updateMerchant_profileStatus
 } = require("../controllers/merchant_profile.controller");
 
 // // Retrieve all merchant_profile
@@ -31,10 +32,12 @@ router.get("/findmerchant/:merchantId", getMerchantByMerchantId);
 router.put("/:website", updateNbReviewsRMMerchantProfile);
 
 router.put("/update/:id", updateMerchant_profile);
+router.put("/update-status/:website", updateMerchant_profileStatus);
+
 
 
 // // Update a merchant_profile with id
-// router.put("/:id", merchant_profileController.update);
+// router.put("/:id", merchant_profileController.update); updateMerchant_profileStatus
 
 // // Delete a merchant_profile with id
 // router.delete("/:id", merchant_profileController.delete);

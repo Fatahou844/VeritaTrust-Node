@@ -2,12 +2,21 @@
 
 const { response } = require("express");
 const Op = require("sequelize").Op;
-const uuid = require('uuid');
+const uuid = require("uuid");
 
 //const merchantuser = require('../models/merchantReview');
 const bcrypt = require("bcrypt");
 const db = require("../models/index");
 const merchantuser = db.merchantuser;
+
+const { body, validationResult } = require("express-validator");
+
+const validateData = [
+  body("first_name").isString().withMessage("first_name must be string"),
+  body("last_name").isString().withMessage("last_name must be string"),
+  body("email").isString().withMessage("email must be string"),
+];
+
 exports.findAll = function (req, res) {
   merchantuser.findAll(
     req.query.page,
@@ -37,41 +46,33 @@ exports.findAll = function (req, res) {
   );
 };
 
-/*exports.create = function(req, res) {
-    const new_merchantuser = new merchantuser(req.body);
-    //handles null error
-    if(req.body.constructor === Object && Object.keys(req.body).length === 0){
-        res.status(400).send({ error:true, message: 'Please provide all required field' });
-    }else{
-        merchantuser.create(new_merchantuser, function(err, merchantuser) {
-          if (err)
-          res.send(err);
-          res.json({error:false,message:"merchantuser added successfully!",data:merchantuser});
-        });
+exports.createuser = [
+  ...validateData,
+  function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-};
-*/
-
-exports.createuser = function (req, res) {
-  //create user
-  merchantuser
-    .create({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
-      password: "password",
-    })
-    .then((user) => {
-      //if user created, send success
-      if (user) {
-        res.status(200).send("User created successfully");
-      }
-      //if user not created, send error
-      else {
-        res.status(400).send("User not created");
-      }
-    });
-};
+    //create user
+    merchantuser
+      .create({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: "password",
+      })
+      .then((user) => {
+        //if user created, send success
+        if (user) {
+          res.status(200).send("User created successfully");
+        }
+        //if user not created, send error
+        else {
+          res.status(400).send("User not created");
+        }
+      });
+  },
+];
 exports.getUsers = function (req, res) {
   merchantuser.findAll().then((user) => {
     if (user) {
@@ -102,7 +103,7 @@ exports.getUsersByFilterName = function (req, res) {
     });
 };
 
- /*exports.finduserOrCreate = function (req, res) {
+/*exports.finduserOrCreate = function (req, res) {
   merchantuser
     .findOrCreate({
       where: {
@@ -127,7 +128,17 @@ exports.getUsersByFilterName = function (req, res) {
 
 exports.findUserOrCreate = async function (req, res, next) {
   try {
-    const { first_name, last_name, email, password, corporate_name, website, country, phoneNumber, jobTitle } = req.body;
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      corporate_name,
+      website,
+      country,
+      phoneNumber,
+      jobTitle,
+    } = req.body;
 
     const existingUser = await merchantuser.findOne({ where: { email } });
     if (existingUser) {
@@ -164,7 +175,6 @@ exports.findUserOrCreate = async function (req, res, next) {
     next(err);
   }
 };
-
 
 exports.getUserByEmail = async function (req, res) {
   var data = await merchantuser.findOne({

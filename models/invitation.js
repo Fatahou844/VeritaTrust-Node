@@ -28,11 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     Delivery_status: {
-      type: DataTypes.ENUM('Delivered', 'Not delivered', 'First_open', 'Cliqued'),
-      allowNull: true
+      type: DataTypes.ENUM('Delivered', 'Not delivered', 'First_open', 'Cliqued','In progress'),
+      allowNull: true,
+      defaultValue: 'In progress',
     },
     invitation_type: {
-      type: DataTypes.ENUM('merchant_review', 'product_review', 'hybrid'),
+      type: DataTypes.ENUM('merchant_review', 'product_review', 'hybrid','reminder'),
       allowNull: true
     },
     Sent_at: {
@@ -66,6 +67,9 @@ module.exports = (sequelize, DataTypes) => {
     has_sent: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    source: {type: DataTypes.ENUM('Woocommerce', 'Prestashop', 'Shopify','Magento','Others'),
+              defaultValue: 'Others',
     }
   }, {
     sequelize,

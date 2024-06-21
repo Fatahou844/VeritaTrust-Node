@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     reportUserId: DataTypes.INTEGER,
     reportSource: DataTypes.ENUM('merchant','user'),
     motif: DataTypes.ENUM('duplicate','spam','profanity','other'),
+    status: DataTypes.ENUM('0','1','2'),
     reviewType: DataTypes.ENUM('merchant_review','product_review'),
     reviewId: DataTypes.INTEGER,
     content: DataTypes.STRING(2048)

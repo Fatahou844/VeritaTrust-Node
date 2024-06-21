@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     subject: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     message: {
       type: DataTypes.STRING(2048),
@@ -31,7 +31,23 @@ module.exports = (sequelize, DataTypes) => {
    image: {
       type: DataTypes.STRING(1024),
       allowNull: true
-    }
+    },
+      status: {
+      type: DataTypes.ENUM('0', '1'),
+      allowNull: false
+    },
+    reportReviewId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    isWritingBy: {
+      type: DataTypes.ENUM('user', 'support'),
+      allowNull: true
+    },
     
   }, {
     sequelize,

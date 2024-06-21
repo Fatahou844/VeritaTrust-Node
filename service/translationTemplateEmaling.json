@@ -5,14 +5,17 @@
       "messages": {
         "Dear": "Cher",
         "msg1": "Vous recevez cet e-mail car vous avez récemment effectué un achat sur",
-        "msg2": "Tous les avis, qu'ils soient positifs ou négatifs, seront publiés instantanément.",
+        "msg2": "Tous les avis, qu'ils soient positifs ou négatifs, seront publiés.",
         "msg3": "Merci d'avance pour votre aide.",
         "msg4": "Cordialement,",
         "msg5": "Cet e-mail est envoyé automatiquement. Il est possible que vous n'ayez pas encore reçu votre produit ou service. Si c'est le cas, veuillez attendre de recevoir votre commande pour donner votre avis.",
         "msg6": "Vous ne souhaitez plus recevoir ces e-mails ? Vous pouvez",
         "msg7": "Vous désabonner ici",
         "howWouldRate": "Comment évalueriez-vous",
-        "shareExperience": "Partagez votre expérience"
+        "shareExperience": "Partagez votre expérience",
+        "msgRappel1":"Vous recevez cet e-mail car d'autres internautes attentent votre avis sur votre expérience avec",
+        "msgRappel2":"La communauté VeritaTrust vous remercie d'avance."
+
       }
     },
     "22": {
@@ -27,7 +30,9 @@
         "msg6": "No longer wish to receive these emails? You can",
         "msg7": "Unsubscribe here",
         "howWouldRate":"How would you rate",
-        "shareExperience":"Share your experience"
+        "shareExperience":"Share your experience",
+        "msgRappel1":"You are receiving this e-mail because other Internet users are waiting for your opinion on your experience with",
+        "msgRappel2":"The VeritaTrust community thanks you in advance."
       }
     },
     "47": {
@@ -42,7 +47,9 @@
           "msg6": "Non desideri più ricevere queste email? Puoi",
           "msg7": "Cancellarti qui",
           "howWouldRate": "Come valuteresti",
-          "shareExperience": "Condividi la tua esperienza"
+          "shareExperience": "Condividi la tua esperienza",
+          "msgRappel1":"State ricevendo questa e-mail perché altri utenti di Internet stanno aspettando la vostra opinione sulla vostra esperienza con",
+        "msgRappel2":"La comunità di VeritaTrust vi ringrazia in anticipo."
       }
     }
   

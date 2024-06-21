@@ -7,6 +7,9 @@ const userprofile = db.userprofile;
 const express = require('express');
 const passport = require('passport');
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 const { sendConfirmation } = require("../service/sendConfirmation");
 const { newUserConfirmation } = require("../service/newUserConfirmation");
 const { resetPasswordNotif } = require("../service/resetPasswordNotif");
@@ -134,6 +137,40 @@ passport.use(
     }
   )
 );
+
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: "secret",
+};
+
+
+passport.use(
+  new JwtStrategy(jwtOptions, async function (jwt_payload, done) {
+    console.log("JWT payload received:", jwt_payload);
+    try {
+      const user = await userprofile.findOne({
+        where: { email: jwt_payload.sub },
+      });
+
+      if (user) {
+        console.log("User found:", user);
+        return done(null, user);
+      } else {
+        console.log("User not found for email:", jwt_payload.sub);
+        return done(null, false);
+      }
+    } catch (err) {
+      console.error("Error while finding user:", err);
+      return done(err, false);
+    }
+  })
+);
+
+const generateJWT = (req, res, next) => {
+  const token = jwt.sign({ sub: req.user.email }, jwtOptions.secretOrKey);
+  req.token = token;
+  next();
+};
 
 
 router.post("/signup", async (req, res, next) => {
@@ -321,7 +358,9 @@ router.post("/login", function(req, res, next) {
       if (err) {
         return res.status(500).json({ error: err.message }); // Gérer les erreurs de connexion
       }
-      return res.status(200).json({ success: true }); // Connexion réussie
+      const token = jwt.sign({ sub: req.user.email }, jwtOptions.secretOrKey);  
+      res.cookie('jwtToken', token);
+      return res.status(200).json({ token: token }); // Connexion réussie
     });
   })(req, res, next);
 });
@@ -338,6 +377,8 @@ router.post("/support-login", function (req, res, next) {
       if (err) {
         return res.status(500).json({ error: err.message }); // Gérer les erreurs de connexion
       }
+      const token = jwt.sign({ sub: req.user.email }, jwtOptions.secretOrKey);  
+      res.cookie('jwtToken', token);
       return res.status(200).json({ success: true }); // Connexion réussie
     });
   })(req, res, next);
@@ -365,6 +406,8 @@ router.post("/auto-login", function(req, res, next) {
 router.get("/logout", (req, res) => {
   // req.logout(); // clears the login session
   res.clearCookie("connect.sid"); // This logs out the user.
+  res.clearCookie("jwtToken");// This logs out the user.
+
   //res.redirect("/");
   //req.logout(); // clears the login session
   res.redirect("/");
@@ -422,7 +465,8 @@ router.post("/changepassword", async (req, res, next) => {
     }
         
     });
-    res.clearCookie("connect.sid"); // This logs out the user.
+    res.clearCookie("connect.sid");
+    res.clearCookie("jwtToken");// This logs out the user.
     res.send("email-confirmation-update");
 
   } catch (err) {

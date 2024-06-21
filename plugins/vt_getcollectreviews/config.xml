@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>vt_getcollectreviews</name>
+    <displayName><![CDATA[Module Veritatrust]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[Module Veritatrust to collect reviews ]]></description>
+    <author><![CDATA[Veritatrust]]></author>
+    <tab><![CDATA[front_office_features]]></tab>
+	<confirmUninstall><![CDATA[Êtes-vous sûr de vouloir désinstaller ce module ?]]></confirmUninstall>
+    <is_configurable>0</is_configurable>
+    <need_instance>0</need_instance>
+</module>

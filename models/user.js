@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     nickname: {
       type: DataTypes.STRING,
@@ -78,6 +78,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    
+    accessToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    
     token: {
         type: DataTypes.STRING,
         allowNull: true,

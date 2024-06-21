@@ -36,7 +36,7 @@ const validationNotification = async (userid, hash_transaction, reviewtype, revi
 
                         let apiKey = defaultClient.authentications["api-key"];
 
-                        apiKey.apiKey = "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";
+                        apiKey.apiKey = "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";
 
                    
 
