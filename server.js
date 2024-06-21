@@ -113,13 +113,9 @@ const productMiddleware = require("./middlewares/productMiddleware");
 const userprofileMiddleware = require("./middlewares/userprofileMiddleware");
 const invitationMiddleware = require("./middlewares/invitationMiddleware");
 
-var FileStore = require("session-file-store")(session);
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
-var fileStoreOptions = {};
-
-//require('./service/sendProductInvitations').emailProductInvitation;  //nodeCronStateMerchantProduct.js
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();

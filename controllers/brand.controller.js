@@ -1,7 +1,3 @@
-"use strict";
-
-const { response } = require("express");
-
 const db = require("../models/index");
 const { body, validationResult, param } = require("express-validator");
 
