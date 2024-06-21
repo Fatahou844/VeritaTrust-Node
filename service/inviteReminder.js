@@ -1,6 +1,8 @@
 const sequelize = require("sequelize");
 const db = require("../models/index");
 const translationTemplateEmaling = require("./translationTemplateEmaling.json");
+const dotenv = require("dotenv");
+dotenv.config();
 const inviteReminder = async (Transaction_id) => {
   try {
     const sql =
@@ -54,8 +56,7 @@ const inviteReminder = async (Transaction_id) => {
 
                   let apiKey = defaultClient.authentications["api-key"];
 
-                  apiKey.apiKey =
-                    "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";
+                  apiKey.apiKey = process.env.BREVO_API_KEY;
 
                   // ADD CONTACT IN LIST
 
@@ -509,7 +510,8 @@ ul.social li{
                   //"<html><body><h1>This is my updated transactional email</h1></body></html>";
 
                   smtpTemplate.subject =
-                    "Reminders: Concerning your order " + userMap[element.id].domaine_name;
+                    "Reminders: Concerning your order " +
+                    userMap[element.id].domaine_name;
 
                   smtpTemplate.replyTo =
                     userMap[element.id].customer_merchant_email;
@@ -544,7 +546,7 @@ ul.social li{
                         headers: {
                           "X-Mailin-custom":
                             "api-key:" +
-                            "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" +
+                            process.env.BREVO_API_KEY +
                             "|content-type:application/json|accept:application/json",
                         },
                       };
@@ -554,11 +556,11 @@ ul.social li{
                           console.log(
                             "API called successfully. Returned data: " + data
                           );
-                            const currentDate = new Date();
-                              const formattedCreatedAt = currentDate.toISOString(); // Format ISO pour DATETIME
-                              const formattedUpdatedAt = currentDate.toISOString();
-                            const sqlInvi = `INSERT INTO invitations (Reference_number, customer_firstname, customer_lastname, Delivery_status,invitation_type,Sent_at ,Recipient, profile_id, invitation_url,invitation_url_complete, domaine_name,message_id, has_sent, createdAt, updatedAt, source) VALUES 
-                                ('${element.Reference_number}','${element.customer_firstname}','${element.customer_lastname}','Not delivered','reminder','${formattedCreatedAt}','${element.Recipient}','${element.profile_id}','${element.invitation_url}','${element.invitation_url_complete}','${element.domaine_name}','${data['messageId']}',1,'${formattedCreatedAt}', '${formattedUpdatedAt}','${element.source}')`;
+                          const currentDate = new Date();
+                          const formattedCreatedAt = currentDate.toISOString(); // Format ISO pour DATETIME
+                          const formattedUpdatedAt = currentDate.toISOString();
+                          const sqlInvi = `INSERT INTO invitations (Reference_number, customer_firstname, customer_lastname, Delivery_status,invitation_type,Sent_at ,Recipient, profile_id, invitation_url,invitation_url_complete, domaine_name,message_id, has_sent, createdAt, updatedAt, source) VALUES 
+                                ('${element.Reference_number}','${element.customer_firstname}','${element.customer_lastname}','Not delivered','reminder','${formattedCreatedAt}','${element.Recipient}','${element.profile_id}','${element.invitation_url}','${element.invitation_url_complete}','${element.domaine_name}','${data["messageId"]}',1,'${formattedCreatedAt}', '${formattedUpdatedAt}','${element.source}')`;
 
                           db.sequelize
                             .query(sqlInvi, {
@@ -572,7 +574,6 @@ ul.social li{
                           console.error(error);
                         }
                       );
-              
                     },
 
                     function (error) {

@@ -2,16 +2,15 @@ const sequelize = require("sequelize");
 const db = require("../models/index");
 const nodeCron = require("node-cron");
 const translationTemplateEmaling = require("./translationTemplateEmaling.json");
-const axios = require('axios');
+const axios = require("axios");
 
 const sendTransactionalEmail = async (userMap, element, language) => {
   try {
-      
     const SibApiV3Sdk = require("sib-api-v3-sdk");
     let defaultClient = SibApiV3Sdk.ApiClient.instance;
     let apiKey = defaultClient.authentications["api-key"];
-    apiKey.apiKey = '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'; // Utilisez une variable d'environnement pour l'API key
-    
+    apiKey.apiKey = process.env.BREVO_API_KEY; // Utilisez une variable d'environnement pour l'API key
+
     const templateId = 2;
     const smtpTemplate = new SibApiV3Sdk.UpdateSmtpTemplate();
 
@@ -393,7 +392,7 @@ ul.social li{
   </center>
 </body>
 </html>`;
-    
+
     smtpTemplate.subject = `Reminder: Concerning your order ${userMap.domaine_name}`;
     smtpTemplate.replyTo = userMap.customer_merchant_email;
     smtpTemplate.toField = element.Recipient;
@@ -401,13 +400,11 @@ ul.social li{
 
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
     await apiInstance.updateSmtpTemplate(templateId, smtpTemplate);
-    
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // Ajoute un délai de 3 secondes
 
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // Ajoute un délai de 3 secondes
 
     // Préparer l'email à envoyer
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
-
       to: [{ email: element.Recipient, name: element.customer_firstname }],
       templateId: 2, // Id du template
       params: {
@@ -416,15 +413,15 @@ ul.social li{
       },
       replyTo: { email: userMap.customer_merchant_email },
       headers: {
-        "X-Mailin-custom": `api-key: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| content-type:application/json|accept:application/json`,
+        "X-Mailin-custom": `${process.env.BREVO_API_KEY}| content-type:application/json|accept:application/json`,
       },
     });
 
     const data = {
-       sender: {
-              name: userMap.domaine_name,
-              email: "no_reply@veritatrust.com",
-       },
+      sender: {
+        name: userMap.domaine_name,
+        email: "no_reply@veritatrust.com",
+      },
       to: [{ email: element.Recipient, name: element.customer_firstname }],
       templateId: 2, // Id du template
       params: {
@@ -433,35 +430,42 @@ ul.social li{
       },
       replyTo: { email: userMap.customer_merchant_email },
       headers: {
-        "X-Mailin-custom": `api-key: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| content-type:application/json|accept:application/json`,
+        "X-Mailin-custom": `${process.env.BREVO_API_KEY}| content-type:application/json|accept:application/json`,
       },
-        
     };
 
-  //  const data = await new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(sendSmtpEmail);
-  
-     try {
-        const response = await axios.post('https://api.brevo.com/v3/smtp/email', data, {
-            headers: {
-                'accept': 'application/json',
-                'content-type': 'application/json',
-                'api-key': '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' // Remplacez 'YOUR_API_KEY_HERE' par votre clé API réelle
-            }
-        });
-        console.log('Email sent successfully:', response.data);
-         console.log("Email sent successfully. Returned data: ", data);
+    //  const data = await new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(sendSmtpEmail);
 
-    const sqlInsert = `
+    try {
+      const response = await axios.post(
+        "https://api.brevo.com/v3/smtp/email",
+        data,
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            "api-key":
+              "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", // Remplacez 'YOUR_API_KEY_HERE' par votre clé API réelle
+          },
+        }
+      );
+      console.log("Email sent successfully:", response.data);
+      console.log("Email sent successfully. Returned data: ", data);
+
+      const sqlInsert = `
       INSERT INTO invitations (Reference_number, customer_firstname, customer_lastname, invitation_type, Sent_at, Recipient, profile_id, invitation_url, invitation_url_complete, message_id, has_sent, source)
       VALUES ('R${element.Reference_number}', '${element.customer_firstname}', '${element.customer_lastname}', 'reminder', CURRENT_TIMESTAMP, '${element.Recipient}', '${element.profile_id}', '${element.invitation_url}', '${element.invitation_url_complete}', '${response.data.messageId}', 1, '${element.source}')
     `;
-    await db.sequelize.query(sqlInsert, { type: sequelize.QueryTypes.INSERT });
-    console.log("Database updated successfully.");
+      await db.sequelize.query(sqlInsert, {
+        type: sequelize.QueryTypes.INSERT,
+      });
+      console.log("Database updated successfully.");
     } catch (error) {
-        console.error('Error sending email:', error.response ? error.response.data : error.message);
+      console.error(
+        "Error sending email:",
+        error.response ? error.response.data : error.message
+      );
     }
-    
-   
   } catch (error) {
     console.error("Error sending email: ", error);
   }
@@ -488,7 +492,7 @@ const fetchInvitations = async (transactionId) => {
   const invitations = await db.sequelize.query(sql, {
     type: sequelize.QueryTypes.SELECT,
   });
-  
+
   const sql_very = `SELECT * FROM invitations WHERE has_sent = 1 AND invitation_url_complete LIKE '%${transactionId}%' AND invitation_type = 'reminder' AND Sent_at > DATE_SUB(NOW(), INTERVAL 7 DAY) LIMIT 1`;
 
   const invitationsReminder = await db.sequelize.query(sql_very, {
@@ -509,36 +513,40 @@ const emailInvitationReminder = nodeCron.schedule(
 
       for (const trans of transactions) {
         const invitations = await fetchInvitations(trans.transaction_id);
-        
-                if (invitations) {
-                const userPromises = invitations.map(async (element) => {
-                   await new Promise((resolve) => setTimeout(resolve, 3000)); // Ajoute un délai de 2 secondes
-                  const merchantProfile = await fetchMerchantProfile(element.profile_id);
-        
-                  if (!merchantProfile) {
-                    console.log(`No merchant profile found for profile_id: ${element.profile_id}`);
-                    return;
-                  }
-        
-                  const userMap = {
-                    customer_merchant_email: merchantProfile.email,
-                    customer_merchant_id: merchantProfile.id,
-                    domaine_name: element.domaine_name,
-                    firstname: element.customer_firstname,
-                    lastname: element.customer_lastname,
-                    invitation_url: element.invitation_url,
-                    logo: merchantProfile.logo,
-                  };
-        
-                  await sendTransactionalEmail(
-                    userMap,
-                    element,
-                    merchantProfile.Language_review_collecting
-                  );
-                });
-        
-                await Promise.all(userPromises);
-                }
+
+        if (invitations) {
+          const userPromises = invitations.map(async (element) => {
+            await new Promise((resolve) => setTimeout(resolve, 3000)); // Ajoute un délai de 2 secondes
+            const merchantProfile = await fetchMerchantProfile(
+              element.profile_id
+            );
+
+            if (!merchantProfile) {
+              console.log(
+                `No merchant profile found for profile_id: ${element.profile_id}`
+              );
+              return;
+            }
+
+            const userMap = {
+              customer_merchant_email: merchantProfile.email,
+              customer_merchant_id: merchantProfile.id,
+              domaine_name: element.domaine_name,
+              firstname: element.customer_firstname,
+              lastname: element.customer_lastname,
+              invitation_url: element.invitation_url,
+              logo: merchantProfile.logo,
+            };
+
+            await sendTransactionalEmail(
+              userMap,
+              element,
+              merchantProfile.Language_review_collecting
+            );
+          });
+
+          await Promise.all(userPromises);
+        }
       }
     } catch (err) {
       console.log(err);

@@ -1,21 +1,28 @@
-const sequelize = require('sequelize');
-const db = require('../models/index');
-const validationNotification = async (userid, hash_transaction, reviewtype, reviewid) => {
-    
-     const sql = `SELECT * FROM invitations where Recipient = (SELECT email from userprofile where id=${userid}) LIMIT 1`;
-        db.sequelize.query(sql, { type: sequelize.QueryTypes.SELECT }).then(result => {
-            console.log(result);
-            result.forEach((element)=> {
-                const sql2 = `SELECT * FROM merchant_profile WHERE id = '${element.profile_id}'`;
+const sequelize = require("sequelize");
+const db = require("../models/index");
+const validationNotification = async (
+  userid,
+  hash_transaction,
+  reviewtype,
+  reviewid
+) => {
+  const sql = `SELECT * FROM invitations where Recipient = (SELECT email from userprofile where id=${userid}) LIMIT 1`;
+  db.sequelize
+    .query(sql, { type: sequelize.QueryTypes.SELECT })
+    .then((result) => {
+      console.log(result);
+      result.forEach((element) => {
+        const sql2 = `SELECT * FROM merchant_profile WHERE id = '${element.profile_id}'`;
 
-                db.sequelize.query(sql2, { type: sequelize.QueryTypes.SELECT }).then(res => {
-                    console.log(res);
-                    res.forEach((ele) => {
+        db.sequelize
+          .query(sql2, { type: sequelize.QueryTypes.SELECT })
+          .then((res) => {
+            console.log(res);
+            res.forEach((ele) => {
+              var customer_merchant_email = ele.email;
+              var customer_merchant_id = ele.id;
 
-                        var customer_merchant_email = ele.email;
-                        var customer_merchant_id = ele.id;
-
-                        /*** Pour chaque element on va envoyer des invitations
+              /*** Pour chaque element on va envoyer des invitations
 
                          * APPEL A API SENDIN BLUE pour envoyer les invitations
 
@@ -25,42 +32,28 @@ const validationNotification = async (userid, hash_transaction, reviewtype, revi
 
                          * */
 
-                        var domaine_name = element.domaine_name;
-                        var firstname = element.customer_firstname;
-                        var lastname = element.customer_lastname;
-                        const SibApiV3Sdk = require("sib-api-v3-sdk");
+              var domaine_name = element.domaine_name;
+              var firstname = element.customer_firstname;
+              var lastname = element.customer_lastname;
+              const SibApiV3Sdk = require("sib-api-v3-sdk");
 
-                        let defaultClient = SibApiV3Sdk.ApiClient.instance;
+              let defaultClient = SibApiV3Sdk.ApiClient.instance;
 
+              let apiKey = defaultClient.authentications["api-key"];
 
+              apiKey.apiKey = process.env.BREVO_API_KEY;
 
-                        let apiKey = defaultClient.authentications["api-key"];
+              // ADD CONTACT IN LIST
 
-                        apiKey.apiKey = "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";
+              let apiInstance_2 = new SibApiV3Sdk.ContactsApi();
 
-                   
+              let createContact = new SibApiV3Sdk.CreateContact();
 
+              createContact.email = element.Recipient;
 
+              createContact.listIds = [2];
 
-                        // ADD CONTACT IN LIST
-
-
-
-                        let apiInstance_2 = new SibApiV3Sdk.ContactsApi();
-
-
-
-                        let createContact = new SibApiV3Sdk.CreateContact();
-
-
-
-                        createContact.email = element.Recipient;
-
-                        createContact.listIds = [2];
-
-
-
-                /*        apiInstance_2.createContact(createContact).then(
+              /*        apiInstance_2.createContact(createContact).then(
 
                             function(data) {
 
@@ -83,26 +76,21 @@ const validationNotification = async (userid, hash_transaction, reviewtype, revi
                         );
 */
 
+              let templateId = 7;
 
-                        let templateId = 7;
+              // Update email body
 
-                        // Update email body
+              let smtpTemplate = new SibApiV3Sdk.UpdateSmtpTemplate();
 
-                        let smtpTemplate = new SibApiV3Sdk.UpdateSmtpTemplate();
+              smtpTemplate.sender = {
+                name: domaine_name,
 
-                        smtpTemplate.sender = {
+                email: "no_reply@veritatrust.com",
+              };
 
-                            name: domaine_name,
+              smtpTemplate.templateName = "Concerning your order";
 
-                            email: "no_reply@veritatrust.com",
-
-                        };
-
-                        smtpTemplate.templateName = "Concerning your order";
-
-                        smtpTemplate.htmlContent =
-
-                            `<!DOCTYPE html>
+              smtpTemplate.htmlContent = `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
     <meta charset="utf-8"> <!-- utf-8 works for most cases -->
@@ -470,78 +458,70 @@ ul.social li{
 </body>
 </html> `;
 
-                        //"<html><body><h1>This is my updated transactional email</h1></body></html>";
+              //"<html><body><h1>This is my updated transactional email</h1></body></html>";
 
+              smtpTemplate.subject =
+                "Congratulations - Your review is on the blockchain";
 
+              smtpTemplate.replyTo = customer_merchant_email;
 
-                        smtpTemplate.subject = "Congratulations - Your review is on the blockchain";
+              smtpTemplate.toField = element.Recipient;
 
-                        smtpTemplate.replyTo = customer_merchant_email;
+              smtpTemplate.isActive = true;
 
-                        smtpTemplate.toField = element.Recipient;
+              //smtpTemplate.attachmentUrl = "https://example.net/upload-file";
 
-                        smtpTemplate.isActive = true;
+              let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-                        //smtpTemplate.attachmentUrl = "https://example.net/upload-file";
+              apiInstance.updateSmtpTemplate(templateId, smtpTemplate).then(
+                function () {
+                  console.log("API called successfully.");
 
-                        let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+                  var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
-                        apiInstance.updateSmtpTemplate(templateId, smtpTemplate).then(
+                  sendSmtpEmail = {
+                    to: [
+                      {
+                        email: element.Recipient,
+                        name: firstname,
+                      },
+                    ],
+                    templateId: 7,
+                    params: {
+                      name: firstname,
+                      surname: lastname,
+                    },
 
-                            function() {
+                    headers: {
+                      "X-Mailin-custom":
+                        "api-key:" +
+                        process.env.BREVO_API_KEY +
+                        "|content-type:application/json|accept:application/json",
+                    },
+                  };
 
-                                console.log("API called successfully.");
-                                          
-                                var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-                                
-                                sendSmtpEmail = {
-                                to: [{
-                                    email: element.Recipient,
-                                    name: firstname
-                                }],
-                                templateId: 7,
-                                params: {
-                                    name: firstname,
-                                    surname: lastname
-                                },
-                                
-                                headers: {
-                                    'X-Mailin-custom': 'api-key:'+"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"+'|content-type:application/json|accept:application/json'
-                                }
-                            };
+                  apiInstance.sendTransacEmail(sendSmtpEmail).then(
+                    function (data) {
+                      console.log(
+                        "API called successfully. Returned data: " + data
+                      );
+                    },
+                    function (error) {
+                      console.error(error);
+                    }
+                  );
+                },
 
-         
-                             apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
-                         
-                                 console.log('API called successfully. Returned data: ' + data);
-                                 
-                                 }, function(error) {
-                                 console.error(error);
-                                 });
-
-    
-
-
-                            },
-
-                            function(error) {
-
-                                console.error(error);
-
-                            }
-
-                        );
-
-                    }); // Fin de for each ele.
-                });
-
-            });
-           
-
-        });
-}
-
+                function (error) {
+                  console.error(error);
+                }
+              );
+            }); // Fin de for each ele.
+          });
+      });
+    });
+};
 
 module.exports = {
-    validationNotification: validationNotification
-}
+  validationNotification: validationNotification,
+};

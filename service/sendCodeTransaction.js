@@ -14,8 +14,7 @@ const sendCodeTransaction = async (userid, validationCode) => {
 
         let apiKey = defaultClient.authentications["api-key"];
 
-        apiKey.apiKey =
-          "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";
+        apiKey.apiKey = process.env.BREVO_API_KEY;
 
         let createContact = new SibApiV3Sdk.CreateContact();
         createContact.email = element.email;
@@ -411,7 +410,7 @@ ul.social li{
               headers: {
                 "X-Mailin-custom":
                   "api-key:" +
-                  "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" +
+                  process.env.BREVO_API_KEY +
                   "|content-type:application/json|accept:application/json",
               },
             };
